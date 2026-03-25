@@ -409,16 +409,9 @@
     <!-- Group buttons -->
     <div class="group-bar">
       <button class="group-btn active" data-group="all" onclick="setGroup(this,'all')">全部</button>
-      <button class="group-btn" data-group="行业一组" onclick="setGroup(this,'行业一组')">一组·母婴</button>
-      <button class="group-btn" data-group="行业二组" onclick="setGroup(this,'行业二组')">二组·保健品</button>
-      <button class="group-btn" data-group="行业三组" onclick="setGroup(this,'行业三组')">三组·食品零食</button>
-      <button class="group-btn" data-group="行业四组" onclick="setGroup(this,'行业四组')">四组·乳制品</button>
-      <button class="group-btn" data-group="行业五组" onclick="setGroup(this,'行业五组')">五组·宠物</button>
-      <button class="group-btn" data-group="行业六组" onclick="setGroup(this,'行业六组')">六组·餐饮</button>
-      <button class="group-btn" data-group="行业七组" onclick="setGroup(this,'行业七组')">七组·医药健康</button>
-      <button class="group-btn" data-group="行业八组" onclick="setGroup(this,'行业八组')">八组·饮料</button>
-      <button class="group-btn" data-group="行业九组" onclick="setGroup(this,'行业九组')">九组·酒水</button>
-      <button class="group-btn" data-group="行业十组" onclick="setGroup(this,'行业十组')">十组·母婴二</button>
+      <button class="group-btn" data-group="母婴宠物" onclick="setGroup(this,'母婴宠物')">母婴·宠物</button>
+      <button class="group-btn" data-group="大健康" onclick="setGroup(this,'大健康')">大健康</button>
+      <button class="group-btn" data-group="食品饮料" onclick="setGroup(this,'食品饮料')">食品饮料</button>
     </div>
 
     <!-- Cards container -->
@@ -653,6 +646,13 @@ const NEWS = [
 let activeCat = 'all';
 let activeGroup = 'all';
 
+// 行业 -> 包含的组
+const INDUSTRY_MAP = {
+  '母婴宠物': ['行业一组', '行业五组', '行业十组'],
+  '大健康':   ['行业二组', '行业七组'],
+  '食品饮料': ['行业三组', '行业四组', '行业六组', '行业八组', '行业九组'],
+};
+
 // ═══════════════════════════════════════════════════════
 // RENDER
 // ═══════════════════════════════════════════════════════
@@ -666,8 +666,15 @@ function renderCards() {
   const catCounts = { all: 0, '财务营收': 0, '投融资': 0, '企业动态': 0, '新品': 0, '行业政策': 0, '会展': 0 };
 
   NEWS.forEach(item => {
-    // Group filter
-    const groupMatch = activeGroup === 'all' || item.groups.includes(activeGroup);
+    // Group filter: 支持行业聚合（母婴宠物/大健康/食品饮料）
+    let groupMatch;
+    if (activeGroup === 'all') {
+      groupMatch = true;
+    } else if (INDUSTRY_MAP[activeGroup]) {
+      groupMatch = item.groups.some(g => INDUSTRY_MAP[activeGroup].includes(g));
+    } else {
+      groupMatch = item.groups.includes(activeGroup);
+    }
     // Category filter
     const catMatch = activeCat === 'all' || item.category === activeCat;
     // Search filter
