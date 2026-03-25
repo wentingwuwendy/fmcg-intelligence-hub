@@ -1,0 +1,788 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>快消客户情报周报 | 策略中台</title>
+<style>
+  :root {
+    --red: #FF2442;
+    --red-light: #fff0f2;
+    --gray-bg: #f5f5f7;
+    --gray-border: #e0e0e0;
+    --text: #1a1a1a;
+    --text-sub: #666;
+    --tag-bg: #f0f0f0;
+    --insight-bg: #fffbf0;
+    --action-bg: #f0f8f0;
+    --cross-bg: #f0f4ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--gray-bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  /* ── Header ── */
+  header {
+    background: white;
+    border-bottom: 1px solid var(--gray-border);
+    padding: 0 24px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    height: 56px;
+  }
+  .logo {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--red);
+    white-space: nowrap;
+  }
+  .period {
+    font-size: 12px;
+    color: var(--text-sub);
+    background: var(--gray-bg);
+    padding: 3px 10px;
+    border-radius: 20px;
+    white-space: nowrap;
+  }
+  .search-wrap {
+    flex: 1;
+    max-width: 320px;
+  }
+  .search-wrap input {
+    width: 100%;
+    padding: 6px 12px;
+    border: 1px solid var(--gray-border);
+    border-radius: 20px;
+    font-size: 13px;
+    outline: none;
+    background: var(--gray-bg);
+  }
+  .search-wrap input:focus { border-color: var(--red); background: white; }
+
+  .stats {
+    margin-left: auto;
+    font-size: 12px;
+    color: var(--text-sub);
+    white-space: nowrap;
+  }
+  .stats span { color: var(--red); font-weight: 600; }
+
+  /* ── Layout ── */
+  .layout {
+    display: flex;
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 20px 16px;
+    gap: 20px;
+    align-items: flex-start;
+  }
+
+  /* ── Sidebar ── */
+  .sidebar {
+    width: 220px;
+    flex-shrink: 0;
+    position: sticky;
+    top: 76px;
+  }
+  .sidebar-section {
+    background: white;
+    border-radius: 10px;
+    border: 1px solid var(--gray-border);
+    overflow: hidden;
+    margin-bottom: 12px;
+  }
+  .sidebar-title {
+    padding: 10px 14px;
+    font-size: 11px;
+    font-weight: 700;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    border-bottom: 1px solid var(--gray-border);
+    background: var(--gray-bg);
+  }
+  .filter-item {
+    padding: 8px 14px;
+    cursor: pointer;
+    font-size: 13px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    border-bottom: 1px solid var(--gray-border);
+    transition: background 0.1s;
+  }
+  .filter-item:last-child { border-bottom: none; }
+  .filter-item:hover { background: var(--gray-bg); }
+  .filter-item.active { background: var(--red-light); color: var(--red); font-weight: 600; }
+  .filter-dot {
+    width: 8px; height: 8px; border-radius: 50%;
+    flex-shrink: 0;
+  }
+  .filter-count {
+    margin-left: auto;
+    font-size: 11px;
+    color: var(--text-sub);
+    background: var(--tag-bg);
+    padding: 1px 6px;
+    border-radius: 10px;
+  }
+  .filter-item.active .filter-count { background: var(--red); color: white; }
+
+  /* Category colors */
+  .dot-财务营收 { background: #4CAF50; }
+  .dot-投融资   { background: #2196F3; }
+  .dot-企业动态 { background: #FF9800; }
+  .dot-新品     { background: #9C27B0; }
+  .dot-行业政策 { background: #F44336; }
+  .dot-会展     { background: #00BCD4; }
+
+  /* ── Main content ── */
+  .main { flex: 1; min-width: 0; }
+
+  /* Industry group bar */
+  .group-bar {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+  .group-btn {
+    padding: 6px 14px;
+    border-radius: 20px;
+    border: 1px solid var(--gray-border);
+    background: white;
+    cursor: pointer;
+    font-size: 12px;
+    font-weight: 500;
+    transition: all 0.15s;
+    color: var(--text-sub);
+  }
+  .group-btn:hover { border-color: var(--red); color: var(--red); }
+  .group-btn.active {
+    background: var(--red);
+    color: white;
+    border-color: var(--red);
+    font-weight: 700;
+  }
+
+  /* No results */
+  .no-results {
+    text-align: center;
+    padding: 60px 20px;
+    color: var(--text-sub);
+    font-size: 14px;
+  }
+
+  /* ── News Card ── */
+  .news-card {
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 12px;
+    margin-bottom: 14px;
+    overflow: hidden;
+    transition: box-shadow 0.15s;
+  }
+  .news-card:hover { box-shadow: 0 4px 16px rgba(0,0,0,0.08); }
+  .news-card.hidden { display: none; }
+
+  .card-header {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--gray-border);
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+  .cat-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    white-space: nowrap;
+    flex-shrink: 0;
+    margin-top: 2px;
+  }
+  .badge-财务营收 { background: #e8f5e9; color: #2e7d32; }
+  .badge-投融资   { background: #e3f2fd; color: #1565c0; }
+  .badge-企业动态 { background: #fff3e0; color: #e65100; }
+  .badge-新品     { background: #f3e5f5; color: #6a1b9a; }
+  .badge-行业政策 { background: #ffebee; color: #c62828; }
+  .badge-会展     { background: #e0f7fa; color: #00695c; }
+
+  .card-title-wrap { flex: 1; }
+  .card-company {
+    font-size: 11px;
+    color: var(--text-sub);
+    margin-bottom: 2px;
+  }
+  .card-title {
+    font-size: 14px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .card-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px;
+    margin-top: 6px;
+  }
+  .tag {
+    font-size: 10px;
+    padding: 1px 7px;
+    border-radius: 10px;
+    background: var(--tag-bg);
+    color: var(--text-sub);
+    border: 1px solid var(--gray-border);
+  }
+  .tag.client-tag {
+    background: var(--red-light);
+    color: var(--red);
+    border-color: #ffccd3;
+    font-weight: 500;
+  }
+
+  .card-body { padding: 12px 16px; }
+  .card-summary {
+    font-size: 13px;
+    line-height: 1.7;
+    color: var(--text);
+    margin-bottom: 10px;
+  }
+
+  /* Collapsible sections */
+  .section-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 6px 10px;
+    border-radius: 6px;
+    margin-top: 8px;
+    border: none;
+    background: none;
+    width: 100%;
+    text-align: left;
+  }
+  .section-toggle .arrow {
+    display: inline-block;
+    transition: transform 0.2s;
+    font-size: 10px;
+  }
+  .section-toggle.open .arrow { transform: rotate(90deg); }
+
+  .toggle-insight { color: #b8860b; }
+  .toggle-cross   { color: #1565c0; }
+  .toggle-action  { color: #2e7d32; }
+
+  .collapsible { display: none; margin-top: 4px; }
+  .collapsible.open { display: block; }
+
+  .insight-box {
+    background: var(--insight-bg);
+    border-left: 3px solid #f0c040;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .cross-box {
+    background: var(--cross-bg);
+    border-left: 3px solid #5c85d6;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .action-box {
+    background: var(--action-bg);
+    border-left: 3px solid #4CAF50;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .action-box ul, .insight-box ul, .cross-box ul {
+    margin: 4px 0 0 16px;
+  }
+  .action-box li, .insight-box li, .cross-box li {
+    margin-bottom: 4px;
+  }
+
+  .card-footer {
+    padding: 8px 16px;
+    border-top: 1px solid var(--gray-border);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 11px;
+    color: var(--text-sub);
+    background: var(--gray-bg);
+  }
+  .card-footer a {
+    color: var(--red);
+    text-decoration: none;
+    margin-left: auto;
+  }
+  .card-footer a:hover { text-decoration: underline; }
+
+  /* Group tags in footer */
+  .group-tag {
+    padding: 1px 6px;
+    border-radius: 3px;
+    font-size: 10px;
+    background: var(--gray-border);
+    color: var(--text-sub);
+  }
+
+  @media (max-width: 768px) {
+    .sidebar { display: none; }
+    .layout { padding: 12px; }
+    header { gap: 12px; }
+    .stats { display: none; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <div class="logo">📊 情报中台</div>
+  <div class="period">03/16 – 03/22，2026</div>
+  <div class="search-wrap">
+    <input type="text" id="searchInput" placeholder="搜索公司、品牌、关键词…" oninput="applyFilters()">
+  </div>
+  <div class="stats">共 <span id="visibleCount">0</span> 条情报</div>
+</header>
+
+<div class="layout">
+
+  <!-- Sidebar -->
+  <aside class="sidebar">
+    <!-- Category filter -->
+    <div class="sidebar-section">
+      <div class="sidebar-title">分类筛选</div>
+      <div class="filter-item active" data-cat="all" onclick="setCat(this,'all')">
+        <span class="filter-dot" style="background:#aaa"></span>全部分类
+        <span class="filter-count" id="cnt-all">0</span>
+      </div>
+      <div class="filter-item" data-cat="财务营收" onclick="setCat(this,'财务营收')">
+        <span class="filter-dot dot-财务营收"></span>财务营收
+        <span class="filter-count" id="cnt-财务营收">0</span>
+      </div>
+      <div class="filter-item" data-cat="投融资" onclick="setCat(this,'投融资')">
+        <span class="filter-dot dot-投融资"></span>投融资
+        <span class="filter-count" id="cnt-投融资">0</span>
+      </div>
+      <div class="filter-item" data-cat="企业动态" onclick="setCat(this,'企业动态')">
+        <span class="filter-dot dot-企业动态"></span>企业动态
+        <span class="filter-count" id="cnt-企业动态">0</span>
+      </div>
+      <div class="filter-item" data-cat="新品" onclick="setCat(this,'新品')">
+        <span class="filter-dot dot-新品"></span>新品
+        <span class="filter-count" id="cnt-新品">0</span>
+      </div>
+      <div class="filter-item" data-cat="行业政策" onclick="setCat(this,'行业政策')">
+        <span class="filter-dot dot-行业政策"></span>行业政策
+        <span class="filter-count" id="cnt-行业政策">0</span>
+      </div>
+      <div class="filter-item" data-cat="会展" onclick="setCat(this,'会展')">
+        <span class="filter-dot dot-会展"></span>会展
+        <span class="filter-count" id="cnt-会展">0</span>
+      </div>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="main">
+    <!-- Group buttons -->
+    <div class="group-bar">
+      <button class="group-btn active" data-group="all" onclick="setGroup(this,'all')">全部</button>
+      <button class="group-btn" data-group="行业一组" onclick="setGroup(this,'行业一组')">一组·母婴</button>
+      <button class="group-btn" data-group="行业二组" onclick="setGroup(this,'行业二组')">二组·保健品</button>
+      <button class="group-btn" data-group="行业三组" onclick="setGroup(this,'行业三组')">三组·食品零食</button>
+      <button class="group-btn" data-group="行业四组" onclick="setGroup(this,'行业四组')">四组·乳制品</button>
+      <button class="group-btn" data-group="行业五组" onclick="setGroup(this,'行业五组')">五组·宠物</button>
+      <button class="group-btn" data-group="行业六组" onclick="setGroup(this,'行业六组')">六组·餐饮</button>
+      <button class="group-btn" data-group="行业七组" onclick="setGroup(this,'行业七组')">七组·医药健康</button>
+      <button class="group-btn" data-group="行业八组" onclick="setGroup(this,'行业八组')">八组·饮料</button>
+      <button class="group-btn" data-group="行业九组" onclick="setGroup(this,'行业九组')">九组·酒水</button>
+      <button class="group-btn" data-group="行业十组" onclick="setGroup(this,'行业十组')">十组·母婴二</button>
+    </div>
+
+    <!-- Cards container -->
+    <div id="cardContainer"></div>
+    <div id="noResults" class="no-results" style="display:none">
+      暂无符合条件的情报
+    </div>
+  </main>
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// NEWS DATA — 每周更新这里
+// ═══════════════════════════════════════════════════════
+const NEWS = [
+  {
+    id: 1,
+    category: "财务营收",
+    company: "汤臣倍健",
+    title: "2025年年报：净利润同比增长19.81%，全年上新超85款产品",
+    summary: "2025年汤臣倍健实现营收62.65亿元，归母净利润7.82亿元，同比增长19.81%。全年累计上新超85款产品，蓝罐蛋白粉上市以来销售额超2.3亿元，推出首款OTC硫酸氨糖及特医食品「每益乐」。多品牌运营效果显现，天然博士高端DHA藻油拿下全球销售额第一。",
+    insight: "保健品行业正从「渠道红利」转向「产品红利」。汤臣倍健以85款新品密集上新打出差异化，净利润增速（+19.81%）远高于营收增速，说明结构优化在发挥作用。OTC资质拓展打开了医药渠道的想象空间，这是过去VDS品牌很少走的路。",
+    crossIndustry: "汤臣倍健同时服务保健品组（二组）和医药健康组（七组）的客户群。OTC硫酸氨糖的入市意味着其开始和传统药企争用户——对东阿阿胶、华润三九等客户有直接竞争影响，这条新闻值得同步给七组。",
+    actions: [
+      "二组：下次拜访时问客户对汤臣倍健新品节奏的看法，判断他们是跟进高频上新还是坚持精品路线",
+      "七组：汤臣倍健进入OTC赛道，可以作为话题探讨客户对跨界竞争的应对策略，推进T2T时间",
+      "话术参考：「汤臣倍健今年第一次推OTC产品，您看这对您们在药店渠道的布局有什么影响？」"
+    ],
+    groups: ["行业二组", "行业七组"],
+    clients: ["汤臣倍健", "KEYLID健力多"],
+    source: "https://h5.ifeng.com/c/vivoArticle/v0026F57kHlC2bzDgN6Wt15FJMR4gm620Rgx7Z1Ezu98QKY__",
+    date: "2026-03-20"
+  },
+  {
+    id: 2,
+    category: "财务营收",
+    company: "东阿阿胶 / 华润系",
+    title: "华润系5家药企年报同日出炉：东阿阿胶双增+100%分红，昆药降幅创20年新高",
+    summary: "3月19日，5家华润系药企同日披露年报。东阿阿胶2025年营收67亿元（+8.83%），净利17.39亿元（+11.67%），拟100%分红。昆药集团营收65.75亿元（-21.74%），净利3.5亿元（-46%），降幅创近20年新高。华润双鹤、天士力、华润江中均出现营收下滑，主因集采常态化和医保控费。",
+    insight: "消费属性强的品类（东阿阿胶）在集采压力下依然逆势增长，而传统处方药（昆药）出现断崖式下滑。这次华润系分化验证了一个趋势：大健康行业的胜负手已从「渠道覆盖」转向「消费品化」。100%分红信号也说明东阿阿胶管理层对未来现金流有信心。",
+    crossIndustry: "东阿阿胶的「消费品化」策略（桃花姬、阿胶糕等）与食品饮料品类的营销逻辑趋同，和母婴组的健合集团（养生堂模式）形成对照。建议七组和二组销售都关注：集采之下，谁在用「食品化」破局。",
+    actions: [
+      "七组：昆药集团业绩下滑背景下，年度预算可能有压力，建议近期确认T2T规划进度",
+      "七组：东阿阿胶业绩好、100%分红，老板心情好，是推进合作升级的好时机",
+      "话术参考：「您们东阿阿胶这次分红力度很大，说明对今年很有信心，咱们Y26的预算规划能不能也往上走走？」"
+    ],
+    groups: ["行业七组", "行业二组"],
+    clients: ["东阿阿胶", "桃花姬", "华润三九", "天士力"],
+    source: "https://finance.sina.com.cn/jjxw/2026-03-20/doc-inhrreqy4065131.shtml",
+    date: "2026-03-20"
+  },
+  {
+    id: 3,
+    category: "财务营收",
+    company: "H&H国际控股（健合集团）",
+    title: "2025年前九个月三大业务全面增长，Swisse中国市场+15.7%",
+    summary: "健合集团ANC（成人营养与护理）前9个月营收52.4亿元，同比增长6.0%。Swisse斯维诗中国市场实现同比增长15.7%，占集团ANC销售额70.6%。宠物营养补充品增长14.3%，显示多品类协同优势。",
+    insight: "Swisse在中国的高增速（+15.7%）背后是对「自然提取+科学配方」定位的坚持，在VDS竞争激烈的背景下突围。Swisse中国占集团ANC大头，说明中国市场是健合的核心增长引擎，也意味着其在小红书等平台的投放意愿会持续强劲。",
+    crossIndustry: "健合的宠物营养补充品（+14.3%）说明大健康品牌跨入宠物赛道的逻辑是通的——用成熟的营养研发能力切新赛道。这对宠物组（五组）是个信号：未来宠物保健品赛道的竞争者不只是宠物品牌，大健康巨头也在进来。",
+    actions: [
+      "二组：Swisse高增速可作为开口谈年度增量预算的依据，问客户「今年Swisse增势这么好，小红书侧的投入节奏怎么看？」",
+      "一组/十组：健合旗下合生元婴幼儿产品线是A类客户，可以结合母婴数据一起聊",
+      "五组：建议关注健合宠物营养线是否有小红书投放计划，提前建立联系"
+    ],
+    groups: ["行业二组", "行业一组", "行业十组", "行业五组"],
+    clients: ["BIOSTIME合生元", "健合母婴", "solidgold素力高", "Innerhealth"],
+    source: "https://caifuhao.eastmoney.com/news/20260318110054167466770",
+    date: "2026-03-18"
+  },
+  {
+    id: 4,
+    category: "企业动态",
+    company: "乖宝宠物",
+    title: "携手AAHA推动国际临床营养标准落地中国",
+    summary: "3月14日，乖宝宠物食品集团与美国动物医院协会（AAHA）正式签署战略合作协议，围绕《AAHA营养与体重管理指南》在中国的本地化落地、临床营养标准化体系建设、兽医专业能力提升等核心领域深度合作，推动中国宠物临床诊疗迈向「以营养为基石」的高质量发展。",
+    insight: "这是乖宝继麦富迪品牌升级之后的第二步——从卖粮到建立临床营养标准话语权。AAHA是美国顶级兽医机构，这次合作让乖宝在「专业/科学」定位上拉开与竞争对手的距离，为处方粮/功能粮的长期布局铺路。",
+    crossIndustry: "乖宝同时在做品牌升级+国际标准背书，和人类食品里走「营养科学」路线的汤臣倍健、达能很像。对酒水组（九组）也有参考价值——茅台进军宠物赛道，如果乖宝用临床标准构建壁垒，茅台宠粮进入的难度会更高。",
+    actions: [
+      "五组：这是拜访乖宝的好节点，AAHA合作是PR大事件，可以围绕「科学喂养大年，小红书内容怎么配」展开对话",
+      "五组：问乖宝品牌团队，AAHA合作的内容计划（科普、KOL、医院联动）有没有小红书投放的想法",
+      "话术参考：「这次AAHA合作是行业大事，专业内容在小红书上很有传播势能，你们有没有考虑配套做一波笔记种草？」"
+    ],
+    groups: ["行业五组", "行业九组"],
+    clients: ["BARF霸弗", "乖宝", "ZIWI滋益巅峰", "冠能PROPLAN"],
+    source: "https://yanfa.foodmate.net/news/show-2141.html",
+    date: "2026-03-14"
+  },
+  {
+    id: 5,
+    category: "企业动态",
+    company: "京东 × 宠物行业",
+    title: "联合48家机构成立宠物品质生态联盟，推动行业高质量发展",
+    summary: "3月18日，京东、中国人保、中宠顽皮、硕腾、瑞派宠物医院等48家企业宣布成立京东宠物品质生态联盟，推出覆盖宠物食品、活体交易、寄送、健康、保险、生活服务的六大举措。联盟旨在打破行业上下游壁垒，链接从生产制造到渠道销售、医疗机构的各个环节。",
+    insight: "京东以平台方身份牵头成立品质联盟，意味着宠物行业正在走向「平台主导」的品质认证体系，对品牌方来说既是压力（要符合联盟标准）也是机遇（联盟背书可用于营销）。小红书和京东有一定的内容-电商协同关系，这个联盟未来可能是内容种草到京东转化的潜在渠道。",
+    crossIndustry: "类似的平台联盟机制在母婴行业（天猫母婴安全联盟）已经运行多年，宠物行业晚了但来了。对母婴组销售有参考价值：可以聊「宠物行业开始跟母婴学建联盟」这个话题，增加交流维度。",
+    actions: [
+      "五组：问客户是否是联盟成员，联盟内容营销需求可能带来新的小红书投放机会",
+      "五组：可以把联盟成立作为话题，自然带出小红书在宠物内容生态的优势",
+      "话术参考：「京东这个宠物联盟成立了，您们有没有进去？联盟品牌的内容背书需求一般都挺旺盛的。」"
+    ],
+    groups: ["行业五组"],
+    clients: ["ZIWI滋益巅峰", "冠能PROPLAN", "BARF霸弗"],
+    source: "https://yanfa.foodmate.net/news/show-2141.html",
+    date: "2026-03-18"
+  },
+  {
+    id: 6,
+    category: "企业动态",
+    company: "亨通股份",
+    title: "2.74亿元收购澳龙生物40%股权，跨界入局动物保健赛道",
+    summary: "亨通股份（原浙江瀚叶股份有限公司）拟以2.74亿元收购华派生物技术持有的重庆澳龙生物制品有限公司40%股权，进入兽用疫苗领域，构建覆盖「兽用疫苗+兽药+饲料添加剂」的全品类矩阵。",
+    insight: "这是制造业资本「跨界大健康」的典型案例，也体现了宠物动保赛道的高吸引力。宠物疫苗/兽药是一个监管壁垒高、竞争格局清晰的细分赛道，收购标的硬核技术比自建要快得多。短期内不影响终端，但长期看会改变动保市场竞争格局。",
+    crossIndustry: "制造业跨界宠物保健，与茅台跨界宠粮是同一个逻辑：宠物行业吸引力强到各行各业都想进。对一组/十组来说，这种跨界风潮说明宠物主题内容在小红书的长期热度有保障，宠物的交叉推送给食品组也值得考虑。",
+    actions: [
+      "五组：关注澳龙生物作为新进入者的营销动作，如有小红书投放需求提前接触",
+      "五组：可作为行业整合背景，与现有宠物客户聊「赛道越来越热，你们的差异化怎么做」"
+    ],
+    groups: ["行业五组"],
+    clients: [],
+    source: "https://yanfa.foodmate.net/news/show-2141.html",
+    date: "2026-03-16"
+  },
+  {
+    id: 7,
+    category: "新品",
+    company: "冠能（雀巢普瑞纳）",
+    title: "免疫加护系列成年期全价宠粮全球首发",
+    summary: "冠能全球首个免疫加护系列正式上市，特选牛初乳（含天然免疫球蛋白）+β-葡聚糖+维生素C/E+活性益生菌+深海鱼油Ω-3，主打「三重免疫加护」。这是功能粮赛道的标志性新品，由全球最大宠物食品公司推出，意味着功能粮将进入主流市场。",
+    insight: "雀巢普瑞纳在全球首发免疫功能粮，意味着功能粮已经过了「小众探索期」。对国内竞争对手来说，这既是压力也是拉动——消费者教育成本由巨头来承担，国内品牌可以跟进收割。预判接下来会有更多品牌推出免疫相关宠粮。",
+    crossIndustry: "免疫健康是大健康行业的核心概念。冠能将免疫功能粮带入宠物市场，与人用益生菌（如汤臣倍健960亿益生菌）逻辑高度一致。可以将「人宠同类功效成分」作为内容角度，打通二组（保健品）和五组（宠物）的内容选题。",
+    actions: [
+      "五组：冠能新品是大事件，可以建议客户围绕免疫健康做内容专题（兽医KOL背书+科普笔记）",
+      "五组：问客户新品的小红书推广节奏，争取提前介入内容策略讨论",
+      "话术参考：「冠能这个免疫加护系列是全球首发，这种新品在小红书上专业内容很吃香，你们打算怎么推？」"
+    ],
+    groups: ["行业五组"],
+    clients: ["冠能PROPLAN", "Fancy Feast 珍致"],
+    source: "https://yanfa.foodmate.net/news/show-2141.html",
+    date: "2026-03-19"
+  },
+  {
+    id: 8,
+    category: "行业政策",
+    company: "欧盟委员会",
+    title: "不批准牛蒡/人参提取物作为猫狗饲料添加剂；批准阿拉伯胶",
+    summary: "3月16日，欧盟发布两项法规，不批准牛蒡提取物（EU 2026/548）和人参提取物（EU 2026/585）作为猫狗饲料添加剂。同时，批准阿拉伯胶（acacia gum）作为所有动物饲料添加剂（功能：乳化剂+稳定剂），授权至2036年。",
+    insight: "欧盟的拒批信号值得关注：牛蒡和人参都是国内宠物食品新贵原料，特别是随着「中草药宠粮」趋势的兴起，这类原料已有品牌开始使用。欧盟标准虽不直接约束中国，但出口导向型企业需注意。阿拉伯胶被批准则是乳化/稳定剂供应商的利好。",
+    crossIndustry: "中草药宠粮在国内是热点趋势，但欧盟的拒批给这个赛道泼了冷水。同时，七组（医药健康）客户中有不少是中草药成分的人用保健品企业——监管趋势可以作为话题聊。",
+    actions: [
+      "五组：对有出口业务的宠物食品客户，提醒关注欧盟原料法规动态",
+      "五组：对主打中草药宠粮的品牌，这是个敏感点，可以问「你们的原料有没有考虑过欧盟合规问题？」"
+    ],
+    groups: ["行业五组", "行业七组"],
+    clients: [],
+    source: "https://yanfa.foodmate.net/news/show-2141.html",
+    date: "2026-03-16"
+  },
+  {
+    id: 9,
+    category: "行业政策",
+    company: "国家卫健委",
+    title: "低GI国家标准公开征求意见，低GI赛道进入规范化时代",
+    summary: "3月18日，中国疾病预防控制中心营养与健康所发布《食物血糖生成指数测定与标示规范》国家标准公开征求意见通知，标志着低GI赛道从无序标注走向国家标准约束。",
+    insight: "低GI是近年VDS和功能食品最热的概念之一。国标出台后，虚标、滥标的低GI产品将面临整改压力，而真正有检测依据的品牌反而受益——行业洗牌在即。对于已在做低GI的大客户，标准落地是他们加大营销力度的好时机（「我们是正规低GI」）。",
+    crossIndustry: "低GI横跨保健品（二组）、食品零食（三组）、饮料（八组）三个赛道。国标出台是一个跨组推送的典型场景——这三个组的客户都需要知道这个政策，建议同时推送。",
+    actions: [
+      "二组/三组/八组：主动告知客户低GI国标来了，问「你们有没有在做低GI产品？国标出来之后合规这块有没有压力？」",
+      "这是展现情报价值的好时机——销售不一定自己发现了这条政策，你主动推就是加分项",
+      "话术参考：「低GI的国家标准这周开始征求意见了，您们产品线里有低GI概念的，建议关注一下合规窗口期。」"
+    ],
+    groups: ["行业二组", "行业三组", "行业八组"],
+    clients: [],
+    source: "https://yanfa.foodmate.net/news/show-2138.html",
+    date: "2026-03-18"
+  },
+  {
+    id: 10,
+    category: "会展",
+    company: "京宠展",
+    title: "第13届北京国际宠物用品展览会3月19-22日盛大开幕",
+    summary: "2026年3月19日，第13届京宠展在北京国际展览中心（顺义馆）开幕，展期至3月22日。本届规模：12万平方米、1500余家参展企业、1.3万余个参展品牌。作为中国宠物行业开春首场重要盛会，汇聚全国渠道商、专业买家及宠物爱好者。",
+    insight: "京宠展是年度重要行情风向标。1500家参展企业规模创新高，新品密度大，是了解竞品动态、客户展位布局的重要窗口。本届展会上乖宝、硕腾、冠能等大品牌均有重点亮相。",
+    crossIndustry: "展会是行业社交场合，也是情报来源。建议五组销售关注参展品牌的展位调性变化，作为判断客户预算意向的参考。",
+    actions: [
+      "五组：如有宠物客户参展，本周是拜访/电话沟通的好时机（「看到你们京宠展的展位了，感觉怎么样？」）",
+      "五组：展后可以问客户展会效果，自然带入「小红书内容能不能配合展会曝光」的话题"
+    ],
+    groups: ["行业五组"],
+    clients: ["BARF霸弗", "冠能PROPLAN", "ZIWI滋益巅峰"],
+    source: "https://yanfa.foodmate.net/news/show-2141.html",
+    date: "2026-03-19"
+  },
+  {
+    id: 11,
+    category: "行业政策",
+    company: "国家市场监管总局",
+    title: "调制肉制品生产卫生规范GB 31661-2025正式强制执行",
+    summary: "3月16日起，《食品安全国家标准 调制肉制品生产卫生规范》（GB 31661-2025）正式全面强制执行，涵盖腌制调味、滚揉、成型等工艺的卫生要求，是肉制品行业的重要合规里程碑。",
+    insight: "新标准正式执行意味着部分工艺不合规的中小企业会被淘汰出局，头部品牌反而因合规能力强而受益——这是肉制品赛道集中度提升的助推剂。短期内合规压力可能带来营销节奏调整，品牌方更需要用优质内容建立消费者信任。",
+    crossIndustry: "调制肉制品覆盖零食（三组）和餐饮（六组）的多个客户。对劲仔、卫龙等零食客户，以及餐饮端的卤味品牌都有影响。",
+    actions: [
+      "三组/六组：问客户是否受新标准影响，有没有合规营销的需求（「合规了就要让消费者知道」）",
+      "话术参考：「肉制品新标准16号开始强制执行了，您们产品线有没有调制肉类？合规背书这块内容上有什么计划？」"
+    ],
+    groups: ["行业三组", "行业六组"],
+    clients: ["劲仔"],
+    source: "https://yanfa.foodmate.net/news/show-2129.html",
+    date: "2026-03-16"
+  },
+  {
+    id: 12,
+    category: "会展",
+    company: "FIC2026",
+    title: "第29届中国国际食品添加剂和配料展览会在上海开幕",
+    summary: "2026年3月17日，FIC2026在上海国家会展中心开幕，聚焦女性健康、银发经济、情绪食品、运动营养、口服抗衰等五大热点趋势。作为全球食品添加剂与配料行业年度核心展会，吸引原料供应商、食品企业研发团队集中参与。",
+    insight: "FIC是B端展会，反映的是未来1-2年食品饮料原料创新的趋势走向。今年五大热点（女性/银发/情绪/运动/抗衰）与小红书的用户圈层高度重合——女性健康、情绪食品在小红书都是强势内容赛道。",
+    crossIndustry: "FIC的趋势方向直接影响食饮（三/四/六/八组）和保健品（二组）的新品策略。情绪食品是个值得重点关注的交叉点：既在零食赛道，也在保健品（情绪调节产品）赛道。",
+    actions: [
+      "二组/三组/八组：展会内容可以作为聊天开场白，「FIC上情绪食品是大热点，您们有没有这个方向的布局？」",
+      "展会结束后可以整理一份趋势mini报告发给客户，体现你对行业的掌握度"
+    ],
+    groups: ["行业二组", "行业三组", "行业四组", "行业六组", "行业八组"],
+    clients: [],
+    source: "https://yanfa.foodmate.net/news/show-2136.html",
+    date: "2026-03-17"
+  }
+];
+
+// ═══════════════════════════════════════════════════════
+// STATE
+// ═══════════════════════════════════════════════════════
+let activeCat = 'all';
+let activeGroup = 'all';
+
+// ═══════════════════════════════════════════════════════
+// RENDER
+// ═══════════════════════════════════════════════════════
+function renderCards() {
+  const container = document.getElementById('cardContainer');
+  container.innerHTML = '';
+
+  const query = document.getElementById('searchInput').value.trim().toLowerCase();
+
+  let visible = 0;
+  const catCounts = { all: 0, '财务营收': 0, '投融资': 0, '企业动态': 0, '新品': 0, '行业政策': 0, '会展': 0 };
+
+  NEWS.forEach(item => {
+    // Group filter
+    const groupMatch = activeGroup === 'all' || item.groups.includes(activeGroup);
+    // Category filter
+    const catMatch = activeCat === 'all' || item.category === activeCat;
+    // Search filter
+    const searchStr = (item.company + item.title + item.summary + item.clients.join(' ')).toLowerCase();
+    const searchMatch = !query || searchStr.includes(query);
+
+    if (groupMatch && searchMatch) {
+      catCounts.all++;
+      catCounts[item.category] = (catCounts[item.category] || 0) + 1;
+    }
+
+    if (!groupMatch || !catMatch || !searchMatch) return;
+
+    visible++;
+    const card = buildCard(item);
+    container.appendChild(card);
+  });
+
+  // Update counts
+  Object.keys(catCounts).forEach(cat => {
+    const el = document.getElementById('cnt-' + cat);
+    if (el) el.textContent = catCounts[cat];
+  });
+
+  document.getElementById('visibleCount').textContent = visible;
+  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+}
+
+function buildCard(item) {
+  const card = document.createElement('div');
+  card.className = 'news-card';
+
+  // Client tags
+  const clientTagsHtml = item.clients.length
+    ? item.clients.map(c => `<span class="tag client-tag">📌 ${c}</span>`).join('')
+    : '';
+
+  // Group tags
+  const groupTagsHtml = item.groups.map(g => {
+    const short = g.replace(/行业(.+)组（快消-.+）/, '$1组');
+    return `<span class="group-tag">${short}</span>`;
+  }).join('');
+
+  card.innerHTML = `
+    <div class="card-header">
+      <span class="cat-badge badge-${item.category}">${item.category}</span>
+      <div class="card-title-wrap">
+        <div class="card-company">${item.company}</div>
+        <div class="card-title">${item.title}</div>
+        ${item.clients.length ? `<div class="card-tags">${clientTagsHtml}</div>` : ''}
+      </div>
+    </div>
+    <div class="card-body">
+      <div class="card-summary">${item.summary}</div>
+
+      <button class="section-toggle toggle-insight" onclick="toggleSection(this)">
+        <span class="arrow">▶</span> 💡 Key Insight
+      </button>
+      <div class="collapsible">
+        <div class="insight-box">${item.insight}</div>
+      </div>
+
+      <button class="section-toggle toggle-cross" onclick="toggleSection(this)">
+        <span class="arrow">▶</span> 🔗 行业交叉视角
+      </button>
+      <div class="collapsible">
+        <div class="cross-box">${item.crossIndustry}</div>
+      </div>
+
+      <button class="section-toggle toggle-action" onclick="toggleSection(this)">
+        <span class="arrow">▶</span> 🎯 销售建议 & 话术
+      </button>
+      <div class="collapsible">
+        <div class="action-box">
+          <ul>${item.actions.map(a => `<li>${a}</li>`).join('')}</ul>
+        </div>
+      </div>
+    </div>
+    <div class="card-footer">
+      ${groupTagsHtml}
+      <span style="margin-left:4px;color:#bbb">·</span>
+      <span>${item.date}</span>
+      <a href="${item.source}" target="_blank">查看原文 →</a>
+    </div>
+  `;
+  return card;
+}
+
+function toggleSection(btn) {
+  btn.classList.toggle('open');
+  const next = btn.nextElementSibling;
+  next.classList.toggle('open');
+}
+
+// ═══════════════════════════════════════════════════════
+// FILTERS
+// ═══════════════════════════════════════════════════════
+function setCat(el, cat) {
+  activeCat = cat;
+  document.querySelectorAll('[data-cat]').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function setGroup(el, group) {
+  activeGroup = group;
+  document.querySelectorAll('[data-group]').forEach(e => e.classList.remove('active'));
+  el.classList.add('active');
+  applyFilters();
+}
+
+function applyFilters() { renderCards(); }
+
+// Init
+renderCards();
+</script>
+</body>
+</html>
