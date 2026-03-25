@@ -177,6 +177,80 @@
   }
 
   /* No results */
+  /* ── Overview Banner ── */
+  #overviewBanner {
+    margin-bottom: 16px;
+  }
+  .overview-card {
+    background: linear-gradient(135deg, #1a1a2e 0%, #16213e 60%, #0f3460 100%);
+    border-radius: 16px;
+    padding: 20px 24px;
+    color: white;
+    position: relative;
+    overflow: hidden;
+  }
+  .overview-card::before {
+    content: '';
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 160px; height: 160px;
+    border-radius: 50%;
+    background: rgba(255,36,66,0.15);
+  }
+  .overview-industry {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+    margin-bottom: 6px;
+  }
+  .overview-title {
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 14px;
+    color: white;
+  }
+  .overview-highlights {
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+    margin-bottom: 14px;
+  }
+  .overview-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 8px;
+    font-size: 13px;
+    line-height: 1.5;
+    color: rgba(255,255,255,0.88);
+  }
+  .overview-dot {
+    width: 6px; height: 6px;
+    border-radius: 50%;
+    background: #FF2442;
+    margin-top: 6px;
+    flex-shrink: 0;
+  }
+  .overview-tags {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+  }
+  .overview-tag {
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.2);
+    border-radius: 20px;
+    padding: 3px 10px;
+    font-size: 11px;
+    color: rgba(255,255,255,0.75);
+  }
+  .overview-tag.hot {
+    background: rgba(255,36,66,0.25);
+    border-color: rgba(255,36,66,0.4);
+    color: #ff8fa0;
+  }
+
   .no-results {
     text-align: center;
     padding: 60px 20px;
@@ -413,6 +487,9 @@
       <button class="group-btn" data-group="大健康" onclick="setGroup(this,'大健康')">大健康</button>
       <button class="group-btn" data-group="食品饮料" onclick="setGroup(this,'食品饮料')">食品饮料</button>
     </div>
+
+    <!-- Overview banner -->
+    <div id="overviewBanner"></div>
 
     <!-- Cards container -->
     <div id="cardContainer"></div>
@@ -848,6 +925,74 @@ function setCat(el, cat) {
   applyFilters();
 }
 
+// ═══════════════════════════════════════════════════════
+// OVERVIEW DATA
+// ═══════════════════════════════════════════════════════
+const OVERVIEW = {
+  all: {
+    industry: '全行业概览',
+    title: '本周快消行业重点速览 · 03/16 – 03/22',
+    highlights: [
+      '📊 财报季密集落地：汤臣倍健净利+19.81%，华润啤酒白酒拖累净利-30%，三只松鼠净利腰斩，良品铺子预亏1.6亿，业绩分化加速',
+      '🚀 新品密集：百事Sting唤能进军千亿能量饮料，蒙牛乳钙电解质月销10万瓶，冠能免疫加护宠粮全球首发',
+      '⚡ 跨组必读：低GI国家标准征求意见（影响保健品/零食/饮料三组），药食同源爆火化橘红售罄+3倍',
+    ],
+    tags: ['财报季', '低GI国标', '药食同源', '能量饮料', '宠物功能粮', '跨组信息×3']
+  },
+  '母婴宠物': {
+    industry: '母婴·宠物 | 一组·五组·十组',
+    title: '本周重点：宠物科学化浪潮 + 健合三线增长',
+    highlights: [
+      '🏆 乖宝×AAHA签约：国际临床营养标准落地中国，是本周宠物赛道最大品牌动作，拜访好时机',
+      '🌟 冠能免疫加护系列全球首发：功能粮进入主流赛道，雀巢普瑞纳带动行业升级',
+      '💰 健合集团Swisse中国+15.7%，宠物营养线+14.3%：大健康品牌向宠物赛道延伸趋势明确',
+    ],
+    tags: ['乖宝AAHA合作', '冠能全球首发', 'Swisse+15.7%', '京宠展', '欧盟饲料法规']
+  },
+  '大健康': {
+    industry: '大健康 | 二组·七组',
+    title: '本周重点：财报分化剧烈 + 药食同源爆发',
+    highlights: [
+      '📈 东阿阿胶逆势双增+100%分红，昆药降幅创20年新高：消费品化VS处方药，胜负已见分晓',
+      '🔥 化橘红两会出圈，药食同源赛道爆发：正官庄人参模式被50+头部企业竞相研究，无限极参展',
+      '⚠️ 低GI国家标准征求意见（跨组核心）：二组保健品客户合规窗口期，主动推给客户体现情报价值',
+    ],
+    tags: ['东阿阿胶+100%分红', '汤臣倍健+19.81%', '药食同源爆发', '低GI国标', 'Foodaily博览会4月']
+  },
+  '食品饮料': {
+    industry: '食品饮料 | 三组·四组·六组·八组·九组',
+    title: '本周重点：传统巨头财报承压 + 能量/电解质新品激战',
+    highlights: [
+      '💥 三只松鼠净利腰斩、良品铺子预亏1.6亿：量贩零食冲击下传统零食品牌深度承压，确认Y26预算',
+      '⚡ 百事Sting唤能入局+蒙牛乳钙电解质月销10万瓶：能量/电解质赛道今年最热，种草需求旺盛',
+      '🏃 君乐宝赴港上市在即：上市前是营销投入活跃窗口，2025年度单品榜覆盖元气森林/康师傅/东鹏等9个客户',
+    ],
+    tags: ['良品铺子预亏', '三只松鼠净利腰斩', '百事Sting新品', '君乐宝上市', '年度单品榜×9客户', '肉制品国标执行']
+  }
+};
+
+function renderOverview() {
+  const banner = document.getElementById('overviewBanner');
+  const data = OVERVIEW[activeGroup] || OVERVIEW['all'];
+  if (!data) { banner.innerHTML = ''; return; }
+
+  const tagsHtml = data.tags.map((t, i) =>
+    `<span class="overview-tag${i < 2 ? ' hot' : ''}">${t}</span>`
+  ).join('');
+
+  const itemsHtml = data.highlights.map(h =>
+    `<div class="overview-item"><div class="overview-dot"></div><span>${h}</span></div>`
+  ).join('');
+
+  banner.innerHTML = `
+    <div class="overview-card">
+      <div class="overview-industry">${data.industry}</div>
+      <div class="overview-title">${data.title}</div>
+      <div class="overview-highlights">${itemsHtml}</div>
+      <div class="overview-tags">${tagsHtml}</div>
+    </div>`;
+}
+
 function setGroup(el, group) {
   activeGroup = group;
   document.querySelectorAll('[data-group]').forEach(e => e.classList.remove('active'));
@@ -855,10 +1000,11 @@ function setGroup(el, group) {
   applyFilters();
 }
 
-function applyFilters() { renderCards(); }
+function applyFilters() { renderCards(); renderOverview(); }
 
 // Init
 renderCards();
+renderOverview();
 </script>
 </body>
 </html>
