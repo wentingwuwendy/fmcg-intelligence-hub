@@ -1,0 +1,766 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>快消行策 · 行业快讯</title>
+<style>
+  :root {
+    --red: #FF2442;
+    --red-light: #fff0f2;
+    --gray-bg: #f5f5f7;
+    --gray-border: #e0e0e0;
+    --text: #1a1a1a;
+    --text-sub: #666;
+    --insight-bg: #fffbf0;
+    --action-bg: #f0f8f0;
+    --cross-bg: #f0f4ff;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
+    background: var(--gray-bg);
+    color: var(--text);
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  header {
+    background: white;
+    border-bottom: 1px solid var(--gray-border);
+    padding: 0 28px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    height: 58px;
+  }
+  .logo {
+    font-size: 15px;
+    font-weight: 700;
+    color: var(--red);
+    white-space: nowrap;
+    text-decoration: none;
+  }
+  .nav-links {
+    display: flex;
+    gap: 4px;
+  }
+  .nav-link {
+    padding: 5px 12px;
+    border-radius: 8px;
+    font-size: 13px;
+    color: var(--text-sub);
+    text-decoration: none;
+    transition: background 0.15s;
+  }
+  .nav-link:hover { background: var(--gray-bg); color: var(--text); }
+  .nav-link.active { background: var(--red-light); color: var(--red); font-weight: 600; }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 30px 20px 60px;
+  }
+
+  .page-title {
+    font-size: 22px;
+    font-weight: 700;
+    margin-bottom: 6px;
+    color: var(--text);
+  }
+  .page-subtitle {
+    font-size: 13px;
+    color: var(--text-sub);
+    margin-bottom: 24px;
+  }
+
+  .period-bar {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    background: linear-gradient(135deg, #0f1b2d 0%, #1a3a5c 60%, #0a2a4a 100%);
+    color: white;
+    padding: 14px 20px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+  }
+  .period-label {
+    font-size: 11px;
+    font-weight: 600;
+    letter-spacing: 0.08em;
+    color: rgba(255,255,255,0.5);
+    text-transform: uppercase;
+  }
+  .period-date {
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  /* News Section */
+  .section {
+    margin-bottom: 28px;
+  }
+  .section-title {
+    font-size: 13px;
+    font-weight: 700;
+    color: var(--text-sub);
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 12px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+  .section-title::before {
+    content: '';
+    width: 4px;
+    height: 16px;
+    background: var(--red);
+    border-radius: 2px;
+  }
+
+  /* News Card */
+  .news-card {
+    background: white;
+    border: 1px solid var(--gray-border);
+    border-radius: 12px;
+    margin-bottom: 12px;
+    overflow: hidden;
+  }
+  .news-header {
+    padding: 14px 16px 10px;
+    border-bottom: 1px solid var(--gray-border);
+  }
+  .news-meta {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 6px;
+    flex-wrap: wrap;
+  }
+  .cat-badge {
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+  }
+  .badge-财报 { background: #e8f5e9; color: #2e7d32; }
+  .badge-投融资 { background: #e3f2fd; color: #1565c0; }
+  .badge-企业动态 { background: #fff3e0; color: #e65100; }
+  .badge-新品 { background: #f3e5f5; color: #6a1b9a; }
+  .badge-行业趋势 { background: #ffebee; color: #c62828; }
+  .badge-行业政策 { background: #e0f7fa; color: #00695c; }
+  .badge-会展 { background: #f0f4ff; color: #3949ab; }
+
+  .group-tag {
+    padding: 1px 7px;
+    border-radius: 10px;
+    font-size: 10px;
+    background: var(--gray-bg);
+    color: var(--text-sub);
+  }
+  .news-title {
+    font-size: 15px;
+    font-weight: 600;
+    line-height: 1.4;
+  }
+  .news-company {
+    font-size: 11px;
+    color: var(--text-sub);
+    margin-top: 4px;
+  }
+
+  .news-body {
+    padding: 12px 16px;
+    font-size: 13px;
+    line-height: 1.7;
+    color: #333;
+    border-bottom: 1px solid var(--gray-border);
+  }
+
+  .collapsible-section {
+    border-bottom: 1px solid var(--gray-border);
+  }
+  .collapsible-section:last-child {
+    border-bottom: none;
+  }
+  .section-toggle {
+    cursor: pointer;
+    user-select: none;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 10px 16px;
+    background: var(--gray-bg);
+    border: none;
+    width: 100%;
+    text-align: left;
+  }
+  .section-toggle .arrow {
+    display: inline-block;
+    transition: transform 0.2s;
+    font-size: 10px;
+  }
+  .section-toggle.open .arrow { transform: rotate(90deg); }
+
+  .toggle-insight { color: #b8860b; }
+  .toggle-cross { color: #1565c0; }
+  .toggle-action { color: #2e7d32; }
+
+  .collapsible-content {
+    display: none;
+    padding: 12px 16px;
+  }
+  .collapsible-content.open { display: block; }
+
+  .insight-box {
+    background: var(--insight-bg);
+    border-left: 3px solid #f0c040;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .cross-box {
+    background: var(--cross-bg);
+    border-left: 3px solid #5c85d6;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .action-box {
+    background: var(--action-bg);
+    border-left: 3px solid #4CAF50;
+    border-radius: 0 6px 6px 0;
+    padding: 10px 12px;
+    font-size: 12.5px;
+    line-height: 1.7;
+  }
+  .action-box ul, .insight-box ul, .cross-box ul {
+    margin: 4px 0 0 16px;
+  }
+  .action-box li, .insight-box li, .cross-box li {
+    margin-bottom: 4px;
+  }
+
+  .news-footer {
+    padding: 8px 16px;
+    background: var(--gray-bg);
+    font-size: 11px;
+    color: var(--text-sub);
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  .news-footer a {
+    color: var(--red);
+    text-decoration: none;
+  }
+  .news-footer a:hover { text-decoration: underline; }
+
+  @media (max-width: 600px) {
+    .container { padding: 16px 12px 40px; }
+    header { padding: 0 16px; }
+  }
+</style>
+</head>
+<body>
+
+<header>
+  <a class="logo" href="index.html">📊 快消行策</a>
+  <nav class="nav-links">
+    <a class="nav-link" href="index.html">行业报告</a>
+    <a class="nav-link active" href="news.html">行业快讯</a>
+  </nav>
+</header>
+
+<div class="container">
+  <h1 class="page-title">行业快讯</h1>
+  <p class="page-subtitle">每周更新的快消行业情报 · 附销售话术建议</p>
+
+  <div class="period-bar">
+    <span class="period-label">本期周期</span>
+    <span class="period-date">2026年3月16日 – 3月22日</span>
+  </div>
+
+  <div class="section">
+    <div class="section-title">大健康行业情报</div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-财报">财报营收</span>
+          <span class="group-tag">行业二组</span>
+          <span class="group-tag">行业七组</span>
+        </div>
+        <div class="news-title">汤臣倍健2025年年报：净利润同比增长19.81%，全年上新超85款产品</div>
+        <div class="news-company">📌 涉及客户：汤臣倍健、KEYLID健力多、纽特舒玛</div>
+      </div>
+      <div class="news-body">2025年营收62.65亿元，归母净利润7.82亿元，同比增长19.81%。蓝罐蛋白粉累计销售额超2.3亿元，首推OTC硫酸氨糖及特医食品「每益乐」，2026年加速研发成果转化。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">保健品行业从「渠道红利」转向「产品红利」。汤臣倍健以85款新品密集上新打出差异化，净利增速远高于营收增速，结构优化显著。OTC资质拓展打开了医药渠道想象空间。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">汤臣倍健进入OTC赛道，与东阿阿胶、华润三九等七组客户产生直接竞争，这条新闻值得同步给七组。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>话术：「汤臣倍健今年新品这么多，小红书内容策略上有没有对应的矩阵规划？」</li>
+              <li>七组：汤臣倍健进OTC赛道，可以探讨客户对跨界竞争的应对策略</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-20</span>
+        <a href="https://h5.ifeng.com/c/vivoArticle/v0026F57kHlC2bzDgN6Wt15FJMR4gm620Rgx7Z1Ezu98QKY__" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-财报">财报营收</span>
+          <span class="group-tag">行业七组</span>
+          <span class="group-tag">行业二组</span>
+        </div>
+        <div class="news-title">华润系5家药企年报：东阿阿胶双增+100%分红，昆药降幅创近20年新高</div>
+        <div class="news-company">📌 涉及客户：东阿阿胶、桃花姬、华润三九、天士力</div>
+      </div>
+      <div class="news-body">3月19日5家华润系药企同日披露年报。东阿阿胶营收67亿元（+8.83%），净利17.39亿元（+11.67%），拟100%分红。昆药营收-21.74%、净利-46%，降幅创近20年最差。华润双鹤、天士力、华润江中均承压，主因集采常态化。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">消费属性强的品类（东阿阿胶）逆势增长，传统处方药（昆药）断崖下滑，验证大健康行业胜负手已从「渠道覆盖」转向「消费品化」。100%分红说明东阿管理层对现金流有信心。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">东阿阿胶「消费品化」策略与食品饮料品类营销逻辑趋同，建议二组和七组都关注：集采之下谁在用「食品化」破局。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>东阿话术：「今年100%分红，咱们Y26预算能不能也往上走？」</li>
+              <li>昆药：业绩承压，需近期确认T2T规划进度，确认Y26预算是否受影响</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-20</span>
+        <a href="https://finance.sina.com.cn/jjxw/2026-03-20/doc-inhrreqy4065131.shtml" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-行业趋势">行业趋势</span>
+          <span class="group-tag">行业二组</span>
+          <span class="group-tag">行业七组</span>
+          <span class="group-tag">行业三组</span>
+        </div>
+        <div class="news-title">药食同源赛道爆火：化橘红售罄同比+3倍，正官庄人参模式被竞相复制</div>
+        <div class="news-company">📌 涉及客户：正官庄、无限极、爱至尊</div>
+      </div>
+      <div class="news-body">两会期间化橘红润喉糖经外交部副部长华春莹推荐而出圈，京东相关搜索暴增+3倍、多款产品售罄。正官庄EVERYTIME条装人参液全球累计销售突破5000万盒被作为爆品标杆。Foodaily博览会已吸引伊利、无限极、百事等50+头部企业参展。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">药食同源不是新概念，但化橘红这次出圈的逻辑是「政务背书+即食剂型+高频场景」，三个要素缺一不可。正官庄EVERYTIME的核心创新是把人参从「仪式感滋补品」变成「撕开即饮的日常品」——剂型创新是关键。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">跨组核心信息：正官庄（二组）和无限极（二组/七组）都在这个赛道，但药食同源内容在小红书的受众同时覆盖保健品、食品零食、餐饮场景——是典型的跨组投放场景。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>话术：「化橘红这波热度你们有没有在小红书上承接到？我们最近在药食同源这个方向上有不少案例可以分享。」</li>
+              <li>建议主动给二组/七组客户推这条情报，体现情报价值</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-17</span>
+        <a href="https://foodaily.com/articles/41386" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">食品饮料行业情报</div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-财报">财报营收</span>
+          <span class="group-tag">行业九组</span>
+          <span class="group-tag">行业八组</span>
+        </div>
+        <div class="news-title">华润啤酒2025年报：啤酒业务+19.6%，白酒拖累整体净利大降30%</div>
+        <div class="news-company">📌 涉及客户：华润啤酒、喜力Heineken</div>
+      </div>
+      <div class="news-body">2025年综合营业额379.85亿元，微降1.68%；股东应占溢利57.24亿元+19.6%（啤酒业务贡献）。白酒业务营业额14.96亿元，缩水30.8%；对金沙窖酒计提商誉减值约28亿元。喜力实现近20%增长。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">啤酒业务稳健（毛利率提升至42.5%），白酒失血拖累全局。这次年报说明跨赛道多元化对快消巨头而言风险极高。喜力+20%是高端化成功的有力证据，可以作为和客户谈高端内容投入的依据。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">华润啤酒的白酒之困印证了酒水赛道的分化：精酿/高端啤酒向上，酱酒遇冷。对九组（酒水）销售：可以聊「啤酒高端化vs白酒承压，你们品牌今年的重心在哪里？」</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>话术：「华润今年啤酒业务很稳，喜力增长近20%，小红书这块的投放节奏今年怎么规划？」</li>
+              <li>九组：白酒承压背景下，确认客户Y26预算是否受整体业绩影响</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-23</span>
+        <a href="https://finance.sina.com.cn/stock/relnews/hk/2026-03-24/doc-inhrzysx7371618.shtml" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-财报">财报营收</span>
+          <span class="group-tag">行业三组</span>
+        </div>
+        <div class="news-title">传统零食双巨头业绩分化：三只松鼠净利腰斩，良品铺子预亏1.6亿</div>
+        <div class="news-company">📌 涉及客户：三只松鼠、良品铺子</div>
+      </div>
+      <div class="news-body">三只松鼠2025年预计归母净利润1.35-1.75亿元，同比下降57%-67%（量贩零食冲击+生活馆前期投入影响）。良品铺子预亏1.2-1.6亿元，亏损进一步扩大，控股股东收到法院执行通知书。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">量贩零食蒸蒸日上（鸣鸣很忙上市、万辰净利+358%），传统电商零食巨头却承压转型。这次分化说明「流量红利终结」对依赖线上渠道的品牌影响最深。两家都在积极转型，但前期投入在吃利润。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">三只松鼠与良品铺子都是三组（食品零食）重点客户，业绩承压意味着营销预算可能收紧，建议销售近期确认合同续期。同时，这两家的困境也说明品牌需要更有效的内容营销，是切入谈小红书价值的好时机。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>三组：优先确认良品铺子Y26合同续期状态，亏损背景下预算决策可能提速或缩减</li>
+              <li>话术：「你们今年在积极转型，小红书这边我们能不能帮你提升内容ROI，让每一分预算用得更值？」</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-24</span>
+        <a href="https://finance.sina.cn/tech/2026-03-24/detail-inhrzyta1901883.d.html" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-新品">新品</span>
+          <span class="group-tag">行业八组</span>
+        </div>
+        <div class="news-title">百事携「Sting唤能」进军中国千亿能量饮料市场，绑定F1+周冠宇</div>
+        <div class="news-company">📌 涉及客户：百事可乐饮品、美年达、佳得乐</div>
+      </div>
+      <div class="news-body">3月10日百事推出「Sting唤能」能量汽水新品，莓果风味，含烟酰胺+维生素B6+人参，63.9元/12瓶。绑定F1赛事IP+周冠宇代言，主打Z世代「日常轻提神」场景。时隔5年引入独立新品牌，切入1114亿元能量饮料市场。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">百事用「能量+汽水」的跨品类新品切入能量饮料，是用自身气泡水基因解构成熟市场的差异化策略。东鹏/外星人需要直面这个强势入局者。对小红书：Z世代+F1+周冠宇，内容营销天然素材。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">百事是八组（饮料）核心客户，Sting入局影响东鹏（八组）竞争格局，九组酒水客户关注年轻人饮酒替代趋势。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>话术：「Sting的小红书投放节奏怎么安排？能量饮料种草内容我们有很多成功案例。」</li>
+              <li>八组：可以同时推给东鹏——「百事进场了，你们在小红书要不要加大种草力度？」</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-16</span>
+        <a href="https://foodaily.com/articles/41381" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">宠物行业情报</div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-新品">新品</span>
+          <span class="group-tag">行业五组</span>
+        </div>
+        <div class="news-title">冠能（雀巢普瑞纳）免疫加护系列成年期全价宠粮全球首发</div>
+        <div class="news-company">📌 涉及客户：冠能PROPLAN、Fancy Feast珍致</div>
+      </div>
+      <div class="news-body">全球首个免疫加护系列上市，特选牛初乳含天然免疫球蛋白+β-葡聚糖+维生素C/E+活性益生菌+深海鱼油Ω-3，主打「三重免疫加护」。功能粮赛道标志性新品。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">雀巢普瑞纳全球首发意味着功能粮进入主流市场。国内竞争对手消费者教育成本由巨头承担，国内品牌可跟进。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">免疫健康是大健康行业核心概念，「人宠同类功效成分」可打通二组（保健品）和五组（宠物）内容选题。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>话术：「冠能这个免疫加护系列是全球首发，这种新品在小红书上专业内容很吃香，你们打算怎么推？」</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-19</span>
+        <a href="https://yanfa.foodmate.net/news/show-2141.html" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-企业动态">企业动态</span>
+          <span class="group-tag">行业五组</span>
+        </div>
+        <div class="news-title">乖宝宠物携手AAHA推动国际临床营养标准落地中国</div>
+        <div class="news-company">📌 涉及客户：BARF霸弗、乖宝、麦富迪</div>
+      </div>
+      <div class="news-body">3月14日，乖宝与美国动物医院协会（AAHA）正式签署战略合作协议，围绕《AAHA营养与体重管理指南》在中国本地化落地，推动中国宠物临床诊疗迈向「以营养为基石」高质量发展。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">乖宝在「专业/科学」定位上拉开与竞争对手的距离，为处方粮/功能粮的长期布局铺路。AAHA是美国顶级兽医机构，国际背书价值极高。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">乖宝走「营养科学」路线与汤臣倍健、达能逻辑高度一致。专业内容营销在小红书有天然势能。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>话术：「这次AAHA合作是行业大事，专业内容在小红书上很有传播势能，你们有没有考虑配套做一波笔记种草？」</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-14</span>
+        <a href="https://yanfa.foodmate.net/news/show-2141.html" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+  </div>
+
+  <div class="section">
+    <div class="section-title">行业政策</div>
+
+    <div class="news-card">
+      <div class="news-header">
+        <div class="news-meta">
+          <span class="cat-badge badge-行业政策">行业政策</span>
+          <span class="group-tag">行业二组</span>
+          <span class="group-tag">行业三组</span>
+          <span class="group-tag">行业八组</span>
+        </div>
+        <div class="news-title">低GI国家标准公开征求意见，低GI赛道进入规范化时代</div>
+        <div class="news-company">📌 涉及客户：全体低GI产品客户</div>
+      </div>
+      <div class="news-body">3月18日，《食物血糖生成指数测定与标示规范》国家标准公开征求意见，低GI赛道从无序标注走向国家标准约束，虚标产品面临整改压力，合规品牌反而受益。</div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-insight" onclick="toggle(this)">
+          <span class="arrow">▶</span> 💡 Key Insight
+        </button>
+        <div class="collapsible-content">
+          <div class="insight-box">国标出台后行业洗牌在即，真正有检测依据的品牌是最大受益者，「我们是正规低GI」是加大营销力度的好理由。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-cross" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🔗 行业交叉视角
+        </button>
+        <div class="collapsible-content">
+          <div class="cross-box">横跨二组（保健品）+三组（食品零食）+八组（饮料）的跨组信息，三个组的客户都应该知道这条政策。</div>
+        </div>
+      </div>
+
+      <div class="collapsible-section">
+        <button class="section-toggle toggle-action" onclick="toggle(this)">
+          <span class="arrow">▶</span> 🎯 销售建议 & 话术
+        </button>
+        <div class="collapsible-content">
+          <div class="action-box">
+            <ul>
+              <li>话术：「低GI国家标准这周开始征求意见了，您们产品线里有低GI概念的，建议关注合规窗口期。」</li>
+              <li>这是展现情报价值的好时机——销售不一定自己发现了这条政策</li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+      <div class="news-footer">
+        <span>2026-03-18</span>
+        <a href="https://yanfa.foodmate.net/news/show-2138.html" target="_blank">查看原文 →</a>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<script>
+function toggle(btn) {
+  btn.classList.toggle('open');
+  const content = btn.nextElementSibling;
+  content.classList.toggle('open');
+}
+</script>
+
+</body>
+</html>
