@@ -12,431 +12,95 @@
     --gray-border: #e0e0e0;
     --text: #1a1a1a;
     --text-sub: #666;
-    --tag-bg: #f0f0f0;
     --insight-bg: #fffbf0;
-    --card-radius: 14px;
   }
-
   * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: -apple-system,'PingFang SC','Microsoft YaHei',sans-serif; background:var(--gray-bg); color:var(--text); font-size:14px; line-height:1.6; }
 
-  body {
-    font-family: -apple-system, 'PingFang SC', 'Microsoft YaHei', sans-serif;
-    background: var(--gray-bg);
-    color: var(--text);
-    font-size: 14px;
-    line-height: 1.6;
-  }
+  header { background:white; border-bottom:1px solid var(--gray-border); padding:0 28px; position:sticky; top:0; z-index:100; display:flex; align-items:center; gap:20px; height:58px; }
+  .logo { font-size:15px; font-weight:700; color:var(--red); text-decoration:none; white-space:nowrap; }
+  .nav-links { display:flex; gap:4px; }
+  .nav-link { padding:5px 12px; border-radius:8px; font-size:13px; color:var(--text-sub); text-decoration:none; }
+  .nav-link:hover { background:var(--gray-bg); color:var(--text); }
+  .nav-link.active { background:var(--red-light); color:var(--red); font-weight:600; }
+  .search-wrap { flex:1; max-width:340px; margin-left:auto; }
+  .search-wrap input { width:100%; padding:7px 14px; border:1px solid var(--gray-border); border-radius:20px; font-size:13px; outline:none; background:var(--gray-bg); }
+  .search-wrap input:focus { border-color:var(--red); background:white; }
+  .stats { font-size:12px; color:var(--text-sub); white-space:nowrap; }
+  .stats span { color:var(--red); font-weight:700; }
 
-  /* ── Header ── */
-  header {
-    background: white;
-    border-bottom: 1px solid var(--gray-border);
-    padding: 0 28px;
-    position: sticky;
-    top: 0;
-    z-index: 100;
-    display: flex;
-    align-items: center;
-    gap: 20px;
-    height: 58px;
-  }
-  .logo {
-    font-size: 15px;
-    font-weight: 700;
-    color: var(--red);
-    white-space: nowrap;
-    text-decoration: none;
-  }
-  .nav-links {
-    display: flex;
-    gap: 4px;
-  }
-  .nav-link {
-    padding: 5px 12px;
-    border-radius: 8px;
-    font-size: 13px;
-    color: var(--text-sub);
-    text-decoration: none;
-    transition: background 0.15s;
-  }
-  .nav-link:hover { background: var(--gray-bg); color: var(--text); }
-  .nav-link.active { background: var(--red-light); color: var(--red); font-weight: 600; }
+  .layout { display:flex; max-width:1240px; margin:0 auto; padding:24px 20px; gap:22px; align-items:flex-start; }
 
-  .search-wrap {
-    flex: 1;
-    max-width: 340px;
-    margin-left: auto;
-  }
-  .search-wrap input {
-    width: 100%;
-    padding: 7px 14px;
-    border: 1px solid var(--gray-border);
-    border-radius: 20px;
-    font-size: 13px;
-    outline: none;
-    background: var(--gray-bg);
-  }
-  .search-wrap input:focus { border-color: var(--red); background: white; }
-  .stats {
-    font-size: 12px;
-    color: var(--text-sub);
-    white-space: nowrap;
-  }
-  .stats span { color: var(--red); font-weight: 700; }
+  .sidebar { width:210px; flex-shrink:0; position:sticky; top:78px; display:flex; flex-direction:column; gap:12px; }
+  .sidebar-box { background:white; border-radius:12px; border:1px solid var(--gray-border); overflow:hidden; }
+  .sidebar-title { padding:10px 14px; font-size:11px; font-weight:700; color:var(--text-sub); text-transform:uppercase; letter-spacing:0.6px; border-bottom:1px solid var(--gray-border); background:var(--gray-bg); }
+  .filter-item { padding:9px 14px; cursor:pointer; font-size:13px; display:flex; align-items:center; gap:8px; border-bottom:1px solid var(--gray-border); }
+  .filter-item:last-child { border-bottom:none; }
+  .filter-item:hover { background:var(--gray-bg); }
+  .filter-item.active { background:var(--red-light); color:var(--red); font-weight:600; }
+  .filter-count { margin-left:auto; font-size:11px; color:var(--text-sub); background:#f0f0f0; padding:1px 6px; border-radius:10px; }
+  .filter-item.active .filter-count { background:var(--red); color:white; }
+  .filter-dot { width:8px; height:8px; border-radius:50%; flex-shrink:0; }
 
-  /* ── Layout ── */
-  .layout {
-    display: flex;
-    max-width: 1240px;
-    margin: 0 auto;
-    padding: 24px 20px;
-    gap: 22px;
-    align-items: flex-start;
-  }
+  .main { flex:1; min-width:0; }
+  .tab-bar { display:flex; gap:8px; margin-bottom:18px; flex-wrap:wrap; }
+  .tab-btn { padding:7px 18px; border-radius:22px; border:1px solid var(--gray-border); background:white; cursor:pointer; font-size:13px; font-weight:500; color:var(--text-sub); }
+  .tab-btn:hover { border-color:var(--red); color:var(--red); }
+  .tab-btn.active { background:var(--red); color:white; border-color:var(--red); font-weight:700; }
 
-  /* ── Sidebar ── */
-  .sidebar {
-    width: 210px;
-    flex-shrink: 0;
-    position: sticky;
-    top: 78px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-  .sidebar-box {
-    background: white;
-    border-radius: 12px;
-    border: 1px solid var(--gray-border);
-    overflow: hidden;
-  }
-  .sidebar-title {
-    padding: 10px 14px;
-    font-size: 11px;
-    font-weight: 700;
-    color: var(--text-sub);
-    text-transform: uppercase;
-    letter-spacing: 0.6px;
-    border-bottom: 1px solid var(--gray-border);
-    background: var(--gray-bg);
-  }
-  .filter-item {
-    padding: 9px 14px;
-    cursor: pointer;
-    font-size: 13px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    border-bottom: 1px solid var(--gray-border);
-    transition: background 0.1s;
-  }
-  .filter-item:last-child { border-bottom: none; }
-  .filter-item:hover { background: var(--gray-bg); }
-  .filter-item.active { background: var(--red-light); color: var(--red); font-weight: 600; }
-  .filter-count {
-    margin-left: auto;
-    font-size: 11px;
-    color: var(--text-sub);
-    background: var(--tag-bg);
-    padding: 1px 6px;
-    border-radius: 10px;
-  }
-  .filter-item.active .filter-count { background: var(--red); color: white; }
-  .filter-dot {
-    width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
-  }
+  .hero { background:linear-gradient(135deg,#0f1b2d 0%,#1a3a5c 60%,#0a2a4a 100%); border-radius:16px; padding:22px 26px; color:white; margin-bottom:20px; }
+  .hero-label { font-size:11px; font-weight:600; letter-spacing:0.08em; color:rgba(255,255,255,0.45); text-transform:uppercase; margin-bottom:6px; }
+  .hero-title { font-size:16px; font-weight:700; color:white; margin-bottom:12px; }
+  .hero-points { display:flex; flex-direction:column; gap:7px; margin-bottom:14px; }
+  .hero-point { display:flex; align-items:flex-start; gap:8px; font-size:13px; color:rgba(255,255,255,0.85); line-height:1.5; }
+  .hero-dot { width:5px; height:5px; border-radius:50%; background:var(--red); margin-top:7px; flex-shrink:0; }
+  .hero-tags { display:flex; flex-wrap:wrap; gap:6px; }
+  .hero-tag { background:rgba(255,255,255,0.1); border:1px solid rgba(255,255,255,0.18); border-radius:20px; padding:3px 10px; font-size:11px; color:rgba(255,255,255,0.7); }
+  .hero-tag.hot { background:rgba(255,36,66,0.2); border-color:rgba(255,36,66,0.35); color:#ff9aaa; }
 
-  /* ── Main ── */
-  .main { flex: 1; min-width: 0; }
+  .card-grid { display:grid; grid-template-columns:1fr; gap:14px; }
+  .report-card { background:white; border:1px solid var(--gray-border); border-radius:14px; overflow:hidden; transition:box-shadow 0.15s,transform 0.15s; }
+  .report-card:hover { box-shadow:0 6px 24px rgba(0,0,0,0.09); transform:translateY(-1px); }
 
-  /* Industry tab bar */
-  .tab-bar {
-    display: flex;
-    gap: 8px;
-    margin-bottom: 18px;
-    flex-wrap: wrap;
-  }
-  .tab-btn {
-    padding: 7px 18px;
-    border-radius: 22px;
-    border: 1px solid var(--gray-border);
-    background: white;
-    cursor: pointer;
-    font-size: 13px;
-    font-weight: 500;
-    transition: all 0.15s;
-    color: var(--text-sub);
-  }
-  .tab-btn:hover { border-color: var(--red); color: var(--red); }
-  .tab-btn.active {
-    background: var(--red);
-    color: white;
-    border-color: var(--red);
-    font-weight: 700;
-  }
+  .card-top { padding:16px 18px 12px; display:flex; gap:14px; align-items:flex-start; }
+  .card-logo { width:44px; height:44px; border-radius:10px; display:flex; align-items:center; justify-content:center; font-size:11px; font-weight:700; flex-shrink:0; color:white; }
+  .logo-kpmg { background:#0033a0; }
+  .logo-deloitte { background:#86bc25; }
+  .logo-bcg { background:#1d3461; }
+  .logo-iresearch { background:#e63329; }
+  .logo-nielseniq { background:#00b2a9; }
+  .logo-cbndata { background:#1a1a2e; }
+  .logo-iimedia { background:#ff6600; }
+  .logo-other { background:#555; }
 
-  /* Hero banner */
-  .hero {
-    background: linear-gradient(135deg, #0f1b2d 0%, #1a3a5c 60%, #0a2a4a 100%);
-    border-radius: 16px;
-    padding: 22px 26px;
-    color: white;
-    margin-bottom: 20px;
-    position: relative;
-    overflow: hidden;
-  }
-  .hero::after {
-    content: '';
-    position: absolute;
-    top: -50px; right: -50px;
-    width: 180px; height: 180px;
-    border-radius: 50%;
-    background: rgba(255,36,66,0.12);
-    pointer-events: none;
-  }
-  .hero-label {
-    font-size: 11px;
-    font-weight: 600;
-    letter-spacing: 0.08em;
-    color: rgba(255,255,255,0.45);
-    text-transform: uppercase;
-    margin-bottom: 6px;
-  }
-  .hero-title {
-    font-size: 16px;
-    font-weight: 700;
-    color: white;
-    margin-bottom: 12px;
-  }
-  .hero-points {
-    display: flex;
-    flex-direction: column;
-    gap: 7px;
-    margin-bottom: 14px;
-  }
-  .hero-point {
-    display: flex;
-    align-items: flex-start;
-    gap: 8px;
-    font-size: 13px;
-    color: rgba(255,255,255,0.85);
-    line-height: 1.5;
-  }
-  .hero-dot {
-    width: 5px; height: 5px;
-    border-radius: 50%;
-    background: var(--red);
-    margin-top: 7px;
-    flex-shrink: 0;
-  }
-  .hero-tags { display: flex; flex-wrap: wrap; gap: 6px; }
-  .hero-tag {
-    background: rgba(255,255,255,0.1);
-    border: 1px solid rgba(255,255,255,0.18);
-    border-radius: 20px;
-    padding: 3px 10px;
-    font-size: 11px;
-    color: rgba(255,255,255,0.7);
-  }
-  .hero-tag.hot {
-    background: rgba(255,36,66,0.2);
-    border-color: rgba(255,36,66,0.35);
-    color: #ff9aaa;
-  }
+  .card-meta { flex:1; min-width:0; }
+  .card-institution { font-size:11px; font-weight:600; color:var(--text-sub); margin-bottom:3px; display:flex; align-items:center; gap:6px; }
+  .card-date { font-size:10px; color:#aaa; background:#f0f0f0; padding:1px 7px; border-radius:8px; }
+  .card-title { font-size:15px; font-weight:700; line-height:1.4; color:var(--text); margin-bottom:6px; }
+  .card-tags { display:flex; flex-wrap:wrap; gap:4px; }
+  .card-tag { font-size:10px; padding:2px 8px; border-radius:10px; background:#f0f0f0; color:var(--text-sub); border:1px solid var(--gray-border); }
+  .card-tag.industry-tag { background:var(--red-light); color:var(--red); border-color:#ffccd3; font-weight:600; }
 
-  /* ── Report Card ── */
-  .card-grid {
-    display: grid;
-    grid-template-columns: 1fr;
-    gap: 14px;
-  }
-  .report-card {
-    background: white;
-    border: 1px solid var(--gray-border);
-    border-radius: var(--card-radius);
-    overflow: hidden;
-    transition: box-shadow 0.15s, transform 0.15s;
-  }
-  .report-card:hover {
-    box-shadow: 0 6px 24px rgba(0,0,0,0.09);
-    transform: translateY(-1px);
-  }
-  .report-card.hidden { display: none; }
+  .card-body { padding:0 18px 14px; border-top:1px solid var(--gray-border); }
+  .card-summary { font-size:13px; line-height:1.75; color:#333; padding:12px 0 10px; }
 
-  .card-top {
-    padding: 16px 18px 12px;
-    display: flex;
-    gap: 14px;
-    align-items: flex-start;
-  }
-  .card-logo {
-    width: 44px; height: 44px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-size: 18px;
-    flex-shrink: 0;
-    font-weight: 700;
-  }
+  .findings { background:var(--insight-bg); border-left:3px solid #f0c040; border-radius:0 8px 8px 0; padding:10px 14px; margin-bottom:10px; }
+  .findings-title { font-size:11px; font-weight:700; color:#b8860b; margin-bottom:6px; text-transform:uppercase; }
+  .findings ul { margin:0 0 0 14px; }
+  .findings li { font-size:12.5px; line-height:1.65; color:#444; margin-bottom:4px; }
 
-  /* Institution color themes */
-  .logo-kpmg    { background: #0033a0; color: white; font-size: 11px; }
-  .logo-deloitte { background: #86bc25; color: white; font-size: 11px; }
-  .logo-bcg     { background: #1d3461; color: white; font-size: 11px; }
-  .logo-iresearch { background: #e63329; color: white; font-size: 11px; }
-  .logo-nielseniq { background: #00b2a9; color: white; font-size: 11px; }
-  .logo-cbndata  { background: #1a1a2e; color: white; font-size: 11px; }
-  .logo-euromonitor { background: #004b87; color: white; font-size: 11px; }
-  .logo-mintel  { background: #9e1f63; color: white; font-size: 11px; }
-  .logo-iimedia { background: #ff6600; color: white; font-size: 11px; }
-  .logo-jpmorgan { background: #003087; color: white; font-size: 11px; }
-  .logo-36kr    { background: #ff6400; color: white; font-size: 11px; }
-  .logo-foodaily { background: #00a86b; color: white; font-size: 11px; }
-  .logo-派读    { background: #5b4fcf; color: white; font-size: 11px; }
-  .logo-other   { background: #555; color: white; font-size: 11px; }
+  .sales-insight { background:#f0f4ff; border-left:3px solid #5c85d6; border-radius:0 8px 8px 0; padding:10px 14px; }
+  .sales-insight-title { font-size:11px; font-weight:700; color:#1565c0; margin-bottom:5px; text-transform:uppercase; }
+  .sales-insight p { font-size:12.5px; line-height:1.65; color:#333; }
 
-  .card-meta { flex: 1; min-width: 0; }
-  .card-institution {
-    font-size: 11px;
-    font-weight: 600;
-    color: var(--text-sub);
-    margin-bottom: 3px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-  }
-  .card-date {
-    font-size: 10px;
-    color: #aaa;
-    background: var(--tag-bg);
-    padding: 1px 7px;
-    border-radius: 8px;
-  }
-  .card-title {
-    font-size: 15px;
-    font-weight: 700;
-    line-height: 1.4;
-    color: var(--text);
-    margin-bottom: 6px;
-  }
-  .card-tags { display: flex; flex-wrap: wrap; gap: 4px; }
-  .card-tag {
-    font-size: 10px;
-    padding: 2px 8px;
-    border-radius: 10px;
-    background: var(--tag-bg);
-    color: var(--text-sub);
-    border: 1px solid var(--gray-border);
-  }
-  .card-tag.industry-tag {
-    background: var(--red-light);
-    color: var(--red);
-    border-color: #ffccd3;
-    font-weight: 600;
-  }
+  .card-footer { padding:10px 18px; border-top:1px solid var(--gray-border); background:var(--gray-bg); display:flex; align-items:center; }
+  .type-badge { background:var(--red-light); color:var(--red); padding:2px 8px; border-radius:10px; font-size:11px; font-weight:600; }
+  .report-link { margin-left:auto; color:var(--red); text-decoration:none; font-size:12px; font-weight:600; padding:4px 12px; border:1px solid #ffccd3; border-radius:20px; background:var(--red-light); }
+  .report-link:hover { background:var(--red); color:white; }
 
-  .card-body {
-    padding: 0 18px 14px;
-    border-top: 1px solid var(--gray-border);
-  }
-  .card-summary {
-    font-size: 13px;
-    line-height: 1.75;
-    color: #333;
-    padding: 12px 0 10px;
-  }
+  .no-results { text-align:center; padding:80px 20px; color:var(--text-sub); }
 
-  /* Key findings */
-  .findings {
-    background: var(--insight-bg);
-    border-left: 3px solid #f0c040;
-    border-radius: 0 8px 8px 0;
-    padding: 10px 14px;
-    margin-bottom: 10px;
-  }
-  .findings-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: #b8860b;
-    margin-bottom: 6px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-  .findings ul {
-    margin: 0 0 0 14px;
-    padding: 0;
-  }
-  .findings li {
-    font-size: 12.5px;
-    line-height: 1.65;
-    color: #444;
-    margin-bottom: 4px;
-  }
-
-  /* Sales insight */
-  .sales-insight {
-    background: #f0f4ff;
-    border-left: 3px solid #5c85d6;
-    border-radius: 0 8px 8px 0;
-    padding: 10px 14px;
-  }
-  .sales-insight-title {
-    font-size: 11px;
-    font-weight: 700;
-    color: #1565c0;
-    margin-bottom: 5px;
-    text-transform: uppercase;
-    letter-spacing: 0.4px;
-  }
-  .sales-insight p {
-    font-size: 12.5px;
-    line-height: 1.65;
-    color: #333;
-    margin: 0;
-  }
-
-  .card-footer {
-    padding: 10px 18px;
-    border-top: 1px solid var(--gray-border);
-    background: var(--gray-bg);
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-size: 11px;
-    color: var(--text-sub);
-  }
-  .report-link {
-    display: inline-flex;
-    align-items: center;
-    gap: 5px;
-    margin-left: auto;
-    color: var(--red);
-    text-decoration: none;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 4px 12px;
-    border: 1px solid #ffccd3;
-    border-radius: 20px;
-    background: var(--red-light);
-    transition: all 0.15s;
-  }
-  .report-link:hover { background: var(--red); color: white; border-color: var(--red); }
-
-  .no-results {
-    text-align: center;
-    padding: 80px 20px;
-    color: var(--text-sub);
-    font-size: 14px;
-  }
-
-  @media (max-width: 768px) {
-    .sidebar { display: none; }
-    .layout { padding: 12px; }
-    .hero { padding: 16px; }
-    header { padding: 0 16px; gap: 12px; }
-    .stats { display: none; }
-  }
+  @media(max-width:768px) { .sidebar{display:none;} .layout{padding:12px;} }
 </style>
 </head>
 <body>
@@ -454,8 +118,6 @@
 </header>
 
 <div class="layout">
-
-  <!-- Sidebar -->
   <aside class="sidebar">
     <div class="sidebar-box">
       <div class="sidebar-title">发布机构</div>
@@ -492,37 +154,32 @@
         <span class="filter-count" id="cnt-inst-其他">0</span>
       </div>
     </div>
-
     <div class="sidebar-box">
       <div class="sidebar-title">报告类型</div>
       <div class="filter-item active" data-type="all" onclick="setType(this,'all')">
-        全部类型
-        <span class="filter-count" id="cnt-type-all">0</span>
+        全部类型<span class="filter-count" id="cnt-type-all">0</span>
       </div>
       <div class="filter-item" data-type="市场规模" onclick="setType(this,'市场规模')">
-        📈 市场规模
-        <span class="filter-count" id="cnt-type-市场规模">0</span>
+        📈 市场规模<span class="filter-count" id="cnt-type-市场规模">0</span>
       </div>
       <div class="filter-item" data-type="消费者洞察" onclick="setType(this,'消费者洞察')">
-        👥 消费者洞察
-        <span class="filter-count" id="cnt-type-消费者洞察">0</span>
+        👥 消费者洞察<span class="filter-count" id="cnt-type-消费者洞察">0</span>
       </div>
       <div class="filter-item" data-type="行业趋势" onclick="setType(this,'行业趋势')">
-        🔭 行业趋势
-        <span class="filter-count" id="cnt-type-行业趋势">0</span>
+        🔭 行业趋势<span class="filter-count" id="cnt-type-行业趋势">0</span>
       </div>
       <div class="filter-item" data-type="竞争格局" onclick="setType(this,'竞争格局')">
-        ⚔️ 竞争格局
-        <span class="filter-count" id="cnt-type-竞争格局">0</span>
+        ⚔️ 竞争格局<span class="filter-count" id="cnt-type-竞争格局">0</span>
       </div>
       <div class="filter-item" data-type="细分赛道" onclick="setType(this,'细分赛道')">
-        🎯 细分赛道
-        <span class="filter-count" id="cnt-type-细分赛道">0</span>
+        🎯 细分赛道<span class="filter-count" id="cnt-type-细分赛道">0</span>
+      </div>
+      <div class="filter-item" data-type="渠道变革" onclick="setType(this,'渠道变革')">
+        🛒 渠道变革<span class="filter-count" id="cnt-type-渠道变革">0</span>
       </div>
     </div>
   </aside>
 
-  <!-- Main -->
   <main class="main">
     <div class="tab-bar">
       <button class="tab-btn active" data-ind="all" onclick="setInd(this,'all')">全部行业</button>
@@ -531,7 +188,6 @@
       <button class="tab-btn" data-ind="大健康" onclick="setInd(this,'大健康')">💊 大健康</button>
       <button class="tab-btn" data-ind="食品饮料" onclick="setInd(this,'食品饮料')">🥤 食品饮料</button>
     </div>
-
     <div id="heroBanner"></div>
     <div id="cardGrid" class="card-grid"></div>
     <div id="noResults" class="no-results" style="display:none">暂无符合条件的报告</div>
@@ -539,826 +195,426 @@
 </div>
 
 <script>
-// ═══════════════════════════════════════════════════════════════════════
-// REPORT DATA — 每次更新在这里添加新报告
-// ═══════════════════════════════════════════════════════════════════════
 const REPORTS = [
-
-  // ──────────────── 母婴 ────────────────
+  // ── 母婴 ──
   {
-    id: 1,
-    industry: ["母婴"],
-    institution: "尼尔森",
-    instKey: "尼尔森",
-    instClass: "logo-nielseniq",
-    instShort: "NIQ",
-    title: "洞悉周期，穿越周期：2025中国母婴市场报告",
-    date: "2025-03",
-    type: "市场规模",
-    tags: ["母婴", "渠道", "消费升级", "奶粉"],
-    summary: "系统梳理中国母婴市场在人口出生率下行、消费结构转型背景下的增长新引擎。2024年全国新生儿回升至954万，龙蛇马三年将形成小高峰。内容电商增速高达76%，超高端奶粉逆势增长，HMO新配方将成2025-26年竞争焦点。",
-    findings: [
-      "2024年新生儿954万，同比+52万，为7年来首次回升，母婴消费新周期开启",
-      "内容电商（抖音/小红书）增速达76%，天猫母婴占线上近40%份额",
-      "消费两极化：超高端奶粉与平价尿布同步增长，中间价格带承压",
-      "HMO（母乳低聚糖）奶粉将在25-26年成头部品牌核心竞争成分"
-    ],
-    salesInsight: "新生儿回升+内容电商爆发，是母婴品牌加码小红书投放的强有力叙事。对客户话术：「NIQ数据显示内容电商增速76%，这个窗口期你们的内容策略准备好了吗？」",
-    url: "https://nielseniq.cn/global/zh/insights/report/2025/niq-2025-china-baby-insight/"
+    id:1, industry:["母婴"], institution:"尼尔森", instKey:"尼尔森", instClass:"logo-nielseniq", instShort:"NIQ",
+    title:"洞悉周期，穿越周期：2025中国母婴市场报告",
+    date:"2025-03", type:"市场规模", tags:["母婴","渠道","消费升级","奶粉"],
+    summary:"系统梳理中国母婴市场在人口出生率下行、消费结构转型背景下的增长新引擎。2024年全国新生儿回升至954万，龙年宝宝效应下母婴市场进入新周期。内容电商增速高达76%，超高端奶粉逆势增长，HMO新配方将成2025-26年竞争焦点。",
+    findings:["2024年新生儿954万，同比+52万，为7年来首次回升，母婴消费新周期开启","内容电商（抖音/小红书）增速达76%，天猫母婴占线上近40%份额","消费两极化：超高端奶粉与平价尿布同步增长，中间价格带承压","HMO（母乳低聚糖）奶粉将在25-26年成头部品牌核心竞争成分"],
+    salesInsight:"新生儿回升+内容电商爆发，是母婴品牌加码小红书投放的强有力叙事。话术：「NIQ数据显示内容电商增速76%，这个窗口期你们的内容策略准备好了吗？」",
+    url:"https://nielseniq.cn/global/zh/insights/report/2025/niq-2025-china-baby-insight/"
   },
   {
-    id: 2,
-    industry: ["母婴"],
-    institution: "CBNData",
-    instKey: "CBNData",
-    instClass: "logo-cbndata",
-    instShort: "CBN",
-    title: "育无定式，爱有共识：2025巨量引擎母婴行业白皮书",
-    date: "2025-08",
-    type: "消费者洞察",
-    tags: ["母婴", "Z世代", "分龄营销", "内容营销"],
-    summary: "巨量引擎联合CBNData发布，深度拆解新生代妈妈群体的育儿观与消费决策链路。从分龄分段需求出发，揭示0-1岁、1-3岁、3-6岁家长的差异化购买逻辑，指出「科学育儿」驱动品牌内容需从情感共鸣转向专业背书。",
-    findings: [
-      "Z世代妈妈更依赖内容平台种草，决策前平均浏览23条相关内容",
-      "「科学育儿」成核心驱动力，专家背书/成分可视化内容转化率显著更高",
-      "分龄需求差异明显：婴幼儿期聚焦营养安全，学龄前期转向能力发展",
-      "品牌需建立「分阶段内容矩阵」而非单一产品推广"
-    ],
-    salesInsight: "核心话术：「CBNData数据显示Z世代妈妈平均看23条内容才决策，你们在小红书上是否有覆盖完整的内容漏斗？」适用于母婴品牌提案内容矩阵规划。",
-    url: "https://www.cbndata.com/information/294302"
+    id:2, industry:["母婴"], institution:"CBNData", instKey:"CBNData", instClass:"logo-cbndata", instShort:"CBN",
+    title:"育无定式，爱有共识：2025巨量引擎母婴行业白皮书",
+    date:"2025-08", type:"消费者洞察", tags:["母婴","Z世代","分龄营销","内容营销"],
+    summary:"巨量引擎联合CBNData发布，深度拆解新生代妈妈群体的育儿观与消费决策链路。从分龄分段需求出发，揭示0-1岁、1-3岁、3-6岁家长的差异化购买逻辑，「科学育儿」驱动品牌内容从情感共鸣转向专业背书。",
+    findings:["Z世代妈妈更依赖内容平台种草，决策前平均浏览23条相关内容","「科学育儿」成核心驱动力，专家背书/成分可视化内容转化率显著更高","分龄需求差异明显：婴幼儿期聚焦营养安全，学龄前期转向能力发展","品牌需建立「分阶段内容矩阵」而非单一产品推广"],
+    salesInsight:"话术：「CBNData数据显示Z世代妈妈平均看23条内容才决策，你们在小红书上是否有覆盖完整的内容漏斗？」适用于母婴品牌提案内容矩阵规划。",
+    url:"https://www.cbndata.com/information/294302"
   },
   {
-    id: 3,
-    industry: ["母婴"],
-    institution: "艾瑞",
-    instKey: "艾瑞",
-    instClass: "logo-iresearch",
-    instShort: "艾瑞",
-    title: "2024年中国母婴亲子人群营销趋势洞察报告",
-    date: "2024-10",
-    type: "消费者洞察",
-    tags: ["母婴", "营销趋势", "人群洞察", "渠道"],
-    summary: "艾瑞咨询聚焦母婴亲子营销生态，系统梳理妈妈群体媒介接触习惯变迁。小红书在母婴种草渗透率位居首位，「素人+专家」组合内容模型成为头部品牌标配，短视频对传统图文的替代加速。",
-    findings: [
-      "小红书母婴种草渗透率居各平台首位，73%的妈妈使用小红书做产品决策参考",
-      "「素人真实体验+专家权威背书」双轨内容策略成效最佳",
-      "短视频内容在0-1岁婴儿期家长中触达率高达89%",
-      "品牌自播+达人矩阵组合ROI高于单纯达人投放约35%"
-    ],
-    salesInsight: "小红书在母婴种草渗透率第一，这是对母婴客户最直接的投放理由。用73%这个数据开话头，切入内容矩阵和达人策略讨论。",
-    url: "https://report.iresearch.cn/report/202411/4651.shtml"
+    id:3, industry:["母婴"], institution:"艾瑞", instKey:"艾瑞", instClass:"logo-iresearch", instShort:"艾瑞",
+    title:"2024年中国母婴亲子人群营销趋势洞察报告",
+    date:"2024-10", type:"消费者洞察", tags:["母婴","营销趋势","人群洞察","渠道"],
+    summary:"艾瑞咨询聚焦母婴亲子营销生态，系统梳理妈妈群体媒介接触习惯变迁。小红书在母婴种草渗透率位居首位，「素人+专家」组合内容模型成为头部品牌标配，短视频对传统图文的替代加速。",
+    findings:["小红书母婴种草渗透率居各平台首位，73%的妈妈使用小红书做产品决策参考","「素人真实体验+专家权威背书」双轨内容策略成效最佳","短视频内容在0-1岁婴儿期家长中触达率高达89%","品牌自播+达人矩阵组合ROI高于单纯达人投放约35%"],
+    salesInsight:"小红书在母婴种草渗透率第一，这是对母婴客户最直接的投放理由。用73%这个数据开话头，切入内容矩阵和达人策略讨论。",
+    url:"https://report.iresearch.cn/report/202411/4651.shtml"
   },
   {
-    id: 4,
-    industry: ["母婴"],
-    institution: "德勤",
-    instKey: "德勤",
-    instClass: "logo-deloitte",
-    instShort: "Deloitte",
-    title: "中国消费品和零售行业纵览2025：挖掘消费结构升级中的增长新机遇",
-    date: "2025-04",
-    type: "行业趋势",
-    tags: ["消费品", "零售", "渠道变革", "母婴", "食品饮料"],
-    summary: "德勤中国年度消费品与零售行业旗舰报告，覆盖母婴、食品饮料、个护等多个快消赛道。聚焦消费降级背景下的结构性升级机会，指出「精致平替」与「高端刚需」两端崛起，中间价格带持续萎缩，渠道从流量竞争转向内容竞争。",
-    findings: [
-      "「消费降级」表象下存在明显的结构性升级：健康、安全、情感溢价品类逆势增长",
-      "内容电商已成第一获客渠道，品牌需从「投放思维」转向「内容运营思维」",
-      "母婴、大健康品类在价格敏感度上低于其他品类，品牌溢价空间更大",
-      "渠道融合加速：线下母婴门店向体验与服务转型，纯销售功能式微"
-    ],
-    salesInsight: "德勤报告为「消费降级下为何还要投内容」提供了权威背书。用「结构性升级」说法替代「消费升级」，更符合当下客户心智，降低预算压缩的抗拒感。",
-    url: "https://www.163.com/dy/article/JTP0HN690511B3FV.html"
+    id:4, industry:["母婴","食品饮料"], institution:"德勤", instKey:"德勤", instClass:"logo-deloitte", instShort:"Deloitte",
+    title:"中国消费品和零售行业纵览2025：挖掘消费结构升级中的增长新机遇",
+    date:"2025-04", type:"行业趋势", tags:["消费品","零售","渠道变革","母婴"],
+    summary:"德勤中国年度消费品与零售行业旗舰报告，覆盖母婴、食品饮料、个护等多个快消赛道。聚焦消费降级背景下的结构性升级机会，指出「精致平替」与「高端刚需」两端崛起，中间价格带持续萎缩。",
+    findings:["「消费降级」表象下存在明显结构性升级：健康、安全、情感溢价品类逆势增长","内容电商已成第一获客渠道，品牌需从「投放思维」转向「内容运营思维」","母婴、大健康品类在价格敏感度上低于其他品类，品牌溢价空间更大","渠道融合加速：线下母婴门店向体验与服务转型，纯销售功能式微"],
+    salesInsight:"德勤报告为「消费降级下为何还要投内容」提供权威背书。用「结构性升级」替代「消费升级」，更符合客户当下心智。",
+    url:"https://www.163.com/dy/article/JTP0HN690511B3FV.html"
   },
   {
-    id: 5,
-    industry: ["母婴"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "CBME",
-    title: "2024年母婴消费未来趋势报告",
-    date: "2024-08",
-    type: "行业趋势",
-    tags: ["母婴", "品类创新", "渠道", "新品趋势"],
-    summary: "CBME（孕婴童展）联合发布年度母婴消费趋势报告，基于全国母婴零售端数据与参展品牌调研。报告指出智能育儿产品、功能性婴幼儿辅食、婴儿水奶三大品类将成为未来3年增量引擎，母婴门店向「社区育儿中心」转型趋势明确。",
-    findings: [
-      "智能育儿设备（监护仪、自动奶瓶消毒器）市场年增速超40%",
-      "功能性辅食（益生菌、DHA强化）渗透率从12%升至28%",
-      "婴儿水奶在日本已占婴儿奶粉市场15%，中国处于起步阶段",
-      "母婴门店存活率：有托育/早教课程的门店比纯零售门店高出37%"
-    ],
-    salesInsight: "功能性辅食、智能育儿是小红书「专业内容」的天然土壤。话术：「这些新品类在小红书上的搜索量增速超过200%，你们品牌有没有在这里布局？」",
-    url: "https://zhuanlan.zhihu.com/p/718214853"
+    id:5, industry:["母婴"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"CBME",
+    title:"2024年母婴消费未来趋势报告",
+    date:"2024-08", type:"行业趋势", tags:["母婴","品类创新","渠道","新品趋势"],
+    summary:"CBME（孕婴童展）联合发布年度母婴消费趋势报告。智能育儿产品、功能性婴幼儿辅食、婴儿水奶三大品类将成为未来3年增量引擎，母婴门店向「社区育儿中心」转型趋势明确。",
+    findings:["智能育儿设备（监护仪、自动奶瓶消毒器）市场年增速超40%","功能性辅食（益生菌、DHA强化）渗透率从12%升至28%","婴儿水奶在日本已占婴儿奶粉市场15%，中国处于起步阶段","母婴门店存活率：有托育/早教课程的门店比纯零售门店高出37%"],
+    salesInsight:"功能性辅食、智能育儿是小红书「专业内容」的天然土壤。话术：「这些新品类在小红书上的搜索量增速超过200%，你们品牌有没有在这里布局？」",
+    url:"https://zhuanlan.zhihu.com/p/718214853"
   },
   {
-    id: 6,
-    industry: ["母婴"],
-    institution: "毕马威",
-    instKey: "毕马威",
-    instClass: "logo-kpmg",
-    instShort: "KPMG",
-    title: "毕马威中国消费品50：新锐启未来，融合促发展",
-    date: "2025-02",
-    type: "竞争格局",
-    tags: ["消费品", "新锐品牌", "母婴", "大健康"],
-    summary: "毕马威年度中国消费品50强报告，聚焦新兴消费品牌的崛起路径与竞争格局重构。母婴、大健康赛道涌现多个新锐品牌，以「专业化+内容化」路径突围，传统头部品牌面临来自新锐品牌的市场份额压力。",
-    findings: [
-      "中国消费品50强中，成立10年内的新锐品牌占比首次超过30%",
-      "新锐品牌核心竞争力：专业成分背书+内容平台种草+私域运营",
-      "母婴新锐品牌平均在小红书的内容投入比传统品牌高2.3倍",
-      "「功能+情感」双轨价值主张成为新锐品牌破圈核心叙事"
-    ],
-    salesInsight: "用新锐品牌的崛起威胁感来加速传统客户决策：「新锐品牌在小红书投入比你们多2.3倍，这个差距你们准备怎么弥合？」",
-    url: "https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2025/02/kpmg-china-consumer-50.pdf.coredownload.inline.pdf"
+    id:6, industry:["母婴","大健康"], institution:"毕马威", instKey:"毕马威", instClass:"logo-kpmg", instShort:"KPMG",
+    title:"毕马威中国消费品50：新锐启未来，融合促发展",
+    date:"2025-02", type:"竞争格局", tags:["消费品","新锐品牌","母婴","大健康"],
+    summary:"毕马威年度中国消费品50强报告，聚焦新兴消费品牌的崛起路径与竞争格局重构。母婴、大健康赛道涌现多个新锐品牌，以「专业化+内容化」路径突围，传统头部品牌面临市场份额压力。",
+    findings:["中国消费品50强中，成立10年内的新锐品牌占比首次超过30%","新锐品牌核心竞争力：专业成分背书+内容平台种草+私域运营","母婴新锐品牌平均在小红书的内容投入比传统品牌高2.3倍","「功能+情感」双轨价值主张成为新锐品牌破圈核心叙事"],
+    salesInsight:"用新锐品牌的崛起威胁感来加速传统客户决策：「新锐品牌在小红书投入比你们多2.3倍，这个差距你们准备怎么弥合？」",
+    url:"https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2025/02/kpmg-china-consumer-50.pdf.coredownload.inline.pdf"
   },
   {
-    id: 7,
-    industry: ["母婴"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "派读",
-    title: "2025年中国宠物分阶喂养与营养需求白皮书（母婴视角延伸）",
-    date: "2025-08",
-    type: "细分赛道",
-    tags: ["母婴", "营养", "功能食品", "科学喂养"],
-    summary: "艾瑞咨询联合宠物营养品牌发布，聚焦「科学分阶喂养」趋势。虽以宠物为主，但报告中「分阶营养」「益生菌功效成分」的消费者教育路径与母婴营养品高度一致，为母婴品牌的内容策略提供跨品类参照。",
-    findings: [
-      "「科学喂养」理念在养宠家庭与养娃家庭中同步渗透，内容逻辑高度相似",
-      "益生菌是两个赛道最受欢迎的功能成分，消费者教育壁垒相近",
-      "分阶产品策略（0-3月/3-6月等）在母婴奶粉已验证，宠物粮正在复制",
-      "「兽医推荐/儿科医生推荐」是两个赛道最有效的权威背书形式"
-    ],
-    salesInsight: "母婴与宠物的内容策略正在趋同，都需要「科学背书+场景化内容」。这个跨行业视角适合在一组和五组同步分享，引发销售对跨赛道营销机会的思考。",
-    url: "http://pdf.dfcfw.com/pdf/H3_AP202508211731540267_1.pdf"
+    id:7, industry:["母婴"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"东方证券",
+    title:"母婴行业深度报告：婴童护肤品类红蓝海分析",
+    date:"2025-11", type:"细分赛道", tags:["母婴","婴童护肤","品类机会","竞争分析"],
+    summary:"东方证券研究所针对母婴护肤细分赛道发布深度报告。婴童护肤从基础清洁护理向「防晒+分区护理+功效护肤」升级，市场规模突破200亿元。头部品牌格局未定，是外资与国货竞争最激烈的细分赛道之一。",
+    findings:["婴童护肤市场规模超200亿元，年增速15%，远高于母婴整体增速","防晒品类渗透率从8%提升至22%，是增速最快的子品类","国货品牌在「成分透明度」和「功效护肤」上正追赶甚至领先外资","小红书是婴童护肤消费者决策的核心平台，种草效率显著高于其他品类"],
+    salesInsight:"婴童护肤是母婴赛道中小红书种草效率最高的品类之一。用「小红书是该品类的核心决策平台」切入提案。",
+    url:"https://pdf.dfcfw.com/pdf/H3_AP202511211785368136_1.pdf?1763717271000.pdf"
   },
   {
-    id: 8,
-    industry: ["母婴"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "东方证券",
-    title: "母婴行业深度报告：婴童护肤品类红蓝海分析",
-    date: "2025-11",
-    type: "细分赛道",
-    tags: ["母婴", "婴童护肤", "品类机会", "竞争分析"],
-    summary: "东方证券研究所针对母婴护肤细分赛道发布深度报告。婴童护肤从基础清洁护理向「防晒+分区护理+功效护肤」升级，市场规模突破200亿元。头部品牌格局未定，是外资（强生、贝亲）与国货（可爱多、戴可思）竞争最激烈的细分赛道之一。",
-    findings: [
-      "婴童护肤市场规模超200亿元，年增速15%，远高于母婴整体增速",
-      "防晒品类渗透率从8%提升至22%，是增速最快的子品类",
-      "国货品牌在「成分透明度」和「功效护肤」上正追赶甚至领先外资",
-      "小红书是婴童护肤消费者决策的核心平台，种草效率显著高于其他品类"
-    ],
-    salesInsight: "婴童护肤是母婴赛道中小红书种草效率最高的品类之一，是对护肤类母婴客户的有力投放理由。用「小红书是该品类的核心决策平台」切入提案。",
-    url: "https://pdf.dfcfw.com/pdf/H3_AP202511211785368136_1.pdf?1763717271000.pdf"
+    id:8, industry:["母婴"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"广告门",
+    title:"育见未来成长相随：2025年母婴行业消费与营销白皮书",
+    date:"2025-08", type:"消费者洞察", tags:["母婴","营销","内容电商","品牌力"],
+    summary:"2025年母婴行业消费与营销白皮书，系统梳理科学育儿驱动下母婴品牌营销模式升级路径。品牌从「功能卖点」转向「科学育儿伙伴」定位，内容策略需覆盖「认知-种草-决策-复购」全链路。",
+    findings:["72%的母婴消费者表示内容平台的专业评测影响了最终购买决策","「育儿知识类」内容互动率是产品推销类内容的4.2倍","复购率最高的品牌均建立了私域+公域双轮驱动的内容生态","Z世代父母品牌忠诚度低，内容更新频次直接影响留存"],
+    salesInsight:"「育儿知识类内容互动率是推销内容的4.2倍」——直接回答了客户「为什么要做内容运营而不是纯投放」的问题。",
+    url:"https://www.adquan.com/article/354382"
   },
   {
-    id: 9,
-    industry: ["母婴"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "广告门",
-    title: "育见未来成长相随：2025年母婴行业消费与营销白皮书",
-    date: "2025-08",
-    type: "消费者洞察",
-    tags: ["母婴", "营销", "内容电商", "品牌力"],
-    summary: "2025年母婴行业消费与营销白皮书，系统梳理科学育儿驱动下母婴品牌营销模式的升级路径。品牌从「功能卖点」转向「科学育儿伙伴」定位，内容策略需覆盖「认知-种草-决策-复购」全链路。",
-    findings: [
-      "72%的母婴消费者表示内容平台的专业评测影响了其最终购买决策",
-      "「育儿知识类」内容在母婴品牌账号中互动率是产品推销类内容的4.2倍",
-      "复购率最高的品牌均建立了私域+公域双轮驱动的内容生态",
-      "Z世代父母品牌忠诚度低，内容更新频次直接影响留存"
-    ],
-    salesInsight: "「育儿知识类内容互动率是推销内容的4.2倍」——这个数据直接回答了客户「为什么要做内容运营而不是纯投放」的问题。",
-    url: "https://www.adquan.com/article/354382"
+    id:9, industry:["母婴"], institution:"BCG", instKey:"BCG", instClass:"logo-bcg", instShort:"BCG",
+    title:"BCG：2025年消费行业机遇展望——六大主题引领新增长",
+    date:"2024-12", type:"行业趋势", tags:["消费品","增长战略","母婴","健康","数字化"],
+    summary:"BCG基于前三季度观察，提出2025年消费行业增长的六大主题：健康化、体验升级、精准个性化、内容电商深化、出海机遇、AI赋能。母婴和大健康是六大主题中受益程度最高的两个赛道。",
+    findings:["健康化是2025年消费品最确定的大趋势，母婴与大健康受益最深","「体验升级」与「精准个性化」要求品牌从单品营销转向生命周期运营","内容电商平台将从流量分发转向「品牌内容资产」积累的主战场","AI工具将使中小品牌内容生产效率提升3-5倍，加剧竞争"],
+    salesInsight:"BCG的「内容资产积累」概念为小红书长期价值提供战略支撑。话术：「BCG说内容平台正从流量思维转向资产思维，早布局的品牌会建立难以追赶的壁垒。」",
+    url:"https://www.chnmc.com/wisdom/Insights/2024-12-05/20669.html"
   },
   {
-    id: 10,
-    industry: ["母婴"],
-    institution: "BCG",
-    instKey: "BCG",
-    instClass: "logo-bcg",
-    instShort: "BCG",
-    title: "BCG：2025年消费行业机遇展望——六大主题引领新增长",
-    date: "2024-12",
-    type: "行业趋势",
-    tags: ["消费品", "增长战略", "母婴", "健康", "数字化"],
-    summary: "BCG基于前三季度观察，提出2025年消费行业增长的六大主题：健康化、体验升级、精准个性化、内容电商深化、出海机遇、AI赋能。母婴和大健康是六大主题中受益程度最高的两个赛道。",
-    findings: [
-      "健康化是2025年消费品最确定的大趋势，母婴与大健康受益最深",
-      "「体验升级」与「精准个性化」要求品牌从单品营销转向生命周期运营",
-      "内容电商平台将从流量分发转向「品牌内容资产」积累的主战场",
-      "AI工具将使中小品牌的内容生产效率提升3-5倍，加剧竞争"
-    ],
-    salesInsight: "BCG的「内容资产积累」概念为小红书的长期价值提供了战略支撑。话术：「BCG说内容平台正从流量思维转向资产思维，这意味着早布局的品牌会建立难以追赶的壁垒。」",
-    url: "https://www.chnmc.com/wisdom/Insights/2024-12-05/20669.html"
+    id:10, industry:["母婴"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"艾瑞/红狗",
+    title:"2025年中国宠物分阶喂养与营养需求白皮书（母婴视角延伸）",
+    date:"2025-08", type:"细分赛道", tags:["母婴","营养","功能食品","科学喂养"],
+    summary:"艾瑞咨询联合宠物营养品牌发布，聚焦「科学分阶喂养」趋势。报告中「分阶营养」「益生菌功效成分」的消费者教育路径与母婴营养品高度一致，为母婴品牌内容策略提供跨品类参照。",
+    findings:["「科学喂养」理念在养宠家庭与养娃家庭中同步渗透，内容逻辑高度相似","益生菌是两个赛道最受欢迎的功能成分，消费者教育壁垒相近","分阶产品策略在母婴奶粉已验证，宠物粮正在复制","「兽医推荐/儿科医生推荐」是两个赛道最有效的权威背书形式"],
+    salesInsight:"母婴与宠物的内容策略正在趋同，都需要「科学背书+场景化内容」。适合在一组和五组同步分享，引发销售对跨赛道营销机会的思考。",
+    url:"http://pdf.dfcfw.com/pdf/H3_AP202508211731540267_1.pdf"
   },
 
-  // ──────────────── 宠物 ────────────────
+  // ── 宠物 ──
   {
-    id: 11,
-    industry: ["宠物"],
-    institution: "毕马威",
-    instKey: "毕马威",
-    instClass: "logo-kpmg",
-    instShort: "KPMG",
-    title: "2025年中国宠物行业市场报告——"它经济"的消费升级与市场洞察",
-    date: "2025-06",
-    type: "市场规模",
-    tags: ["宠物", "它经济", "消费升级", "市场规模"],
-    summary: "毕马威中国系统追踪中国宠物经济规模、消费行为变化及行业竞争格局。宠物行业从「基础喂养」向「精细化养宠」升级，宠物主人情感投入加深，功能性食品、医疗健康、智能用品三大细分赛道增速超越整体市场。",
-    findings: [
-      "2024年中国城镇宠物消费市场规模达3453亿元，宠物猫主人4088万人，首次超越犬主人",
-      "功能性宠物食品（益生菌/关节保护/体重管理）年增速超30%，远高于基础粮",
-      "宠物医疗支出占养宠总支出比重升至28%，成第二大支出项",
-      "80/90后宠物主消费意愿最强，且乐于为「可验证效果」的功能型产品溢价"
-    ],
-    salesInsight: "毕马威报告是对宠物客户最有说服力的市场背书。话术：「毕马威数据显示功能性宠粮增速超30%，你们在小红书上的专业内容布局能不能跟上这个市场节奏？」",
-    url: "https://kpmg.com/cn/zh/insights/2025/06/2025-china-pet-industry-market-report.html"
+    id:11, industry:["宠物"], institution:"毕马威", instKey:"毕马威", instClass:"logo-kpmg", instShort:"KPMG",
+    title:"2025年中国宠物行业市场报告——「它经济」的消费升级与市场洞察",
+    date:"2025-06", type:"市场规模", tags:["宠物","它经济","消费升级","市场规模"],
+    summary:"毕马威中国系统追踪中国宠物经济规模、消费行为变化及行业竞争格局。宠物行业从「基础喂养」向「精细化养宠」升级，功能性食品、医疗健康、智能用品三大细分赛道增速超越整体市场。",
+    findings:["2024年中国城镇宠物消费市场规模达3453亿元，宠物猫主人4088万人首次超越犬主人","功能性宠物食品（益生菌/关节保护/体重管理）年增速超30%","宠物医疗支出占养宠总支出比重升至28%，成第二大支出项","80/90后宠物主消费意愿最强，且乐于为「可验证效果」的功能型产品溢价"],
+    salesInsight:"话术：「毕马威数据显示功能性宠粮增速超30%，你们在小红书上的专业内容布局能不能跟上这个市场节奏？」",
+    url:"https://kpmg.com/cn/zh/insights/2025/06/2025-china-pet-industry-market-report.html"
   },
   {
-    id: 12,
-    industry: ["宠物"],
-    institution: "艾瑞",
-    instKey: "艾瑞",
-    instClass: "logo-iresearch",
-    instShort: "艾瑞",
-    title: "2024年中国宠物行业研究报告",
-    date: "2024-11",
-    type: "市场规模",
-    tags: ["宠物", "行业概况", "消费者", "竞争格局"],
-    summary: "艾瑞咨询年度宠物行业旗舰报告，覆盖宠物食品、医疗、用品、服务四大赛道。2024年宠物食品市场1668亿元（占比48%），医疗940亿元（27%），竞争格局从「野蛮生长」进入「专业化分化」阶段。",
-    findings: [
-      "宠物食品市场规模1668亿元，进口品牌与国产品牌市场份额差距持续收窄",
-      "宠物医疗市场940亿元，连锁宠物医院加速整合，瑞鹏、新瑞鹏头部效应显著",
-      "宠物智能用品市场突破100亿元，智能喂食器渗透率达35%+",
-      "「科学养宠」理念驱动消费者从价格导向转向功效导向"
-    ],
-    salesInsight: "国产品牌份额崛起+科学养宠趋势，是国货宠物品牌加大小红书投放的最佳时机叙事。话术：「进口品牌的护城河在收窄，现在是国产品牌通过内容建立品牌认知的关键窗口期。」",
-    url: "https://report.iresearch.cn/report/202411/4651.shtml"
+    id:12, industry:["宠物"], institution:"艾瑞", instKey:"艾瑞", instClass:"logo-iresearch", instShort:"艾瑞",
+    title:"2024年中国宠物行业研究报告",
+    date:"2024-11", type:"市场规模", tags:["宠物","行业概况","消费者","竞争格局"],
+    summary:"艾瑞咨询年度宠物行业旗舰报告，覆盖宠物食品、医疗、用品、服务四大赛道。2024年宠物食品市场1668亿元（占比48%），医疗940亿元（27%），竞争格局从「野蛮生长」进入「专业化分化」阶段。",
+    findings:["宠物食品市场规模1668亿元，进口品牌与国产品牌市场份额差距持续收窄","宠物医疗市场940亿元，连锁宠物医院加速整合，头部效应显著","宠物智能用品市场突破100亿元，智能喂食器渗透率达35%+","「科学养宠」理念驱动消费者从价格导向转向功效导向"],
+    salesInsight:"国产品牌份额崛起+科学养宠趋势，是国货宠物品牌加大小红书投放的最佳时机叙事。话术：「进口品牌的护城河在收窄，现在是国产品牌通过内容建立品牌认知的关键窗口期。」",
+    url:"https://report.iresearch.cn/report/202411/4651.shtml"
   },
   {
-    id: 13,
-    industry: ["宠物"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-派读",
-    instShort: "派读",
-    title: "2025年中国宠物行业白皮书",
-    date: "2025-03",
-    type: "行业趋势",
-    tags: ["宠物", "宠物猫", "市场趋势", "消费行为"],
-    summary: "派读宠物行业大数据年度白皮书，基于全国宠物主消费数据追踪。2024年城镇宠主达7689万人，宠物猫首次超越宠物犬成为第一大宠物类型。渠道从线下宠物店向电商+社群双轨迁移，内容种草对购买决策影响力持续提升。",
-    findings: [
-      "2024年城镇宠主7689万，猫主人4088万首次超越犬主人3601万",
-      "宠物食品线上渗透率达67%，其中内容电商占线上销售额的38%",
-      "「悦己型」养宠消费持续增长：宠物服装、拍照配件、节日礼盒均呈高增速",
-      "宠物主平均每月在社交平台浏览宠物相关内容超过4小时"
-    ],
-    salesInsight: "宠物主每月4小时社交平台浏览时长，说明这是一个高度依赖内容影响的品类。结合内容电商占线上38%的数据，可直接推导出小红书内容投放的战略价值。",
-    url: "https://www.fxbaogao.com/detail/5183356"
+    id:13, industry:["宠物"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"派读",
+    title:"2025年中国宠物行业白皮书",
+    date:"2025-03", type:"行业趋势", tags:["宠物","宠物猫","市场趋势","消费行为"],
+    summary:"派读宠物行业大数据年度白皮书，基于全国宠物主消费数据追踪。2024年城镇宠主达7689万人，宠物猫首次超越宠物犬。渠道从线下向电商+社群双轨迁移，内容种草对购买决策影响力持续提升。",
+    findings:["2024年城镇宠主7689万，猫主人4088万首次超越犬主人3601万","宠物食品线上渗透率达67%，其中内容电商占线上销售额的38%","「悦己型」养宠消费持续增长：宠物服装、拍照配件、节日礼盒均呈高增速","宠物主平均每月在社交平台浏览宠物相关内容超过4小时"],
+    salesInsight:"宠物主每月4小时社交平台浏览时长，说明这是高度依赖内容影响的品类。结合内容电商占线上38%，可直接推导出小红书内容投放的战略价值。",
+    url:"https://www.fxbaogao.com/detail/5183356"
   },
   {
-    id: 14,
-    industry: ["宠物"],
-    institution: "艾瑞",
-    instKey: "艾瑞",
-    instClass: "logo-iresearch",
-    instShort: "艾瑞",
-    title: "2025年宠物科技用品发展研究白皮书",
-    date: "2025-11",
-    type: "细分赛道",
-    tags: ["宠物", "智能用品", "科技", "细分赛道"],
-    summary: "艾瑞咨询聚焦宠物智能硬件赛道，揭示智能喂养、健康监测、环境清洁三大细分品类的竞争格局与增长潜力。2024年智能宠物用品市场突破102亿元，一线城市渗透率超35%，产品从「有用」向「好用」升级。",
-    findings: [
-      "宠物智能用品市场规模102亿元，同比+45%，是增速最快的宠物细分赛道",
-      "智能喂食器渗透率一线城市超35%，二三线城市仅8%，下沉空间大",
-      "健康监测类（体温/心率手环）处于早期教育阶段，但消费意愿高",
-      "内容平台是智能宠物用品最主要的认知入口，75%用户通过视频种草"
-    ],
-    salesInsight: "智能宠物用品75%通过视频种草——这个数据直接说明小红书对于宠物科技品类的必要性。适合向智能宠物用品品牌提案时使用。",
-    url: "https://report.iresearch.cn/report/202511/4763.shtml"
+    id:14, industry:["宠物"], institution:"艾瑞", instKey:"艾瑞", instClass:"logo-iresearch", instShort:"艾瑞",
+    title:"2025年宠物科技用品发展研究白皮书",
+    date:"2025-11", type:"细分赛道", tags:["宠物","智能用品","科技","细分赛道"],
+    summary:"艾瑞咨询聚焦宠物智能硬件赛道，揭示智能喂养、健康监测、环境清洁三大细分品类的竞争格局与增长潜力。2024年智能宠物用品市场突破102亿元，一线城市渗透率超35%。",
+    findings:["宠物智能用品市场规模102亿元，同比+45%，是增速最快的宠物细分赛道","智能喂食器渗透率一线城市超35%，二三线城市仅8%，下沉空间大","健康监测类产品处于早期教育阶段，但消费意愿高","75%用户通过视频内容种草购买智能宠物用品"],
+    salesInsight:"智能宠物用品75%通过视频种草——这个数据直接说明小红书对于宠物科技品类的必要性。适合向智能宠物用品品牌提案时使用。",
+    url:"https://report.iresearch.cn/report/202511/4763.shtml"
   },
   {
-    id: 15,
-    industry: ["宠物"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-iimedia",
-    instShort: "艾媒",
-    title: "2024-2025年中国宠物行业运行状况及消费市场监测报告",
-    date: "2024-08",
-    type: "市场规模",
-    tags: ["宠物", "功能食品", "保健品", "市场监测"],
-    summary: "艾媒咨询聚焦宠物行业运行现状，深度解析宠物保健品、功能食品赛道爆发逻辑。2025年中国宠物经济产业规模有望达8114亿元，宠物保健品以「消化功能」「关节保护」「毛发光泽」三大功效品类领跑增长。",
-    findings: [
-      "2025年中国宠物经济产业规模预计达8114亿元，5年复合增速超15%",
-      "宠物保健品中，益生菌（消化）购买率最高，达养宠家庭的43%",
-      "智能宠物舱等高单价创新产品已从ToB向ToC落地，市场教育期即将结束",
-      "宠物主对保健品「可见效果」验证需求强，内容平台测评类内容转化率最高"
-    ],
-    salesInsight: "宠物保健品43%的益生菌购买率，和测评类内容高转化率，为保健品+内容平台组合提案提供了数据支撑。",
-    url: "https://report.iimedia.cn/repo3-0/43627.html"
+    id:15, industry:["宠物"], institution:"其他", instKey:"其他", instClass:"logo-iimedia", instShort:"艾媒",
+    title:"2024-2025年中国宠物行业运行状况及消费市场监测报告",
+    date:"2024-08", type:"市场规模", tags:["宠物","功能食品","保健品","市场监测"],
+    summary:"艾媒咨询聚焦宠物行业运行现状，深度解析宠物保健品、功能食品赛道爆发逻辑。2025年中国宠物经济产业规模有望达8114亿元，保健品以「消化功能」「关节保护」「毛发光泽」三大功效品类领跑增长。",
+    findings:["2025年中国宠物经济产业规模预计达8114亿元，5年复合增速超15%","宠物保健品中，益生菌（消化）购买率最高，达养宠家庭的43%","智能宠物舱等高单价创新产品已从ToB向ToC落地，市场教育期即将结束","宠物主对保健品「可见效果」验证需求强，内容平台测评类内容转化率最高"],
+    salesInsight:"宠物保健品43%的益生菌购买率，和测评类内容高转化率，为保健品+内容平台组合提案提供数据支撑。",
+    url:"https://report.iimedia.cn/repo3-0/43627.html"
   },
   {
-    id: 16,
-    industry: ["宠物"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "数英",
-    title: "2025年宠物行业消费趋势洞察",
-    date: "2025-03",
-    type: "消费者洞察",
-    tags: ["宠物", "消费趋势", "渗透率", "市场潜力"],
-    summary: "系统梳理2025年宠物行业消费趋势，指出中国宠物渗透率（约22%）仍远低于美国（70%）、日本（40%），未来增长空间极大。年轻一代「人宠同质化消费」趋势显著：宠物食品的有机/天然成分要求向人类食品标准看齐。",
-    findings: [
-      "中国宠物渗透率约22%，美国70%、日本40%，增长空间超3倍",
-      "「人宠同质化消费」：43%的养宠年轻人为宠物选择与自身相同标准的食品",
-      "高端宠粮（200元/kg以上）增速是普通宠粮的4倍",
-      "宠物主拒绝降级：即使个人消费降级，宠物消费也是「最后缩减的开支」"
-    ],
-    salesInsight: "「宠物消费是最后缩减的开支」——这个洞察直接反驳了客户「消费降级下不想投了」的担忧。渗透率空间数据则可以支撑长期战略投入的逻辑。",
-    url: "https://www.digitaling.com/articles/1333156.html"
+    id:16, industry:["宠物"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"数英",
+    title:"2025年宠物行业消费趋势洞察",
+    date:"2025-03", type:"消费者洞察", tags:["宠物","消费趋势","渗透率","市场潜力"],
+    summary:"系统梳理2025年宠物行业消费趋势，指出中国宠物渗透率（约22%）仍远低于美国（70%）、日本（40%），未来增长空间极大。年轻一代「人宠同质化消费」趋势显著。",
+    findings:["中国宠物渗透率约22%，美国70%、日本40%，增长空间超3倍","「人宠同质化消费」：43%的养宠年轻人为宠物选择与自身相同标准的食品","高端宠粮（200元/kg以上）增速是普通宠粮的4倍","宠物主拒绝降级：即使个人消费降级，宠物消费也是「最后缩减的开支」"],
+    salesInsight:"「宠物消费是最后缩减的开支」——直接反驳客户「消费降级下不想投了」的担忧。渗透率空间数据支撑长期战略投入的逻辑。",
+    url:"https://www.digitaling.com/articles/1333156.html"
   },
   {
-    id: 17,
-    industry: ["宠物"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "东方证券",
-    title: "2025年中国宠物行业市场报告（东方证券）",
-    date: "2025-06",
-    type: "竞争格局",
-    tags: ["宠物", "竞争格局", "国货崛起", "出口"],
-    summary: "东方证券研究所全面评估中国宠物行业竞争格局，重点分析国产宠粮出海机遇与本土品牌崛起路径。国内宠物食品出口额持续高增速，中国已成全球最大宠物食品代工国，自有品牌出海进入加速期。",
-    findings: [
-      "中国宠物食品出口额年增超25%，欧美市场需求旺盛",
-      "佩蒂、路斯、中宠等代工龙头正向自有品牌转型",
-      "国内高端宠粮品牌化进程加快，乖宝、麦富迪等已具备国际竞争力",
-      "「进口替代」是未来3年国产宠粮最确定的增长主题"
-    ],
-    salesInsight: "国货宠粮品牌化是确定性趋势，意味着品牌建设需求（包括内容投放）将持续扩大。对乖宝、麦富迪类客户：「品牌化战略必须要有内容资产作为支撑，这正是小红书能提供的。」",
-    url: "https://pdf.dfcfw.com/pdf/H3_AP202506211694985737_1.pdf"
+    id:17, industry:["宠物"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"东方证券",
+    title:"2025年中国宠物行业市场报告（东方证券）",
+    date:"2025-06", type:"竞争格局", tags:["宠物","竞争格局","国货崛起","出口"],
+    summary:"东方证券研究所全面评估中国宠物行业竞争格局，重点分析国产宠粮出海机遇与本土品牌崛起路径。中国宠物食品出口额持续高增速，自有品牌出海进入加速期。",
+    findings:["中国宠物食品出口额年增超25%，欧美市场需求旺盛","佩蒂、路斯、中宠等代工龙头正向自有品牌转型","国内高端宠粮品牌化进程加快，乖宝、麦富迪等已具备国际竞争力","「进口替代」是未来3年国产宠粮最确定的增长主题"],
+    salesInsight:"国货宠粮品牌化是确定性趋势，意味着品牌建设需求将持续扩大。对乖宝、麦富迪类客户：「品牌化战略必须要有内容资产作为支撑，这正是小红书能提供的。」",
+    url:"https://pdf.dfcfw.com/pdf/H3_AP202506211694985737_1.pdf"
   },
   {
-    id: 18,
-    industry: ["宠物"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "知乎研报",
-    title: "2024-2025中国宠物市场：分析与趋势报告",
-    date: "2024-10",
-    type: "行业趋势",
-    tags: ["宠物", "宠物食品", "市场趋势", "消费者行为"],
-    summary: "综合艾媒、派读等多数据源的宠物市场深度分析报告。2023年宠物食品行业规模达1900亿元，「小众定制」「功能细分」「在线购买+到店体验」混合消费模式成为主流，宠物主的消费决策链路从单一渠道向「内容种草→比较→购买」三段式演进。",
-    findings: [
-      "宠物食品行业规模1900亿元（2023），宠物猫相关品类增速持续高于宠物犬",
-      "「功能细分」成消费热词：分阶段粮、单一蛋白、处方粮等细分需求旺盛",
-      "宠物主购买决策平均经历4.7个内容接触点，内容平台是最关键节点",
-      "小红书在宠物品类的种草影响力在25-35岁女性宠物主中达到78%"
-    ],
-    salesInsight: "小红书在25-35岁女性宠物主中78%的种草影响力——这正是宠物消费的核心人群。这个数据适合直接用于向宠物客户展示平台价值。",
-    url: "https://zhuanlan.zhihu.com/p/3811177806"
+    id:18, industry:["宠物"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"知乎研报",
+    title:"2024-2025中国宠物市场：分析与趋势报告",
+    date:"2024-10", type:"行业趋势", tags:["宠物","宠物食品","市场趋势","消费者行为"],
+    summary:"综合艾媒、派读等多数据源的宠物市场深度分析报告。2023年宠物食品行业规模达1900亿元，「功能细分」「在线购买+到店体验」混合消费模式成为主流，购买决策链路从单一渠道向「内容种草→比较→购买」三段式演进。",
+    findings:["宠物食品行业规模1900亿元（2023），宠物猫相关品类增速持续高于宠物犬","「功能细分」成消费热词：分阶段粮、单一蛋白、处方粮等细分需求旺盛","宠物主购买决策平均经历4.7个内容接触点，内容平台是最关键节点","小红书在宠物品类的种草影响力在25-35岁女性宠物主中达到78%"],
+    salesInsight:"小红书在25-35岁女性宠物主中78%的种草影响力——这正是宠物消费的核心人群。这个数据适合直接用于向宠物客户展示平台价值。",
+    url:"https://zhuanlan.zhihu.com/p/3811177806"
   },
   {
-    id: 19,
-    industry: ["宠物"],
-    institution: "艾瑞",
-    instKey: "艾瑞",
-    instClass: "logo-iresearch",
-    instShort: "艾瑞",
-    title: "2025年中国宠物分阶喂养与营养需求白皮书",
-    date: "2025-08",
-    type: "细分赛道",
-    tags: ["宠物", "营养", "分阶喂养", "功能成分"],
-    summary: "艾瑞咨询联合宠物营养品牌，针对「分阶段科学喂养」赛道发布白皮书。报告系统梳理幼猫/成猫/老年猫各阶段营养需求差异，功能成分（益生菌、Omega-3、软骨素）渗透路径，以及宠物主的喂养知识获取渠道。",
-    findings: [
-      "63%宠物主表示不了解「分阶段喂养」，但78%愿意为科学分阶喂养产品额外付费",
-      "内容平台是宠物喂养知识最主要来源（54%），超过兽医推荐（31%）",
-      "益生菌软颗粒形态创新显著提升适口性，成为保健品品类增长最快单品",
-      "「老年宠物」专供产品是当前最大的市场空白，竞争最小且意愿最高"
-    ],
-    salesInsight: "宠物主比起兽医更相信内容平台（54% vs 31%）——这是小红书对宠物品牌核心价值的最强论证之一。老年宠物产品的市场空白也是挖掘新客需求的切入点。",
-    url: "http://pdf.dfcfw.com/pdf/H3_AP202508211731540267_1.pdf"
+    id:19, industry:["宠物"], institution:"艾瑞", instKey:"艾瑞", instClass:"logo-iresearch", instShort:"艾瑞",
+    title:"2025年中国宠物分阶喂养与营养需求白皮书",
+    date:"2025-08", type:"细分赛道", tags:["宠物","营养","分阶喂养","功能成分"],
+    summary:"艾瑞咨询联合宠物营养品牌，针对「分阶段科学喂养」赛道发布白皮书。系统梳理幼猫/成猫/老年猫各阶段营养需求差异，功能成分渗透路径，以及宠物主的喂养知识获取渠道。",
+    findings:["63%宠物主不了解「分阶段喂养」，但78%愿意为科学分阶喂养产品额外付费","内容平台是宠物喂养知识最主要来源（54%），超过兽医推荐（31%）","益生菌软颗粒形态创新显著提升适口性，成为保健品品类增长最快单品","「老年宠物」专供产品是当前最大的市场空白，竞争最小且意愿最高"],
+    salesInsight:"宠物主比起兽医更相信内容平台（54% vs 31%）——这是小红书对宠物品牌核心价值的最强论证之一。",
+    url:"http://pdf.dfcfw.com/pdf/H3_AP202508211731540267_1.pdf"
   },
   {
-    id: 20,
-    industry: ["宠物"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "蝉妈妈AI",
-    title: "2025年中国宠物食品市场综合分析报告",
-    date: "2025-12",
-    type: "市场规模",
-    tags: ["宠物", "宠物食品", "电商", "市场规模"],
-    summary: "2024年中国宠物食品市场突破1200亿元，同比增长18%，预计2025年进一步突破1400亿元。国产品牌份额持续攀升，差异化产品（冻干粮、生骨肉、处方粮）成增量引擎，内容电商平台成为新品牌最重要的流量入口。",
-    findings: [
-      "2024年宠物食品市场突破1200亿元，同比+18%，CAGR维持15%+",
-      "冻干粮、生骨肉等高端品类增速达45%，是整体增速2.5倍",
-      "国产品牌市场份额达42%（2024），较2020年提升15个百分点",
-      "新兴宠物食品品牌中，90%将内容电商列为第一获客渠道"
-    ],
-    salesInsight: "90%新兴宠物食品品牌将内容电商列为第一渠道——这个数据可以用来倒逼传统大品牌：「新玩家都这样做了，你们的渠道策略是否需要跟上？」",
-    url: "https://ai.chanmama.com/article/54"
+    id:20, industry:["宠物"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"蝉妈妈",
+    title:"2025年中国宠物食品市场综合分析报告",
+    date:"2025-12", type:"市场规模", tags:["宠物","宠物食品","电商","市场规模"],
+    summary:"2024年中国宠物食品市场突破1200亿元，同比增长18%，预计2025年进一步突破1400亿元。国产品牌份额持续攀升，冻干粮、生骨肉等差异化产品成增量引擎，内容电商成为新品牌最重要流量入口。",
+    findings:["2024年宠物食品市场突破1200亿元，同比+18%，CAGR维持15%+","冻干粮、生骨肉等高端品类增速达45%，是整体增速2.5倍","国产品牌市场份额达42%（2024），较2020年提升15个百分点","新兴宠物食品品牌中，90%将内容电商列为第一获客渠道"],
+    salesInsight:"90%新兴宠物食品品牌将内容电商列为第一渠道——倒逼传统大品牌：「新玩家都这样做了，你们的渠道策略是否需要跟上？」",
+    url:"https://ai.chanmama.com/article/54"
   },
 
-  // ──────────────── 大健康 ────────────────
+  // ── 大健康 ──
   {
-    id: 21,
-    industry: ["大健康"],
-    institution: "毕马威",
-    instKey: "毕马威",
-    instClass: "logo-kpmg",
-    instShort: "KPMG",
-    title: "品牌赋能·共筑健康：中国消费品行业健康行动报告",
-    date: "2024-04",
-    type: "行业趋势",
-    tags: ["大健康", "消费品", "健康化", "功能食品"],
-    summary: "毕马威与消费品论坛联合发布，从消费品行业健康化战略出发，系统梳理中国食品饮料及保健品企业健康转型路径。中国大健康产业2024年总收入规模达9万亿元，功能食品与保健品是增速最快的细分。",
-    findings: [
-      "中国大健康产业2024年总收入9万亿元，较2021年增长超12%",
-      "功能食品渗透率在25-45岁城市人群中已达67%，保健品意识显著提升",
-      "「药食同源」「天然成分」「科学配方」是消费者最认可的三大健康标签",
-      "品牌健康化转型需「产品+内容+渠道」三维协同，缺一不可"
-    ],
-    salesInsight: "大健康9万亿规模+功能食品67%渗透率，为保健品客户的市场信心提供了权威数据支撑。话术：「市场有这么大，但消费者教育还没做到位，这正是内容营销最大的价值窗口。」",
-    url: "https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2024/04/china-consumer-industry-health-action-report.pdf.coredownload.inline.pdf"
+    id:21, industry:["大健康"], institution:"毕马威", instKey:"毕马威", instClass:"logo-kpmg", instShort:"KPMG",
+    title:"品牌赋能·共筑健康：中国消费品行业健康行动报告",
+    date:"2024-04", type:"行业趋势", tags:["大健康","消费品","健康化","功能食品"],
+    summary:"毕马威与消费品论坛联合发布，从消费品行业健康化战略出发，系统梳理中国食品饮料及保健品企业健康转型路径。中国大健康产业2024年总收入规模达9万亿元。",
+    findings:["中国大健康产业2024年总收入9万亿元，较2021年增长超12%","功能食品渗透率在25-45岁城市人群中已达67%，保健品意识显著提升","「药食同源」「天然成分」「科学配方」是消费者最认可的三大健康标签","品牌健康化转型需「产品+内容+渠道」三维协同，缺一不可"],
+    salesInsight:"大健康9万亿规模+功能食品67%渗透率，为保健品客户的市场信心提供权威数据支撑。话术：「市场有这么大，消费者教育还没做到位，这正是内容营销最大的价值窗口。」",
+    url:"https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2024/04/china-consumer-industry-health-action-report.pdf.coredownload.inline.pdf"
   },
   {
-    id: 22,
-    industry: ["大健康"],
-    institution: "毕马威",
-    instKey: "毕马威",
-    instClass: "logo-kpmg",
-    instShort: "KPMG",
-    title: "毕马威消费品零售行业分析：2025年上半年",
-    date: "2025-08",
-    type: "市场规模",
-    tags: ["大健康", "消费品", "零售", "保健品"],
-    summary: "毕马威2025年上半年消费品零售行业综合分析，系统梳理大健康产业的宏观走势与细分赛道表现。保健品市场在老龄化与健康意识双重驱动下保持高增速，功能饮料、口服美容、运动营养三大细分赛道全面爆发。",
-    findings: [
-      "2024年大健康产业总收入规模9万亿元，2030年预计超17万亿",
-      "口服美容（胶原蛋白/玻尿酸饮品）市场规模突破150亿元，增速超60%",
-      "运动营养品渗透率快速提升，健身人群保健品消费额是非健身人群2.3倍",
-      "Z世代成保健品最大增量人群，平均首次购买年龄已降至22岁"
-    ],
-    salesInsight: "Z世代保健品首购年龄降至22岁——说明保健品市场年轻化趋势不可逆，而小红书正是这个年龄层最重要的内容决策平台。这个数据适合对汤臣倍健、无限极等客户使用。",
-    url: "https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2025/08/consumer-and-retail-industry-analysis-2025-h1.pdf.coredownload.inline.pdf"
+    id:22, industry:["大健康"], institution:"毕马威", instKey:"毕马威", instClass:"logo-kpmg", instShort:"KPMG",
+    title:"毕马威消费品零售行业分析：2025年上半年",
+    date:"2025-08", type:"市场规模", tags:["大健康","消费品","零售","保健品"],
+    summary:"毕马威2025年上半年消费品零售行业综合分析，大健康产业在老龄化与健康意识双重驱动下保持高增速，功能饮料、口服美容、运动营养三大细分赛道全面爆发。",
+    findings:["2024年大健康产业总收入规模9万亿元，2030年预计超17万亿","口服美容（胶原蛋白/玻尿酸饮品）市场规模突破150亿元，增速超60%","运动营养品渗透率快速提升，健身人群保健品消费额是非健身人群2.3倍","Z世代成保健品最大增量人群，平均首次购买年龄已降至22岁"],
+    salesInsight:"Z世代保健品首购年龄降至22岁——小红书正是这个年龄层最重要的内容决策平台。适合对汤臣倍健、无限极等客户使用。",
+    url:"https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2025/08/consumer-and-retail-industry-analysis-2025-h1.pdf.coredownload.inline.pdf"
   },
   {
-    id: 23,
-    industry: ["大健康"],
-    institution: "BCG",
-    instKey: "BCG",
-    instClass: "logo-bcg",
-    instShort: "BCG",
-    title: "BCG：生机盎然的银发社会——中国老龄化消费洞察",
-    date: "2025-03",
-    type: "细分赛道",
-    tags: ["大健康", "银发经济", "老龄化", "保健品"],
-    summary: "BCG聚焦中国银发经济发展，揭示老龄消费市场的分层需求与增长路径。中国60岁以上人口达3亿，银发健康消费市场规模超5万亿，保健品、辅助器具、健康服务是最大的三个细分领域，且高质量银发消费者消费意愿远超预期。",
-    findings: [
-      "中国60岁以上人口3亿，银发健康消费规模超5万亿元",
-      "「活力银发族」（60-70岁）健康消费意愿超越40岁人群，溢价接受度高达45%",
-      "保健品是银发人群最高频的消费品类，复购率可达85%",
-      "数字渗透率提升：60-70岁人群社交媒体日均使用时长超过1.5小时"
-    ],
-    salesInsight: "银发族保健品85%复购率+1.5小时社媒使用时长，说明这是一个「高粘性+内容可触达」的黄金人群。对汤臣倍健、东阿阿胶等客户：可探讨银发专属内容矩阵的可行性。",
-    url: "https://www.growthhk.cn/cgo/149915.html"
+    id:23, industry:["大健康"], institution:"BCG", instKey:"BCG", instClass:"logo-bcg", instShort:"BCG",
+    title:"BCG：生机盎然的银发社会——中国老龄化消费洞察",
+    date:"2025-03", type:"细分赛道", tags:["大健康","银发经济","老龄化","保健品"],
+    summary:"BCG聚焦中国银发经济发展，揭示老龄消费市场的分层需求与增长路径。中国60岁以上人口达3亿，银发健康消费市场规模超5万亿，保健品、辅助器具、健康服务是最大的三个细分领域。",
+    findings:["中国60岁以上人口3亿，银发健康消费规模超5万亿元","「活力银发族」（60-70岁）健康消费意愿超越40岁人群，溢价接受度高达45%","保健品是银发人群最高频的消费品类，复购率可达85%","60-70岁人群社交媒体日均使用时长超过1.5小时"],
+    salesInsight:"银发族保健品85%复购率+1.5小时社媒使用时长——「高粘性+内容可触达」的黄金人群。对汤臣倍健、东阿阿胶等客户：可探讨银发专属内容矩阵。",
+    url:"https://www.growthhk.cn/cgo/149915.html"
   },
   {
-    id: 24,
-    industry: ["大健康"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-iimedia",
-    instShort: "艾媒",
-    title: "2025年中国保健品行业全景洞察报告：市场需求、竞争格局与消费行为",
-    date: "2025-07",
-    type: "竞争格局",
-    tags: ["大健康", "保健品", "竞争格局", "消费行为"],
-    summary: "聚焦中国保健品市场的竞争态势与消费者行为演变。2024年全球营养健康食品规模达1915亿美元，中国市场2602亿元成全球第二大市场。汤臣倍健等头部品牌毛利率约30-40%，行业进入品牌竞争期。",
-    findings: [
-      "中国保健品市场2602亿元，以6%年速增长，2030年预计超3500亿",
-      "行业从「渠道竞争」进入「品牌竞争」阶段，内容营销成核心差异化工具",
-      "消费者对成分透明度要求提升：68%消费者会在购买前在线查询成分信息",
-      "「功效+信任背书」双要素是驱动购买的最关键组合"
-    ],
-    salesInsight: "68%消费者购前在线查成分信息——小红书上的专业成分科普内容直接对应这个决策节点。为汤臣倍健、Swisse等品牌量身定制的话术：「消费者在搜你，你的内容出现了吗？」",
-    url: "https://www.sohu.com/a/915719993_121665362"
+    id:24, industry:["大健康"], institution:"其他", instKey:"其他", instClass:"logo-iimedia", instShort:"搜狐",
+    title:"2025年中国保健品行业全景洞察报告",
+    date:"2025-07", type:"竞争格局", tags:["大健康","保健品","竞争格局","消费行为"],
+    summary:"聚焦中国保健品市场的竞争态势与消费者行为演变。2024年全球营养健康食品规模达1915亿美元，中国市场2602亿元成全球第二大市场。行业从「渠道竞争」进入「品牌竞争」阶段。",
+    findings:["中国保健品市场2602亿元，以6%年速增长，2030年预计超3500亿","行业从「渠道竞争」进入「品牌竞争」阶段，内容营销成核心差异化工具","68%消费者会在购买前在线查询成分信息","「功效+信任背书」双要素是驱动购买的最关键组合"],
+    salesInsight:"68%消费者购前在线查成分信息——小红书上的专业成分科普内容直接对应这个决策节点。话术：「消费者在搜你，你的内容出现了吗？」",
+    url:"https://www.sohu.com/a/915719993_121665362"
   },
   {
-    id: 25,
-    industry: ["大健康"],
-    institution: "毕马威",
-    instKey: "毕马威",
-    instClass: "logo-kpmg",
-    instShort: "KPMG",
-    title: "新中式消费者：食品、健康、可持续性——中国报告",
-    date: "2025-12",
-    type: "消费者洞察",
-    tags: ["大健康", "消费者洞察", "食品", "健康化"],
-    summary: "毕马威全球消费者调查中国报告，深度解析中国消费者在健康食品与可持续消费领域的态度与行为。中国受访者在高端健康食品溢价支付意愿上显著高于其他亚太国家，「预防保健」而非「治疗康复」成为主流消费驱动力。",
-    findings: [
-      "72%中国受访者愿意为「健康功效可验证」的食品支付溢价，高于亚太平均52%",
-      "「预防医学」消费理念盛行：36%消费者将保健品视为日常消费而非偶发购买",
-      "功能食品（低GI/高蛋白/益生菌）是成长最快的健康消费子品类",
-      "可持续包装和溯源认证对30岁以下消费者有显著购买加分"
-    ],
-    salesInsight: "中国消费者健康溢价支付意愿高于亚太均值20个百分点——这是一个极强的市场信心信号，适合对任何大健康客户使用，尤其在客户质疑「这个市场还有多大空间」时。",
-    url: "https://pdf.dfcfw.com/pdf/H3_AP202512221805953437_1.pdf"
+    id:25, industry:["大健康"], institution:"毕马威", instKey:"毕马威", instClass:"logo-kpmg", instShort:"KPMG",
+    title:"新中式消费者：食品、健康、可持续性——毕马威中国报告",
+    date:"2025-12", type:"消费者洞察", tags:["大健康","消费者洞察","食品","健康化"],
+    summary:"毕马威全球消费者调查中国报告，中国受访者在高端健康食品溢价支付意愿上显著高于其他亚太国家，「预防保健」而非「治疗康复」成为主流消费驱动力。",
+    findings:["72%中国受访者愿意为「健康功效可验证」的食品支付溢价，高于亚太平均52%","「预防医学」消费理念盛行：36%消费者将保健品视为日常消费而非偶发购买","功能食品（低GI/高蛋白/益生菌）是成长最快的健康消费子品类","可持续包装和溯源认证对30岁以下消费者有显著购买加分"],
+    salesInsight:"中国消费者健康溢价支付意愿高于亚太均值20个百分点——适合对任何大健康客户使用，尤其在客户质疑「这个市场还有多大空间」时。",
+    url:"https://pdf.dfcfw.com/pdf/H3_AP202512221805953437_1.pdf"
   },
   {
-    id: 26,
-    industry: ["大健康"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "知乎",
-    title: "2024-2025年中国大健康产业分析及趋势洞察报告",
-    date: "2024-04",
-    type: "行业趋势",
-    tags: ["大健康", "行业趋势", "市场规模", "细分赛道"],
-    summary: "聚焦中国大健康产业多元化发展态势，覆盖营养健康消费品、医疗健康服务、健康养老三大主赛道。预计2025年大健康总收入17.4万亿元，2030年达29.1万亿元，保健食品细分在消费者意识提升驱动下持续高增速。",
-    findings: [
-      "2025年中国大健康产业总收入预计达17.4万亿元，2030年达29.1万亿",
-      "营养健康消费品（保健食品+功能食品）年增速超行业整体5个百分点",
-      "「药食同源」品类爆发：化橘红、人参、燕窝等传统成分现代化产品激增",
-      "健康消费从「大病治疗」向「日常维护」迁移，购买频次显著提升"
-    ],
-    salesInsight: "「日常维护型」健康消费崛起，意味着保健品需要更密集的内容渗透来占领消费者日常心智。这正是内容平台持续投入的核心逻辑。",
-    url: "http://www.bjzq.com.cn/mobile/viewnews.asp?newsid=1235640"
+    id:26, industry:["大健康"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"北证",
+    title:"2024-2025年中国大健康产业分析及趋势洞察报告",
+    date:"2024-04", type:"行业趋势", tags:["大健康","行业趋势","市场规模","细分赛道"],
+    summary:"聚焦中国大健康产业多元化发展态势，覆盖营养健康消费品、医疗健康服务、健康养老三大主赛道。预计2025年大健康总收入17.4万亿元，2030年达29.1万亿元。",
+    findings:["2025年中国大健康产业总收入预计达17.4万亿元，2030年达29.1万亿","营养健康消费品年增速超行业整体5个百分点","「药食同源」品类爆发：化橘红、人参、燕窝等传统成分现代化产品激增","健康消费从「大病治疗」向「日常维护」迁移，购买频次显著提升"],
+    salesInsight:"「日常维护型」健康消费崛起，意味着保健品需要更密集的内容渗透来占领消费者日常心智。这正是内容平台持续投入的核心逻辑。",
+    url:"http://www.bjzq.com.cn/mobile/viewnews.asp?newsid=1235640"
   },
   {
-    id: 27,
-    industry: ["大健康"],
-    institution: "BCG",
-    instKey: "BCG",
-    instClass: "logo-bcg",
-    instShort: "BCG",
-    title: "2025中国消费者的转型报告——BCG×麦肯锡联合洞察",
-    date: "2025-11",
-    type: "消费者洞察",
-    tags: ["大健康", "消费者", "消费信心", "健康消费"],
-      "「精致平替」与「高端刚需」是消费结构变化的核心特征，食品饮料两端细分均有机会",
-      "健康化进入深水区：清洁标签、低糖、功能性成分成为品类标准而非差异化卖点",
-      "生活方式营销取代产品功能营销成为建立品牌溢价的关键路径",
-      "私域+公域双轮驱动的内容运营模式成为新锐品牌快速增长的核心方法论"
-    ],
-    salesInsight: "卖生活方式而非卖产品——这是小红书最擅长的内容维度。话术：用户买的不只是一瓶饮料，而是一种生活方式。",
-    url: "https://www.163.com/dy/article/JTP0HN690511B3FV.html"
+    id:27, industry:["大健康"], institution:"BCG", instKey:"BCG", instClass:"logo-bcg", instShort:"BCG",
+    title:"2025中国消费者的转型报告",
+    date:"2025-11", type:"消费者洞察", tags:["大健康","消费者","消费信心","健康消费"],
+    summary:"分析2024-2025年中国消费者信心变化与各品类消费意向，健康类（保健品/功能食品/医疗服务）是消费信心回升最稳健的品类之一，消费者即使整体降级也不会在健康消费上妥协。",
+    findings:["健康消费是「最后防线型」支出：经济压力下消费者削减娱乐但保留健康消费","2025年消费者对保健品的消费信心指数超越餐饮、服装等传统品类","「功效可见」成为健康品牌留住消费者的核心能力，复购率比纯品牌忠诚型产品高40%","功能性食品在内容平台的渗透率达69%，为各品类最高"],
+    salesInsight:"健康消费「最后防线」属性，是应对客户预算收紧时最有力的反驳数据。同时69%的社媒渗透率说明内容与健康的结合是天然的高转化匹配。",
+    url:"https://cj.sina.cn/articles/view/5391043395/14154cb4300101dxhq"
   },
   {
-    id: 33,
-    industry: ["食品饮料"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "知乎研报",
-    title: "2025即时零售行业报告：万亿蓝海下的生态重构与品牌破局",
-    date: "2025-03",
-    type: "渠道变革",
-    tags: ["食品饮料", "即时零售", "美团闪购", "渠道"],
-    summary: "基于商务部、美团闪购、中泰证券等权威数据的即时零售深度报告。2035年即时零售市场规模有望突破3万亿元，食品饮料是即时零售的第一大品类，品牌需重构人货场逻辑。",
-    findings: [
-      "预计2035年即时零售市场规模突破3万亿元，食品饮料占比35%+",
-      "酒水零食饮料是即时零售三大核心品类，消费频次高、决策链路短",
-      "30分钟达正在重塑消费者囤货的库存思维，即时满足成为默认期待",
-      "品牌需将内容种草与即时购买无缝衔接，内容即渠道"
-    ],
-    salesInsight: "内容即渠道——即时零售时代，种草和购买之间的链路被压缩到最短。小红书+即时零售的联动是下一步重点。",
-    url: "https://cj.sina.cn/articles/view/5391043395/14154cb4300101k0e6"
+    id:28, industry:["大健康"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"知乎",
+    title:"2025年大健康行业报告合集：营养补充剂、功能食品、银发健康",
+    date:"2025-07", type:"行业趋势", tags:["大健康","营养补充剂","功能食品","报告合集"],
+    summary:"综合2025年大健康行业75+份报告的精华汇编，覆盖营养补充剂、蛋白粉、代餐、功能性饮品等多个细分赛道。整体产业保持两位数增速，保健品从「老年人专属」向「全年龄段日常保健」迁移趋势明确。",
+    findings:["蛋白粉、胶原蛋白肽、益生菌是搜索量增速最快的保健品品类","「轻量化保健」成年轻人主流：软糖、冲饮、即饮形态产品增速超固体片剂","跨界健康化：饮料品牌推功能版、食品品牌推营养强化版已成为标配策略","小红书成为保健品「首购决策」第一平台，搜索+种草+复购链路最完整"],
+    salesInsight:"「小红书是保健品首购决策第一平台」——用于开场：「你的消费者在小红书搜索你，你要不要出现在那里？」",
+    url:"https://zhuanlan.zhihu.com/p/715515365"
   },
   {
-    id: 34,
-    industry: ["食品饮料"],
-    institution: "艾瑞",
-    instKey: "艾瑞",
-    instClass: "logo-iresearch",
-    instShort: "艾瑞",
-    title: "食品饮料行业周度市场观察：2025年第37周",
-    date: "2025-09",
-    type: "细分赛道",
-    tags: ["食品饮料", "功能饮料", "市场观察", "创新趋势"],
-    summary: "艾瑞周期观察报告，聚焦食品饮料行业创新趋势与功能饮料赛道爆发。消费者对健康、个性化和场景化需求的提升是主要驱动力，功能饮料通过细分市场（运动补水、能量补充）和创新配方（胶原蛋白、益生菌）赢得市场。",
-    findings: [
-      "功能饮料是2025年增速最快的饮料细分赛道，年增超25%",
-      "消费者需求从功能泛化向场景细分：运动前/中/后、工作提神、熬夜恢复等",
-      "配方创新是差异化核心：胶原蛋白饮、益生菌气泡水、电解质+维生素组合",
-      "内容平台的场景化内容种草是功能饮料新品引爆的最有效路径"
-    ],
-    salesInsight: "功能饮料靠场景细分+配方创新突围。这正是小红书内容最擅长的打法——用场景故事讲产品，而非硬推功能。",
-    url: "https://wap.hibor.com.cn/repinfodetail_4490865.html"
+    id:29, industry:["大健康"], institution:"其他", instKey:"其他", instClass:"logo-iimedia", instShort:"艾媒",
+    title:"中国保健品市场发展状况与消费行为调查",
+    date:"2023-08", type:"消费者洞察", tags:["大健康","保健品","消费者","市场调查"],
+    summary:"艾媒咨询对中国保健品市场的系统性调研，覆盖消费者购买渠道、品类偏好、价格敏感度等核心维度。内容营销已成为保健品触达消费者的最核心方式，传统广告形式转化率持续下降。",
+    findings:["2022年中国大健康产业营收8.3万亿元，预计2025年达9.3万亿","内容平台（小红书/抖音/B站）在保健品认知阶段的影响力已达72%","「专家推荐/KOL种草」超越传统广告，成为消费者最信任的信息来源","保健品复购决策高度依赖「效果验证」，用户生成内容（UGC）是关键驱动"],
+    salesInsight:"「专家+KOL种草超越传统广告」，为小红书的「专业内容+真实体验」双轨策略提供市场验证。话术：「你的竞品已经在用这种策略了，你下一步跟不跟？」",
+    url:"https://www.iimedia.cn/c1061/94153.html"
   },
   {
-    id: 35,
-    industry: ["食品饮料"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "东方财富",
-    title: "食品饮料行业深度报告：从生活方式到消费场景的产品定义重构",
-    date: "2025-06",
-    type: "消费者洞察",
-    tags: ["食品饮料", "生活方式", "消费场景", "产品定义"],
-    summary: "构建生活方式-消费场景-产品定义研究框架，指出生活方式受技术、经济、文化等宏观因素影响，塑造多元消费场景并催生新业态，而消费场景重新定义产品。食品饮料品牌需从卖产品转向卖生活方式解决方案。",
-    findings: [
-      "生活方式成为产品定价的隐形维度：同品质产品，生活方式叙事可带来30%+溢价",
-      "场景定义产品的时代到来：露营/通勤/办公室/健身等场景催生定制化产品",
-      "Z世代消费者更愿为有明确生活方式标签的品牌支付品牌溢价",
-      "内容平台是生活方式叙事的核心阵地，图文种草效率高于短视频"
-    ],
-    salesInsight: "小红书是生活方式内容的最佳载体。图文种草效率更高——直接回应客户对小红书vs抖音的疑问。",
-    url: "https://pdf.dfcfw.com/pdf/H3_AP202506201694319178_1.pdf"
+    id:30, industry:["大健康"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"股民天地",
+    title:"大健康产业深度分析：保健食品监管新变化与市场机会",
+    date:"2025-04", type:"细分赛道", tags:["大健康","保健食品","监管政策","市场机会"],
+    summary:"聚焦2024-2025年中国保健食品监管政策变化及由此带来的结构性机会。蓝帽子审批简化、功能声称拓宽、跨境保税政策优化三大政策红利，为国产品牌崛起和进口品牌本土化创造了有利条件。",
+    findings:["蓝帽子审批周期从平均24个月缩短至12个月，新品上市提速","功能声称范围拓宽，辅助降血脂、维持血糖健康等新品类机会增多","跨境保税政策支持下，进口功能食品加速本土化，国产竞争加剧","社交媒体内容合规要求同步收紧，品牌需「合规+种草」两手抓"],
+    salesInsight:"监管放开意味着新品加速上市，内容竞争将更激烈。话术：「更多竞品要来了，你们的内容护城河建好了吗？」",
+    url:"https://www.mffb.com.cn/mobile/news/show-154566.html"
+  },
+
+  // ── 食品饮料 ──
+  {
+    id:31, industry:["食品饮料"], institution:"毕马威", instKey:"毕马威", instClass:"logo-kpmg", instShort:"KPMG",
+    title:"毕马威消费品零售行业分析：2024年下半年",
+    date:"2025-02", type:"行业趋势", tags:["食品饮料","消费品","零售","业绩"],
+    summary:"毕马威2024年下半年消费品零售行业报告，食品饮料市场呈现「量平价升」特征，高端化与健康化是推动均价上升的核心因素，功能饮料、纯净水、无糖茶等健康品类增速远超行业整体。",
+    findings:["2024年食品饮料市场连续四个季度保持正增长，粮油食品类表现最稳健","「量平价升」成主旋律：健康/高端产品领涨，传统折扣策略失效","功能饮料、纯净水、无糖茶等健康品类增速远超饮料行业整体增速","渠道端便利店与即时零售成为食品饮料的新增长极"],
+    salesInsight:"「量平价升」意味着品牌必须通过价值升级而非折扣促销获取增长，内容营销和品牌价值建设变得更重要。用这个逻辑说服客户为何现在需要加大品牌投入而非收缩。",
+    url:"https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2025/02/consumer-and-retail-industry-analysis-2024-h2.pdf.coredownload.inline.pdf"
   },
   {
-    id: 36,
-    industry: ["食品饮料"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "知乎研报",
-    title: "2025年Q1消费者行业报告：食品饮料、大健康、母婴多行业洞察合集",
-    date: "2025-05",
-    type: "行业趋势",
-    tags: ["食品饮料", "大健康", "母婴", "消费品"],
-    summary: "470+份报告的精华汇编解读，覆盖食品饮料、大健康、母婴等核心消费赛道。发达市场增长乏力背景下，中国市场仍具韧性，健康化、功能化、个性化是穿越周期的确定性趋势。",
-    findings: [
-      "发达市场增长乏力，2024年销售额从2023年的7.7%降至4.5%",
-      "中国市场消费品增长相对稳健，健康+功能品类保持两位数增速",
-      "食品饮料行业：大型公司上半年仅实现1.2%同比增长，新锐品牌抢占40%增量",
-      "内容营销是新锐品牌逆袭的核心能力，投入占比是大型品牌的3倍"
-    ],
-    salesInsight: "新锐品牌内容投入是大品牌的3倍——用这个数据倒逼传统大客户重视内容。话术：新锐品牌正在用内容弯道超车，你们的防御性内容布局在哪里？",
-    url: "https://zhuanlan.zhihu.com/p/1909568775629542294"
+    id:32, industry:["食品饮料"], institution:"德勤", instKey:"德勤", instClass:"logo-deloitte", instShort:"Deloitte",
+    title:"洞察消费结构变化中的行业新趋势：德勤中国消费品和零售行业纵览2025",
+    date:"2025-04", type:"行业趋势", tags:["食品饮料","消费品","零售","健康化"],
+    summary:"德勤中国2025消费品零售行业纵览，聚焦「精致平替」与「高端刚需」两端兴起的消费结构变化。食品饮料健康化趋势深化，清洁标签、低糖/无糖、功能性成分成为产品创新三大方向。",
+    findings:["「精致平替」与「高端刚需」是消费结构变化的核心特征，食品饮料两端细分均有机会","健康化进入深水区：清洁标签、低糖、功能性成分成为品类标准","「生活方式营销」取代「产品功能营销」成为建立品牌溢价的关键路径","私域+公域双轮驱动的内容运营模式成为新锐品牌快速增长的核心方法论"],
+    salesInsight:"「卖生活方式而非卖产品」——这是小红书最擅长的内容维度。话术：「用户买的不只是一瓶饮料，而是一种生活方式，小红书是唯一能把这个叙事讲好的平台。」",
+    url:"https://www.163.com/dy/article/JTP0HN690511B3FV.html"
   },
   {
-    id: 37,
-    industry: ["食品饮料"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "36Kr",
-    title: "2026消费行业展望：智能科技、可持续发展与幼稚经济",
-    date: "2025-12",
-    type: "行业趋势",
-    tags: ["食品饮料", "消费趋势", "科技创新", "可持续发展"],
-    summary: "36氪研究院年度消费行业展望报告，聚焦智能科技与幼稚经济（Pet Economy + Kid Economy）两大增长引擎。食品饮料行业的科技赋能（AI配方、个性化营养）与情感化营销（萌宠联名、童年回忆杀）成为新叙事。",
-    findings: [
-      "幼稚经济（Pet+Kid）成为2025年消费行业最亮眼的两大增长引擎",
-      "食品饮料品牌跨界幼稚经济：宠物友好餐厅、怀旧零食系列、萌宠IP联名",
-      "科技赋能食品饮料：AI配方优化、个性化营养方案、智能供应链",
-      "内容营销的情感化转向：功能性需求已被满足，情绪价值成新战场"
-    ],
-    salesInsight: "情绪价值成新战场——这是小红书的核心优势。话术：当产品功能都差不多的时候，情绪价值就是决胜点。",
-    url: "https://segmentfault.com/a/1190000047512654"
+    id:33, industry:["食品饮料"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"新浪",
+    title:"2025即时零售行业报告：万亿蓝海下的生态重构与品牌破局",
+    date:"2025-03", type:"渠道变革", tags:["食品饮料","即时零售","美团闪购","渠道"],
+    summary:"基于商务部、美团闪购等权威数据的即时零售深度报告。2035年即时零售市场规模有望突破3万亿元，食品饮料（酒水、零食、饮料）是即时零售的第一大品类，品牌需重构「人货场」逻辑。",
+    findings:["预计2035年即时零售市场规模突破3万亿元，食品饮料为最大品类占比35%+","酒水零食饮料是即时零售三大核心品类，消费频次高、决策链路短","30分钟达正在重塑消费者囤货的库存思维，即时满足成为默认期待","品牌需将内容种草与即时购买无缝衔接，内容即渠道"],
+    salesInsight:"内容即渠道——即时零售时代，种草和购买之间的链路被压缩到最短。小红书+即时零售的联动是下一步重点。",
+    url:"https://cj.sina.cn/articles/view/5391043395/14154cb4300101k0e6"
   },
   {
-    id: 38,
-    industry: ["食品饮料"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "Bilibili",
-    title: "2024年消费品行业趋势洞察报告合集",
-    date: "2024-10",
-    type: "竞争格局",
-    tags: ["食品饮料", "消费品", "竞争格局", "新锐品牌"],
-    summary: "消费品行业趋势报告合集，覆盖食品饮料、个护、母婴等多赛道。德勤消费品和零售行业纵览、艾瑞母婴报告、食品饮料创新趋势等多份报告精华。新锐品牌用内容+产品力双轮驱动抢占传统巨头市场份额。",
-    findings: [
-      "新锐品牌市场份额持续提升，在食品饮料行业增速是传统品牌的2.5倍",
-      "产品力+内容力成为新锐品牌的共同增长公式，缺一不可",
-      "小红书是新锐品牌起家阶段的首要内容阵地，占比90%以上",
-      "传统大品牌的内容投入占比普遍低于营销预算的10%，存在追赶空间"
-    ],
-    salesInsight: "新锐品牌90%从小红书起家——这是对小红书平台价值的最直接背书。对大品牌客户：要么你主动占领，要么被新锐抢走。",
-    url: "https://www.bilibili.com/read/cv34171119/"
+    id:34, industry:["食品饮料"], institution:"艾瑞", instKey:"艾瑞", instClass:"logo-iresearch", instShort:"艾瑞",
+    title:"食品饮料行业市场观察：功能饮料与消费场景细分趋势",
+    date:"2025-09", type:"细分赛道", tags:["食品饮料","功能饮料","市场观察","创新趋势"],
+    summary:"艾瑞聚焦食品饮料行业创新趋势与功能饮料赛道。消费者对健康、个性化和场景化需求的提升是主要驱动力，功能饮料通过细分市场（运动补水、能量补充）和创新配方（胶原蛋白、益生菌）赢得市场。",
+    findings:["功能饮料是2025年增速最快的饮料细分赛道，年增超25%","消费者需求从功能泛化向场景细分：运动前/中/后、工作提神、熬夜恢复等","配方创新是差异化核心：胶原蛋白饮、益生菌气泡水、电解质+维生素组合","内容平台的场景化内容种草是功能饮料新品引爆的最有效路径"],
+    salesInsight:"功能饮料靠场景细分+配方创新突围。这正是小红书内容最擅长的打法——用场景故事讲产品，而非硬推功能。",
+    url:"https://wap.hibor.com.cn/repinfodetail_4490865.html"
   },
   {
-    id: 39,
-    industry: ["食品饮料"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "掘金",
-    title: "2024年消费新潜力白皮书：食品饮料、保健品、母婴多行业机会分析",
-    date: "2024-05",
-    type: "细分赛道",
-    tags: ["食品饮料", "消费潜力", "细分市场", "机会分析"],
-    summary: "消费新潜力白皮书，从细分赛道角度识别食品饮料等行业的增长机会。儿童牛奶、功能性饮品、健康零食是食品饮料赛道最具潜力的三个细分方向，消费升级与健康化是核心驱动力。",
-    findings: [
-      "儿童牛奶市场增速是常温奶整体增速的3倍，功能强化型产品领涨",
-      "功能性饮品（低糖/无糖/功能性成分）增速远超传统饮料",
-      "健康零食（高蛋白/低GI/无添加）是零食赛道唯一保持20%+增速的分类",
-      "内容平台种草对新细分品类的消费者教育效率是传统渠道5倍"
-    ],
-    salesInsight: "新细分品类内容教育效率5倍——这正是小红书的用武之地。话术：新品类需要新渠道，用户教育成本最高的时候，小红书能帮你用1/5的成本完成。",
-    url: "https://juejin.cn/post/7368836713965715495"
+    id:35, industry:["食品饮料"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"东财",
+    title:"食品饮料行业深度报告：从生活方式到消费场景的产品定义重构",
+    date:"2025-06", type:"消费者洞察", tags:["食品饮料","生活方式","消费场景","产品定义"],
+    summary:"构建生活方式-消费场景-产品定义研究框架，指出生活方式受技术、经济、文化等宏观因素影响，塑造多元消费场景并催生新业态，消费场景重新定义产品。",
+    findings:["生活方式成为产品定价的隐形维度：相同品质产品，生活方式叙事可带来30%+溢价","场景定义产品的时代到来：露营/通勤/办公室/健身等场景催生定制化产品","Z世代消费者更愿为有明确生活方式标签的品牌支付品牌溢价","小红书图文种草效率在生活方式类内容中高于短视频"],
+    salesInsight:"小红书是生活方式内容的最佳载体，图文种草效率更高——直接回应客户对小红书vs抖音的疑问。",
+    url:"https://pdf.dfcfw.com/pdf/H3_AP202506201694319178_1.pdf"
   },
   {
-    id: 40,
-    industry: ["食品饮料"],
-    institution: "其他",
-    instKey: "其他",
-    instClass: "logo-other",
-    instShort: "洞见研报",
-    title: "2025年中国便利店发展报告",
-    date: "2025-06",
-    type: "渠道变革",
-    tags: ["食品饮料", "便利店", "渠道", "快消"],
-    summary: "毕马威连续发布的中国便利店发展报告，聚焦便利店行业的创新转型与增长机会。便利店从商品零售转向餐饮服务，并通过创新寻求新增长点，食品饮料是便利店最核心的品类运营对象。",
-    findings: [
-      "便利店行业从商品零售向餐饮服务转型，鲜食占比提升至25%+",
-      "食品饮料新品测试的便利店渠道周期从6个月缩短至6周",
-      "内容种草对便利店选品影响加剧：社交平台爆款倒逼供应链响应",
-      "24小时便利店成为夜间消费场景的核心入口，年轻用户夜间消费占40%"
-    ],
-    salesInsight: 「社交平台爆款倒逼供应链」——这说明内容平台已经在重塑线下渠道。话术：小红书不仅能帮你线上种草，还能帮你线下铺货。",
-    url: "https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2025/06/china-convenience-store-development-report-2025.pdf.coredownload.inline.pdf"
+    id:36, industry:["食品饮料"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"知乎研报",
+    title:"2025年Q1消费者行业报告：食品饮料、大健康多行业洞察合集",
+    date:"2025-05", type:"行业趋势", tags:["食品饮料","大健康","母婴","消费品"],
+    summary:"470+份报告的精华汇编解读，覆盖食品饮料、大健康、母婴等核心消费赛道。中国市场仍具韧性，健康化、功能化、个性化是穿越周期的确定性趋势。",
+    findings:["发达市场增长乏力，2024年销售额从2023年7.7%降至4.5%","中国市场消费品增长相对稳健，健康+功能品类保持两位数增速","食品饮料行业大型公司上半年仅实现1.2%增长，新锐品牌抢占40%增量","内容营销是新锐品牌逆袭的核心能力，投入占比是大型品牌的3倍"],
+    salesInsight:"新锐品牌内容投入是大品牌的3倍——倒逼传统大客户重视内容。话术：「新锐品牌正在用内容弯道超车，你们的防御性内容布局在哪里？」",
+    url:"https://zhuanlan.zhihu.com/p/1909568775629542294"
+  },
+  {
+    id:37, industry:["食品饮料"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"36Kr",
+    title:"2026消费行业展望：智能科技、可持续发展与幼稚经济",
+    date:"2025-12", type:"行业趋势", tags:["食品饮料","消费趋势","科技创新","可持续"],
+    summary:"36氪研究院年度消费行业展望报告，聚焦智能科技与幼稚经济（Pet Economy+Kid Economy）两大增长引擎。食品饮料的科技赋能与情感化营销成为新叙事。",
+    findings:["幼稚经济（Pet+Kid）成为2025年消费行业最亮眼的两大增长引擎","食品饮料品牌跨界幼稚经济：宠物友好餐厅、怀旧零食系列、萌宠IP联名","科技赋能食品饮料：AI配方优化、个性化营养方案、智能供应链","内容营销的情感化转向：功能性需求已被满足，情绪价值成新战场"],
+    salesInsight:"情绪价值成新战场——这是小红书的核心优势。话术：「当产品功能都差不多的时候，情绪价值就是决胜点。」",
+    url:"https://segmentfault.com/a/1190000047512654"
+  },
+  {
+    id:38, industry:["食品饮料"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"Bilibili",
+    title:"2024年消费品行业趋势洞察报告合集",
+    date:"2024-10", type:"竞争格局", tags:["食品饮料","消费品","竞争格局","新锐品牌"],
+    summary:"消费品行业趋势报告合集，覆盖食品饮料、个护、母婴等多赛道精华。新锐品牌用内容+产品力双轮驱动抢占传统巨头市场份额，食品饮料行业新锐增速是传统品牌的2.5倍。",
+    findings:["新锐品牌市场份额持续提升，在食品饮料行业增速是传统品牌的2.5倍","产品力+内容力成为新锐品牌的共同增长公式，缺一不可","小红书是新锐品牌起家阶段的首要内容阵地，占比90%以上","传统大品牌的内容投入占比普遍低于营销预算的10%，存在追赶空间"],
+    salesInsight:"新锐品牌90%从小红书起家——对大品牌客户：「要么你主动占领，要么被新锐抢走。」",
+    url:"https://www.bilibili.com/read/cv34171119/"
+  },
+  {
+    id:39, industry:["食品饮料"], institution:"其他", instKey:"其他", instClass:"logo-other", instShort:"掘金",
+    title:"2024年消费新潜力白皮书：食品饮料与保健品机会分析",
+    date:"2024-05", type:"细分赛道", tags:["食品饮料","消费潜力","细分市场","机会分析"],
+    summary:"消费新潜力白皮书，从细分赛道角度识别食品饮料等行业的增长机会。儿童牛奶、功能性饮品、健康零食是食品饮料赛道最具潜力的三个细分方向。",
+    findings:["儿童牛奶市场增速是常温奶整体增速的3倍，功能强化型产品领涨","功能性饮品（低糖/无糖/功能性成分）增速远超传统饮料","健康零食（高蛋白/低GI/无添加）是零食赛道唯一保持20%+增速的分类","内容平台种草对新细分品类的消费者教育效率是传统渠道5倍"],
+    salesInsight:"新细分品类内容教育效率5倍——话术：「新品类需要新渠道，用户教育成本最高的时候，小红书能帮你用1/5的成本完成。」",
+    url:"https://juejin.cn/post/7368836713965715495"
+  },
+  {
+    id:40, industry:["食品饮料"], institution:"毕马威", instKey:"毕马威", instClass:"logo-kpmg", instShort:"KPMG",
+    title:"2025年中国便利店发展报告",
+    date:"2025-06", type:"渠道变革", tags:["食品饮料","便利店","渠道","快消"],
+    summary:"毕马威连续发布的中国便利店发展报告，便利店从商品零售转向餐饮服务，并通过创新寻求新增长点，食品饮料是便利店最核心的品类运营对象。",
+    findings:["便利店行业从商品零售向餐饮服务转型，鲜食占比提升至25%+","食品饮料新品测试的便利店渠道周期从6个月缩短至6周","社交平台爆款倒逼供应链响应，内容种草对便利店选品影响加剧","24小时便利店成为夜间消费场景的核心入口，年轻用户夜间消费占40%"],
+    salesInsight:"「社交平台爆款倒逼供应链」——内容平台已经在重塑线下渠道。话术：「小红书不仅能帮你线上种草，还能帮你线下铺货。」",
+    url:"https://assets.kpmg.com/content/dam/kpmgsites/cn/pdf/zh/2025/06/china-convenience-store-development-report-2025.pdf.coredownload.inline.pdf"
   }
 ];
 
-// ═══════════════════════════════════════════════════════════════════════
-// STATE
-// ═══════════════════════════════════════════════════════════════════════
-let activeInst = 'all';
-let activeType = 'all';
-let activeInd = 'all';
+// ══ STATE ══
+let activeInst='all', activeType='all', activeInd='all';
 
-// ═══════════════════════════════════════════════════════════════════════
-// RENDER
-// ═══════════════════════════════════════════════════════════════════════
+// ══ RENDER ══
 function renderCards() {
-  const container = document.getElementById('cardGrid');
-  container.innerHTML = '';
-
-  const query = document.getElementById('searchInput').value.trim().toLowerCase();
-
-  let visible = 0;
-  const counts = {
-    inst: { 'all': 0 },
-    type: { 'all': 0 },
-    ind: { 'all': 0 }
-  };
-  REPORTS.forEach(r => { counts.inst[r.instKey] = 0; counts.type[r.type] = 0; });
+  const container=document.getElementById('cardGrid');
+  container.innerHTML='';
+  const query=document.getElementById('searchInput').value.trim().toLowerCase();
+  let visible=0;
+  const instCnt={all:0,'毕马威':0,'德勤':0,'BCG':0,'艾瑞':0,'尼尔森':0,'CBNData':0,'其他':0};
+  const typeCnt={all:0,'市场规模':0,'消费者洞察':0,'行业趋势':0,'竞争格局':0,'细分赛道':0,'渠道变革':0};
 
   REPORTS.forEach(item => {
-    // Count filters
-    counts.inst.all++;
-    counts.inst[item.instKey]++;
-    counts.type.all++;
-    counts.type[item.type] = (counts.type[item.type] || 0) + 1;
-    item.industry.forEach(ind => counts.ind[ind] = (counts.ind[ind] || 0) + 1);
+    instCnt.all++;
+    if(instCnt[item.instKey]!==undefined) instCnt[item.instKey]++;
+    else instCnt['其他']++;
+    typeCnt.all++;
+    if(typeCnt[item.type]!==undefined) typeCnt[item.type]++;
 
-    // Filter logic
-    const instMatch = activeInst === 'all' || item.instKey === activeInst;
-    const typeMatch = activeType === 'all' || item.type === activeType;
-    const indMatch = activeInd === 'all' || item.industry.includes(activeInd);
+    const instMatch=activeInst==='all'||item.instKey===activeInst;
+    const typeMatch=activeType==='all'||item.type===activeType;
+    const indMatch=activeInd==='all'||item.industry.includes(activeInd);
+    const srch=(item.title+item.institution+item.summary+(item.tags||[]).join(' ')).toLowerCase();
+    const searchMatch=!query||srch.includes(query);
 
-    const searchStr = (item.title + item.institution + item.summary + item.tags.join(' ')).toLowerCase();
-    const searchMatch = !query || searchStr.includes(query);
-
-    if (instMatch && typeMatch && indMatch && searchMatch) {
+    if(instMatch&&typeMatch&&indMatch&&searchMatch){
       visible++;
       container.appendChild(buildCard(item));
     }
   });
 
-  // Update counts
-  Object.keys(counts.inst).forEach(k => {
-    const el = document.getElementById('cnt-inst-' + k);
-    if (el) el.textContent = counts.inst[k] || 0;
-  });
-  Object.keys(counts.type).forEach(k => {
-    const el = document.getElementById('cnt-type-' + k);
-    if (el) el.textContent = counts.type[k] || 0;
-  });
-
-  document.getElementById('visibleCount').textContent = visible;
-  document.getElementById('noResults').style.display = visible === 0 ? 'block' : 'none';
+  Object.keys(instCnt).forEach(k=>{const el=document.getElementById('cnt-inst-'+k);if(el)el.textContent=instCnt[k];});
+  Object.keys(typeCnt).forEach(k=>{const el=document.getElementById('cnt-type-'+k);if(el)el.textContent=typeCnt[k];});
+  document.getElementById('visibleCount').textContent=visible;
+  document.getElementById('noResults').style.display=visible===0?'block':'none';
 }
 
-function buildCard(item) {
-  const div = document.createElement('div');
-  div.className = 'report-card';
-
-  const industryTags = item.industry.map(i => `<span class="card-tag industry-tag">${i}</span>`).join('');
-  const otherTags = item.tags.slice(0, 3).map(t => `<span class="card-tag">${t}</span>`).join('');
-  const findingsHtml = item.findings.map(f => `<li>${f}</li>`).join('');
-
-  div.innerHTML = `
+function buildCard(item){
+  const div=document.createElement('div');
+  div.className='report-card';
+  const indTags=item.industry.map(i=>`<span class="card-tag industry-tag">${i}</span>`).join('');
+  const otherTags=(item.tags||[]).slice(0,3).map(t=>`<span class="card-tag">${t}</span>`).join('');
+  const findingsHtml=(item.findings||[]).map(f=>`<li>${f}</li>`).join('');
+  div.innerHTML=`
     <div class="card-top">
       <div class="card-logo ${item.instClass}">${item.instShort}</div>
       <div class="card-meta">
         <div class="card-institution">${item.institution}<span class="card-date">${item.date}</span></div>
         <div class="card-title">${item.title}</div>
-        <div class="card-tags">${industryTags}${otherTags}</div>
+        <div class="card-tags">${indTags}${otherTags}</div>
       </div>
     </div>
     <div class="card-body">
@@ -1373,117 +629,43 @@ function buildCard(item) {
       </div>
     </div>
     <div class="card-footer">
-      <span style="background:var(--red-light);color:var(--red);padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600;">${item.type}</span>
+      <span class="type-badge">${item.type}</span>
       <a class="report-link" href="${item.url}" target="_blank">查看报告 →</a>
-    </div>
-  `;
+    </div>`;
   return div;
 }
 
-// ═══════════════════════════════════════════════════════════════════════
-// FILTERS & HERO
-// ═══════════════════════════════════════════════════════════════════════
-const HERO = {
-  all: {
-    label: '全行业报告库',
-    title: '快消行策 · 40份权威行业报告',
-    points: [
-      '📊 母婴报告10篇：涵盖尼尔森、CBNData、艾瑞咨询等权威机构数据',
-      '🐾 宠物报告10篇：毕马威、艾瑞、派读宠物等「它经济」全景分析',
-      '💊 大健康报告10篇：BCG、毕马威等对健康消费趋势的深度洞察',
-      '🥤 食品饮料报告10篇：德勤、毕马威等覆盖渠道变革与消费趋势'
-    ],
-    tags: ['年度报告', '市场洞察', '消费者研究', '竞争格局', '渠道变革', '细分赛道']
-  },
-  母婴: {
-    label: '🍼 母婴 | 行业一组 · 行业十组',
-    title: '10篇母婴报告 · 新生儿回升+内容电商爆发',
-    points: [
-      '📈 2024年新生儿954万回升，龙年宝宝效应下母婴市场进入新周期',
-      '📱 内容电商增速76%，小红书在母婴种草渗透率居平台首位',
-      '🍼 HMO奶粉、婴童护肤、智能育儿三大新增长引擎值得关注',
-      '⚡ 母婴护肤200亿市场增速15%，防晒与分区护理是热点细分'
-    ],
-    tags: ['尼尔森', 'CBNData', '艾瑞', 'Z世代妈妈', '分龄营销', 'HMO奶粉']
-  },
-  宠物: {
-    label: '🐾 宠物 | 行业五组',
-    title: '10篇宠物报告 · 喵经济崛起+精细化养宠',
-    points: [
-      '💰 2024年宠物市场3453亿，宠物猫主人首次超越宠物犬',
-      '🚀 功能性宠粮、医疗保健品增速超30%，是行业核心增量',
-      '🎯 内容电商占线上销售额38%，小红书在25-35岁女性宠物主种草影响力78%',
-      '⚡ 智能宠物用品市场102亿增速45%，是宠物行业最快增长细分'
-    ],
-    tags: ['毕马威', '艾瑞', '派读宠物', '功能粮', '智能用品', '它经济']
-  },
-  大健康: {
-    label: '💊 大健康 | 行业二组 · 行业七组',
-    title: '10篇大健康报告 · 银发经济+健康日常化',
-    points: [
-      '📊 2025年大健康产业预计17.4万亿，保健品市场2602亿+年增6%',
-      '👴 银发族保健品复购率85%+社交时长1.5小时/天，是黄金人群',
-      '💡 Z世代首购保健品年龄降至22岁，市场年轻化趋势明确',
-      '🔥 口服美容、运动营养、功能食品三大细分赛道全面爆发'
-    ],
-    tags: ['BCG', '毕马威', '艾媒', '银发经济', '功能食品', '保健品']
-  },
-  食品饮料: {
-    label: '🥤 食品饮料 | 三组·四组·六组·八组·九组',
-    title: '10篇食品饮料报告 · 量平价升+即时零售',
-    points: [
-      '📈 「量平价升」成主旋律：健康/高端产品领涨，传统折扣失效',
-      '⚡ 功能饮料年增速25%+，场景细分+配方创新是突围关键',
-      '🛒 即时零售2035年预计3万亿，食品饮料是第一大品类（35%+）',
-      '🎯 新锐品牌内容投入是大品牌3倍，内容成为增长分水岭'
-    ],
-    tags: ['毕马威', '德勤', '艾瑞', '即时零售', '功能饮料', '渠道变革']
-  }
+// ══ HERO ══
+const HERO={
+  all:{label:'全行业报告库',title:'快消行策 · 40份权威行业报告',
+    points:['📊 母婴10篇：尼尔森、CBNData、艾瑞、德勤、毕马威等权威机构数据','🐾 宠物10篇：毕马威、艾瑞、派读等「它经济」全景分析','💊 大健康10篇：BCG、毕马威等对健康消费趋势的深度洞察','🥤 食品饮料10篇：德勤、毕马威等覆盖渠道变革与消费趋势'],
+    tags:['年度报告','市场洞察','消费者研究','竞争格局','渠道变革','细分赛道']},
+  母婴:{label:'🍼 母婴 | 行业一组·行业十组',title:'10篇母婴报告 · 新生儿回升+内容电商爆发',
+    points:['📈 2024年新生儿954万回升，龙年宝宝效应下母婴市场进入新周期','📱 内容电商增速76%，小红书在母婴种草渗透率居平台首位','🍼 HMO奶粉、婴童护肤、智能育儿三大新增长引擎值得关注','⚡ 母婴护肤200亿市场增速15%，防晒与分区护理是热点细分'],
+    tags:['尼尔森','CBNData','艾瑞','Z世代妈妈','分龄营销','HMO奶粉']},
+  宠物:{label:'🐾 宠物 | 行业五组',title:'10篇宠物报告 · 喵经济崛起+精细化养宠',
+    points:['💰 2024年宠物市场3453亿，宠物猫主人首次超越宠物犬','🚀 功能性宠粮、医疗保健品增速超30%，是行业核心增量','🎯 内容电商占线上销售额38%，小红书在25-35岁女性宠物主种草影响力78%','⚡ 智能宠物用品市场102亿增速45%，是宠物行业最快增长细分'],
+    tags:['毕马威','艾瑞','派读宠物','功能粮','智能用品','它经济']},
+  大健康:{label:'💊 大健康 | 行业二组·行业七组',title:'10篇大健康报告 · 银发经济+健康日常化',
+    points:['📊 2025年大健康产业预计17.4万亿，保健品市场2602亿+年增6%','👴 银发族保健品复购率85%+社交时长1.5小时/天，是黄金人群','💡 Z世代首购保健品年龄降至22岁，市场年轻化趋势明确','🔥 口服美容、运动营养、功能食品三大细分赛道全面爆发'],
+    tags:['BCG','毕马威','艾媒','银发经济','功能食品','保健品']},
+  食品饮料:{label:'🥤 食品饮料 | 三组·四组·六组·八组·九组',title:'10篇食品饮料报告 · 量平价升+即时零售',
+    points:['📈 「量平价升」成主旋律：健康/高端产品领涨，传统折扣失效','⚡ 功能饮料年增速25%+，场景细分+配方创新是突围关键','🛒 即时零售2035年预计3万亿，食品饮料是第一大品类（35%+）','🎯 新锐品牌内容投入是大品牌3倍，内容成为增长分水岭'],
+    tags:['毕马威','德勤','艾瑞','即时零售','功能饮料','渠道变革']}
 };
 
-function renderHero() {
-  const hero = document.getElementById('heroBanner');
-  const data = HERO[activeInd] || HERO.all;
-
-  const pointsHtml = data.points.map(p => `<div class="hero-point"><div class="hero-dot"></div><span>${p}</span></div>`).join('');
-  const tagsHtml = data.tags.map((t, i) => `<span class="hero-tag${i < 2 ? ' hot' : ''}">${t}</span>`).join('');
-
-  hero.innerHTML = `
-    <div class="hero">
-      <div class="hero-label">${data.label}</div>
-      <div class="hero-title">${data.title}</div>
-      <div class="hero-points">${pointsHtml}</div>
-      <div class="hero-tags">${tagsHtml}</div>
-    </div>`;
+function renderHero(){
+  const data=HERO[activeInd]||HERO.all;
+  const pts=data.points.map(p=>`<div class="hero-point"><div class="hero-dot"></div><span>${p}</span></div>`).join('');
+  const tgs=data.tags.map((t,i)=>`<span class="hero-tag${i<2?' hot':''}">${t}</span>`).join('');
+  document.getElementById('heroBanner').innerHTML=`<div class="hero"><div class="hero-label">${data.label}</div><div class="hero-title">${data.title}</div><div class="hero-points">${pts}</div><div class="hero-tags">${tgs}</div></div>`;
 }
 
-function setInst(el, val) {
-  activeInst = val;
-  document.querySelectorAll('[data-inst]').forEach(e => e.classList.remove('active'));
-  el.classList.add('active');
-  applyFilters();
-}
+function setInst(el,val){activeInst=val;document.querySelectorAll('[data-inst]').forEach(e=>e.classList.remove('active'));el.classList.add('active');applyFilters();}
+function setType(el,val){activeType=val;document.querySelectorAll('[data-type]').forEach(e=>e.classList.remove('active'));el.classList.add('active');applyFilters();}
+function setInd(el,val){activeInd=val;document.querySelectorAll('[data-ind]').forEach(e=>e.classList.remove('active'));el.classList.add('active');applyFilters();}
+function applyFilters(){renderCards();renderHero();}
 
-function setType(el, val) {
-  activeType = val;
-  document.querySelectorAll('[data-type]').forEach(e => e.classList.remove('active'));
-  el.classList.add('active');
-  applyFilters();
-}
-
-function setInd(el, val) {
-  activeInd = val;
-  document.querySelectorAll('[data-ind]').forEach(e => e.classList.remove('active'));
-  el.classList.add('active');
-  applyFilters();
-}
-
-function applyFilters() {
-  renderCards();
-  renderHero();
-}
-
-// Init
 renderCards();
 renderHero();
 </script>
