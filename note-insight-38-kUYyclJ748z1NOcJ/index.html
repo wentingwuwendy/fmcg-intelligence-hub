@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="robots" content="noindex, nofollow, noarchive, nosnippet">
+<meta name="googlebot" content="noindex, nofollow">
+<title>3.8大促优质笔记内容洞察 · 健康食品/休闲零食</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,BlinkMacSystemFont,'PingFang SC','Hiragino Sans GB',sans-serif;background:#f5f5f7;color:#1d1d1f;min-height:100vh}
+
+/* HEADER */
+.hd{background:linear-gradient(135deg,#ff2442 0%,#ff6b81 100%);padding:28px 40px 22px;color:#fff}
+.hd-meta{font-size:12px;opacity:.75;margin-bottom:5px;letter-spacing:.5px}
+.hd h1{font-size:24px;font-weight:700}
+.hd-sub{font-size:13px;opacity:.82;margin-top:5px}
+.hd-badge{display:inline-block;background:rgba(255,255,255,.18);border-radius:20px;padding:3px 11px;font-size:11px;margin-top:10px}
+
+/* SUMMARY BAR */
+.sum-bar{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;padding:20px 40px;background:#fff;border-bottom:1px solid #e5e5e7}
+.sum-card{background:#f5f5f7;border-radius:12px;padding:14px 10px;text-align:center}
+.sum-card .v{font-size:26px;font-weight:700;color:#ff2442}
+.sum-card .l{font-size:11px;color:#6e6e73;margin-top:3px}
+
+/* TABS */
+.tab-bar{display:flex;padding:0 40px;background:#fff;border-bottom:2px solid #e5e5e7}
+.tab-btn{padding:13px 26px;font-size:15px;font-weight:600;cursor:pointer;border:none;background:none;color:#6e6e73;border-bottom:3px solid transparent;margin-bottom:-2px;transition:.2s}
+.tab-btn.active{color:#ff2442;border-bottom-color:#ff2442}
+.tab-btn:hover{color:#ff2442}
+
+/* CONTENT */
+.tab-pane{display:none;padding:28px 40px 40px}
+.tab-pane.active{display:block}
+
+/* INSIGHT BANNER */
+.insight-box{background:linear-gradient(135deg,#fff5f6,#fff0f3);border:1px solid #ffd6db;border-radius:14px;padding:18px 20px;margin-bottom:24px}
+.insight-box h3{font-size:13px;font-weight:700;color:#ff2442;margin-bottom:12px}
+.insight-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:10px}
+.ins-card{background:#fff;border-radius:10px;padding:12px 14px;border-left:3px solid #ff2442}
+.ins-card .ic-name{font-size:13px;font-weight:700;margin-bottom:4px}
+.ins-card .ic-formula{font-size:11px;color:#6e6e73;line-height:1.7}
+.ic-badges{display:flex;gap:6px;flex-wrap:wrap;margin-top:8px}
+.badge{padding:2px 8px;border-radius:10px;font-size:11px;font-weight:600}
+.badge-ctr{background:#e8f4ff;color:#007aff}
+.badge-roi{background:#e8fff0;color:#1a9e3f}
+.badge-cnt{background:#f5f5f7;color:#6e6e73}
+.badge-star{background:#fff8e6;color:#ff9500}
+
+/* CHARTS */
+.charts-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;margin-bottom:24px}
+.chart-card{background:#fff;border-radius:14px;padding:18px 20px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.chart-card h4{font-size:13px;font-weight:700;margin-bottom:14px}
+.chart-wrap{position:relative;height:220px}
+
+/* SCATTER */
+.scatter-card{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:24px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.scatter-card h4{font-size:13px;font-weight:700;margin-bottom:4px}
+.scatter-sub{font-size:11px;color:#8e8e93;margin-bottom:14px}
+.scatter-wrap{position:relative;height:300px}
+
+/* SECTION TITLE */
+.sec-title{font-size:15px;font-weight:700;margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.sec-title::before{content:'';display:block;width:4px;height:17px;background:#ff2442;border-radius:2px;flex-shrink:0}
+
+/* RANK TABLE */
+.rank-wrap{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);margin-bottom:28px}
+table{width:100%;border-collapse:collapse}
+th{background:#f5f5f7;padding:10px 14px;font-size:11px;font-weight:700;color:#6e6e73;text-align:left;border-bottom:1px solid #e5e5e7;white-space:nowrap}
+td{padding:10px 14px;font-size:12px;border-bottom:1px solid #f5f5f7;vertical-align:middle}
+tr:last-child td{border-bottom:none}
+tr:hover td{background:#fafafa}
+.rn{width:26px;height:26px;border-radius:50%;display:inline-flex;align-items:center;justify-content:center;font-size:11px;font-weight:700}
+.rn1{background:#FFD700;color:#333}
+.rn2{background:#C0C0C0;color:#333}
+.rn3{background:#CD7F32;color:#fff}
+.rnn{background:#f0f0f0;color:#666}
+.ctr-bar{display:flex;align-items:center;gap:6px}
+.ctr-prog{flex:1;height:5px;background:#f0f0f0;border-radius:3px;overflow:hidden}
+.ctr-fill{height:100%;background:linear-gradient(90deg,#ff2442,#ff8a9b);border-radius:3px}
+.roi-hi{color:#1a9e3f;font-weight:700}
+.roi-md{color:#ff9500;font-weight:700}
+.roi-lo{color:#8e8e93}
+.ttl{max-width:180px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.tag-pill{display:inline-block;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:600}
+
+/* FILTER BAR */
+.filter-bar{display:flex;gap:8px;margin-bottom:18px;flex-wrap:wrap;align-items:center}
+.fl{font-size:12px;color:#6e6e73;font-weight:500}
+.f-btn{padding:5px 12px;border-radius:18px;border:1.5px solid #e5e5e7;background:#fff;font-size:12px;cursor:pointer;transition:.15s;color:#1d1d1f}
+.f-btn.active,.f-btn:hover{border-color:#ff2442;color:#ff2442;background:#fff5f6}
+.sort-sel{padding:5px 10px;border-radius:8px;border:1.5px solid #e5e5e7;font-size:12px;background:#fff;cursor:pointer;margin-left:8px}
+
+/* NOTE CARDS */
+.note-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.note-card{background:#fff;border-radius:14px;overflow:hidden;box-shadow:0 1px 6px rgba(0,0,0,.07);transition:.2s;display:block;color:inherit;text-decoration:none}
+.note-card:hover{transform:translateY(-3px);box-shadow:0 8px 24px rgba(0,0,0,.13)}
+.nc-img{width:100%;height:150px;object-fit:cover;display:block;background:#f5f5f7}
+.nc-body{padding:10px 12px 12px}
+.nc-tag{display:inline-block;padding:2px 7px;border-radius:8px;font-size:10px;font-weight:600;margin-bottom:6px}
+.nc-title{font-size:12px;font-weight:600;line-height:1.5;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden;min-height:36px;margin-bottom:8px}
+.nc-metrics{display:grid;grid-template-columns:1fr 1fr;gap:5px}
+.nc-m{background:#f5f5f7;border-radius:7px;padding:6px 8px;text-align:center}
+.nc-m.hi{background:linear-gradient(135deg,#fff5f6,#ffe8ea)}
+.nc-m .mv{font-size:14px;font-weight:700;color:#1d1d1f}
+.nc-m.hi .mv{color:#ff2442}
+.nc-m .ml{font-size:10px;color:#8e8e93;margin-top:1px}
+.nc-spend{font-size:10px;color:#c7c7cc;margin-top:7px}
+.play5-row{display:flex;align-items:center;gap:5px;margin-top:5px}
+.play5-bar{flex:1;height:3px;background:#f0f0f0;border-radius:2px;overflow:hidden}
+.play5-fill{height:100%;background:linear-gradient(90deg,#007aff,#64d2ff);border-radius:2px}
+.play5-lbl{font-size:10px;color:#8e8e93;white-space:nowrap}
+
+/* TAG COLORS */
+.t-wedding{background:#fff0f3;color:#ff2442}
+.t-gift{background:#fff8e6;color:#ff9500}
+.t-food{background:#efffef;color:#1a9e3f}
+.t-acg{background:#eef4ff;color:#2563eb}
+.t-life{background:#f5f0ff;color:#7c3aed}
+.t-other{background:#f5f5f7;color:#6e6e73}
+
+/* FORMULA SECTION */
+.formula-section{background:#fff;border-radius:14px;padding:18px 20px;margin-bottom:24px;box-shadow:0 1px 6px rgba(0,0,0,.07)}
+.formula-section h4{font-size:13px;font-weight:700;margin-bottom:14px}
+.formula-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:12px}
+.f-item{background:#f8f8fa;border-radius:10px;padding:12px 14px}
+.f-item .fn{font-size:12px;font-weight:700;color:#1d1d1f;margin-bottom:5px}
+.f-item .fv{font-size:11px;color:#6e6e73;line-height:1.7}
+.f-item code{background:#fff;border-radius:4px;padding:1px 5px;font-size:11px;color:#ff2442;font-family:monospace;border:1px solid #ffd6db}
+
+/* FOOTER */
+.footer{text-align:center;padding:20px 40px;font-size:11px;color:#c7c7cc}
+
+@media(max-width:1100px){.note-grid{grid-template-columns:repeat(3,1fr)}}
+@media(max-width:860px){
+  .sum-bar,.tab-content,.hd,.tab-bar,.tab-pane{padding-left:16px;padding-right:16px}
+  .charts-row{grid-template-columns:1fr}
+  .note-grid{grid-template-columns:repeat(2,1fr)}
+  .insight-grid{grid-template-columns:1fr 1fr}
+  .formula-grid{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<div class="hd">
+  <div class="hd-meta">健康食品 / 休闲零食 · 二级赛道 · 非闭环电商运营消耗 Top 100</div>
+  <h1>🌸 3.8大促优质笔记内容洞察</h1>
+  <div class="hd-sub">数据周期：2026.02.24 — 03.09 &nbsp;·&nbsp; 共 100 条笔记明细（视频 73 / 图文 27）</div>
+  <span class="hd-badge">🔒 内部查阅 · 请勿转发</span>
+</div>
+
+<!-- SUMMARY -->
+<div class="sum-bar">
+  <div class="sum-card"><div class="v" id="sTotal">100</div><div class="l">笔记总数</div></div>
+  <div class="sum-card"><div class="v" id="sAvgCTR">—</div><div class="l">平均竞价CTR</div></div>
+  <div class="sum-card"><div class="v" id="sAvgROI">—</div><div class="l">平均7日ROI</div></div>
+  <div class="sum-card"><div class="v" id="sTopTag">—</div><div class="l">ROI最高切角</div></div>
+</div>
+
+<!-- TABS -->
+<div class="tab-bar">
+  <button class="tab-btn active" id="btnVideo" onclick="switchTab('video')">📹 视频笔记 <small style="color:#8e8e93;font-weight:400">(73)</small></button>
+  <button class="tab-btn" id="btnImage" onclick="switchTab('image')">🖼️ 图文笔记 <small style="color:#8e8e93;font-weight:400">(27)</small></button>
+</div>
+
+<!-- VIDEO TAB -->
+<div class="tab-pane active" id="pane-video">
+
+  <div class="insight-box">
+    <h3>📊 内容切角分析 · 视频笔记 &nbsp;—&nbsp; 优质内容公式</h3>
+    <div class="insight-grid" id="videoInsightGrid"></div>
+  </div>
+
+  <div class="formula-section">
+    <h4>🧮 优质视频笔记评分公式</h4>
+    <div class="formula-grid">
+      <div class="f-item">
+        <div class="fn">综合得分 Score</div>
+        <div class="fv"><code>Score = CTR × 0.4 + ROI_norm × 0.6</code><br>CTR 和 ROI 均归一化到 [0,1]，高分区（Score ≥ 0.5）为优质素材候选</div>
+      </div>
+      <div class="f-item">
+        <div class="fn">婚庆场景公式</div>
+        <div class="fv">标题含「备婚/喜糖/伴手礼」+ 沉浸式打包/仪式感视角<br><code>ROI均值 0.67 · CTR均值 6.2%</code> · 5s完播率 ≥55% 为强内容</div>
+      </div>
+      <div class="f-item">
+        <div class="fn">二次元/谷圈公式</div>
+        <div class="fv">IP联名产品开箱/改造 + 谷美摆件场景植入<br><code>ROI均值 0.86 · CTR均值 7.8%</code> · 高ROI且消耗弹性大，值得加量</div>
+      </div>
+      <div class="f-item">
+        <div class="fn">生活方式公式（高CTR警示）</div>
+        <div class="fv">情感叙事/生活切片 CTR极高但 ROI偏低<br><code>CTR均值 13% · ROI均值 0.10</code> · 适合拉新，不适合转化收割</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <h4>各切角平均 CTR 对比</h4>
+      <div class="chart-wrap"><canvas id="vCTRChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>各切角平均 ROI 对比</h4>
+      <div class="chart-wrap"><canvas id="vROIChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="scatter-card">
+    <h4>CTR × ROI 散点分布 — 视频笔记</h4>
+    <div class="scatter-sub">气泡大小 = 运营消耗大小 · 颜色 = 内容切角 · 右上角为「高CTR ＋ 高ROI」双优区间</div>
+    <div class="scatter-wrap"><canvas id="vScatterChart"></canvas></div>
+  </div>
+
+  <div class="sec-title">综合得分 Top 20 排名（视频）</div>
+  <div class="rank-wrap" id="vRankTable"></div>
+
+  <div class="sec-title" style="margin-top:28px">全部视频笔记明细</div>
+  <div class="filter-bar">
+    <span class="fl">切角：</span>
+    <button class="f-btn active" onclick="filterCards('v','all',this)">全部</button>
+    <button class="f-btn" onclick="filterCards('v','婚庆场景',this)">💒 婚庆</button>
+    <button class="f-btn" onclick="filterCards('v','二次元/谷圈',this)">✨ 二次元</button>
+    <button class="f-btn" onclick="filterCards('v','美食/食谱/Vlog',this)">🍱 美食/Vlog</button>
+    <button class="f-btn" onclick="filterCards('v','节日送礼',this)">🎁 节日送礼</button>
+    <button class="f-btn" onclick="filterCards('v','生活方式/Vlog',this)">🌿 生活方式</button>
+    <span class="fl" style="margin-left:10px">排序：</span>
+    <select class="sort-sel" onchange="sortCards('v',this.value)">
+      <option value="score">综合得分↓</option>
+      <option value="ctr">CTR↓</option>
+      <option value="roi">ROI↓</option>
+      <option value="spend">消耗↓</option>
+    </select>
+  </div>
+  <div class="note-grid" id="vNoteGrid"></div>
+
+</div>
+
+<!-- IMAGE TAB -->
+<div class="tab-pane" id="pane-image">
+
+  <div class="insight-box">
+    <h3>📊 内容切角分析 · 图文笔记 &nbsp;—&nbsp; 优质内容公式</h3>
+    <div class="insight-grid" id="imageInsightGrid"></div>
+  </div>
+
+  <div class="formula-section">
+    <h4>🧮 优质图文笔记评分公式</h4>
+    <div class="formula-grid">
+      <div class="f-item">
+        <div class="fn">综合得分 Score</div>
+        <div class="fv"><code>Score = CTR × 0.4 + ROI_norm × 0.6</code><br>图文无完播率，单看 CTR + ROI 双维度，Score ≥ 0.5 为优质候选</div>
+      </div>
+      <div class="f-item">
+        <div class="fn">节日送礼公式（主力切角）</div>
+        <div class="fv">节日氛围感封面 + 礼盒/礼品种草 + 场景化使用说明<br><code>ROI均值 0.93 · CTR均值 5.5%</code> · 大消耗池，高ROI天花板达 5.76</div>
+      </div>
+      <div class="f-item">
+        <div class="fn">婚庆场景公式</div>
+        <div class="fv">图文笔记 ROI最高切角，攻略/清单式排版<br><code>ROI均值 1.31 · CTR均值 7.6%</code> · 笔记数量少但质量高，值得加量</div>
+      </div>
+      <div class="f-item">
+        <div class="fn">美食/食谱公式</div>
+        <div class="fv">高颜值食物图 + 步骤分解 + 品牌产品自然植入<br><code>CTR均值 7.7%</code> · CTR高但ROI中等，适合曝光型投放</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="charts-row">
+    <div class="chart-card">
+      <h4>各切角平均 CTR 对比</h4>
+      <div class="chart-wrap"><canvas id="iCTRChart"></canvas></div>
+    </div>
+    <div class="chart-card">
+      <h4>各切角平均 ROI 对比</h4>
+      <div class="chart-wrap"><canvas id="iROIChart"></canvas></div>
+    </div>
+  </div>
+
+  <div class="scatter-card">
+    <h4>CTR × ROI 散点分布 — 图文笔记</h4>
+    <div class="scatter-sub">气泡大小 = 运营消耗大小 · 颜色 = 内容切角 · 右上角为「高CTR ＋ 高ROI」双优区间</div>
+    <div class="scatter-wrap"><canvas id="iScatterChart"></canvas></div>
+  </div>
+
+  <div class="sec-title">综合得分 Top 15 排名（图文）</div>
+  <div class="rank-wrap" id="iRankTable"></div>
+
+  <div class="sec-title" style="margin-top:28px">全部图文笔记明细</div>
+  <div class="filter-bar">
+    <span class="fl">切角：</span>
+    <button class="f-btn active" onclick="filterCards('i','all',this)">全部</button>
+    <button class="f-btn" onclick="filterCards('i','婚庆场景',this)">💒 婚庆</button>
+    <button class="f-btn" onclick="filterCards('i','节日送礼',this)">🎁 节日送礼</button>
+    <button class="f-btn" onclick="filterCards('i','美食/食谱/Vlog',this)">🍱 美食/食谱</button>
+    <button class="f-btn" onclick="filterCards('i','其他',this)">其他</button>
+    <span class="fl" style="margin-left:10px">排序：</span>
+    <select class="sort-sel" onchange="sortCards('i',this.value)">
+      <option value="score">综合得分↓</option>
+      <option value="ctr">CTR↓</option>
+      <option value="roi">ROI↓</option>
+      <option value="spend">消耗↓</option>
+    </select>
+  </div>
+  <div class="note-grid" id="iNoteGrid"></div>
+
+</div>
+
+<div class="footer">🔒 内部数据 · 非公开 · 仅限授权查阅 · 数据来源：小红书商业数据平台 2026.03 · 健康食品/休闲零食 二级赛道</div>
+
+<script src="data.js"></script>
+<script>
+// ============ HELPERS ============
+const TAG_CONFIG = {
+  '婚庆场景':     { cls:'t-wedding', emoji:'💒', color:'rgba(255,36,66,0.8)' },
+  '节日送礼':     { cls:'t-gift',    emoji:'🎁', color:'rgba(255,149,0,0.8)' },
+  '美食/食谱/Vlog':{ cls:'t-food',   emoji:'🍱', color:'rgba(26,158,63,0.8)' },
+  '二次元/谷圈':  { cls:'t-acg',     emoji:'✨', color:'rgba(37,99,235,0.8)' },
+  '生活方式/Vlog':{ cls:'t-life',    emoji:'🌿', color:'rgba(124,58,237,0.8)' },
+  '其他':         { cls:'t-other',   emoji:'📌', color:'rgba(142,142,147,0.8)' },
+};
+
+function tagCls(tag){ return (TAG_CONFIG[tag]||TAG_CONFIG['其他']).cls; }
+function tagColor(tag){ return (TAG_CONFIG[tag]||TAG_CONFIG['其他']).color; }
+function tagEmoji(tag){ return (TAG_CONFIG[tag]||TAG_CONFIG['其他']).emoji; }
+
+function fmtPct(v){ return (v*100).toFixed(1)+'%'; }
+function fmtROI(v){ return v.toFixed(2); }
+function fmtSpend(v){
+  if(v>=10000) return (v/10000).toFixed(1)+'w';
+  if(v>=1000)  return (v/1000).toFixed(1)+'k';
+  return v.toFixed(0);
+}
+
+function roiClass(v){
+  if(v>=1) return 'roi-hi';
+  if(v>=0.3) return 'roi-md';
+  return 'roi-lo';
+}
+
+// Normalize helper
+function normalize(arr, key){
+  const vals = arr.map(d=>d[key]);
+  const mn = Math.min(...vals), mx = Math.max(...vals);
+  return d => mx===mn ? 0 : (d[key]-mn)/(mx-mn);
+}
+
+function scoreData(arr){
+  if(!arr.length) return [];
+  const nCTR = normalize(arr,'ctr');
+  const nROI = normalize(arr,'roi');
+  return arr.map(d=>({...d, score: nCTR(d)*0.4 + nROI(d)*0.6 }));
+}
+
+// ============ INIT SUMMARY ============
+function initSummary(){
+  const all = [...VIDEO_DATA, ...IMAGE_DATA];
+  const avgCTR = all.reduce((s,d)=>s+d.ctr,0)/all.length;
+  const avgROI = all.reduce((s,d)=>s+d.roi,0)/all.length;
+  // find best tag by ROI across both
+  const combined = [...VIDEO_TAG_STATS, ...IMAGE_TAG_STATS];
+  const tagMap = {};
+  combined.forEach(t=>{
+    if(!tagMap[t.tag]) tagMap[t.tag]={roi_sum:0,cnt:0};
+    tagMap[t.tag].roi_sum += t.avg_roi * t.count;
+    tagMap[t.tag].cnt += t.count;
+  });
+  let best='', bestROI=0;
+  Object.entries(tagMap).forEach(([tag,v])=>{
+    const r = v.roi_sum/v.cnt;
+    if(r>bestROI){ bestROI=r; best=tag; }
+  });
+  document.getElementById('sAvgCTR').textContent = fmtPct(avgCTR);
+  document.getElementById('sAvgROI').textContent  = fmtROI(avgROI);
+  document.getElementById('sTopTag').textContent  = tagEmoji(best)+' '+best.replace('/Vlog','');
+}
+
+// ============ INSIGHT GRID ============
+function renderInsightGrid(containerId, tagStats){
+  const el = document.getElementById(containerId);
+  // Sort by score (ctr*0.4 + roi_norm*0.6)
+  const maxCTR = Math.max(...tagStats.map(t=>t.avg_ctr));
+  const maxROI = Math.max(...tagStats.map(t=>t.avg_roi));
+  const scored = tagStats.map(t=>({
+    ...t,
+    score: (maxCTR?t.avg_ctr/maxCTR:0)*0.4 + (maxROI?t.avg_roi/maxROI:0)*0.6
+  })).sort((a,b)=>b.score-a.score);
+
+  const insightText = {
+    '婚庆场景':    '沉浸式备婚记录 + 喜糖/伴手礼购买攻略，真实人设驱动决策，ROI表现最稳定',
+    '节日送礼':    '节日氛围封面 + 礼盒种草，3.8节点强相关，ROI弹性大，高消耗池首选',
+    '二次元/谷圈': 'IP联名开箱 + 谷美改造，Z世代高粘性人群，ROI超预期，值得持续加量',
+    '美食/食谱/Vlog':'高颜值美食教程自然植入，CTR优秀但ROI偏低，适合拉新曝光投放',
+    '生活方式/Vlog':'情感叙事切片，CTR极高（13%+）但转化弱，强曝光弱收割',
+    '其他':        'CTR和ROI均偏低，建议优化内容方向或降低此类素材投放比例',
+  };
+
+  el.innerHTML = scored.map(t => {
+    const ctrStar = t.avg_ctr >= 0.08 ? '⭐ 高CTR' : t.avg_ctr>=0.05 ? '中CTR' : '低CTR';
+    const roiStar = t.avg_roi >= 0.8 ? '⭐ 高ROI' : t.avg_roi>=0.3 ? '中ROI' : '低ROI';
+    return `<div class="ins-card">
+      <div class="ic-name">${tagEmoji(t.tag)} ${t.tag}</div>
+      <div class="ic-formula">${insightText[t.tag]||''}</div>
+      <div class="ic-badges">
+        <span class="badge badge-ctr">CTR ${fmtPct(t.avg_ctr)}</span>
+        <span class="badge badge-roi">ROI ${fmtROI(t.avg_roi)}</span>
+        <span class="badge badge-cnt">${t.count}条</span>
+        ${t.avg_roi>=0.8||t.avg_ctr>=0.08?'<span class="badge badge-star">推荐加量</span>':''}
+      </div>
+    </div>`;
+  }).join('');
+}
+
+// ============ BAR CHARTS ============
+function makeBarChart(canvasId, tagStats, key, label, colorFn){
+  const sorted = [...tagStats].sort((a,b)=>b[key]-a[key]);
+  const labels = sorted.map(t=>tagEmoji(t.tag)+' '+t.tag);
+  const vals   = sorted.map(t=>+(t[key]*100).toFixed(2));
+  const colors = sorted.map(t=>tagColor(t.tag));
+  new Chart(document.getElementById(canvasId), {
+    type:'bar',
+    data:{ labels, datasets:[{ label, data:vals, backgroundColor:colors, borderRadius:6, borderSkipped:false }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=> ctx.parsed.y.toFixed(2)+'%' }}},
+      scales:{
+        x:{ grid:{display:false}, ticks:{font:{size:10}} },
+        y:{ grid:{color:'#f0f0f0'}, ticks:{ callback: v=>v+'%', font:{size:10} }, beginAtZero:true }
+      }
+    }
+  });
+}
+
+function makeROIBarChart(canvasId, tagStats){
+  const sorted = [...tagStats].sort((a,b)=>b.avg_roi-a.avg_roi);
+  const labels = sorted.map(t=>tagEmoji(t.tag)+' '+t.tag);
+  const vals   = sorted.map(t=>+t.avg_roi.toFixed(3));
+  const colors = sorted.map(t=>tagColor(t.tag));
+  new Chart(document.getElementById(canvasId), {
+    type:'bar',
+    data:{ labels, datasets:[{ label:'平均ROI', data:vals, backgroundColor:colors, borderRadius:6, borderSkipped:false }]},
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{ legend:{display:false}, tooltip:{ callbacks:{ label: ctx=> 'ROI '+ctx.parsed.y.toFixed(3) }}},
+      scales:{
+        x:{ grid:{display:false}, ticks:{font:{size:10}} },
+        y:{ grid:{color:'#f0f0f0'}, ticks:{ font:{size:10} }, beginAtZero:true }
+      }
+    }
+  });
+}
+
+// ============ SCATTER CHART ============
+function makeScatterChart(canvasId, data){
+  const tags = [...new Set(data.map(d=>d.tag))];
+  const maxSpend = Math.max(...data.map(d=>d.spend));
+  const datasets = tags.map(tag=>{
+    const pts = data.filter(d=>d.tag===tag).map(d=>({
+      x: +(d.ctr*100).toFixed(3),
+      y: +d.roi.toFixed(4),
+      r: Math.max(4, Math.sqrt(d.spend/maxSpend)*28),
+      title: d.title,
+      spend: d.spend
+    }));
+    return { label:tagEmoji(tag)+' '+tag, data:pts, backgroundColor:tagColor(tag), borderColor:'transparent' };
+  });
+
+  new Chart(document.getElementById(canvasId), {
+    type:'bubble',
+    data:{ datasets },
+    options:{
+      responsive:true, maintainAspectRatio:false,
+      plugins:{
+        legend:{ position:'top', labels:{font:{size:11}, boxWidth:10} },
+        tooltip:{ callbacks:{
+          label: ctx => {
+            const d = ctx.raw;
+            return [`📝 ${d.title||''}`, `CTR: ${d.x.toFixed(2)}%  ROI: ${d.y.toFixed(3)}`, `消耗: ${fmtSpend(d.spend)}`];
+          }
+        }}
+      },
+      scales:{
+        x:{ title:{display:true,text:'竞价广告 CTR (%)',font:{size:11}}, grid:{color:'#f5f5f7'}, ticks:{callback:v=>v+'%',font:{size:10}} },
+        y:{ title:{display:true,text:'7日下单 ROI',font:{size:11}}, grid:{color:'#f5f5f7'}, ticks:{font:{size:10}} }
+      }
+    }
+  });
+}
+
+// ============ RANK TABLE ============
+function renderRankTable(containerId, data, topN){
+  const scored = scoreData([...data]).sort((a,b)=>b.score-a.score).slice(0,topN);
+  const maxCTR = Math.max(...data.map(d=>d.ctr));
+  let html = `<table>
+    <thead><tr>
+      <th>排名</th><th>切角</th><th>笔记标题</th>
+      <th>CTR</th><th>ROI</th><th>消耗(元)</th><th>综合分</th>
+    </tr></thead><tbody>`;
+  scored.forEach((d,i)=>{
+    const rnCls = i===0?'rn1':i===1?'rn2':i===2?'rn3':'rnn';
+    const pct = (d.ctr/maxCTR*100).toFixed(0);
+    html += `<tr>
+      <td><span class="rn ${rnCls}">${i+1}</span></td>
+      <td><span class="tag-pill ${tagCls(d.tag)}">${tagEmoji(d.tag)} ${d.tag}</span></td>
+      <td><a href="${d.url}" target="_blank" class="ttl" title="${d.title}" style="color:inherit;text-decoration:none">${d.title}</a></td>
+      <td>
+        <div class="ctr-bar">
+          <div class="ctr-prog"><div class="ctr-fill" style="width:${pct}%"></div></div>
+          <span>${fmtPct(d.ctr)}</span>
+        </div>
+      </td>
+      <td><span class="${roiClass(d.roi)}">${fmtROI(d.roi)}</span></td>
+      <td>${fmtSpend(d.spend)}</td>
+      <td><strong>${(d.score*100).toFixed(1)}</strong></td>
+    </tr>`;
+  });
+  html += '</tbody></table>';
+  document.getElementById(containerId).innerHTML = html;
+}
+
+// ============ NOTE CARDS ============
+let vState = { filter:'all', sort:'score', data:[] };
+let iState = { filter:'all', sort:'score', data:[] };
+
+function getNoteHTML(d){
+  const tc = tagCls(d.tag);
+  const isHiCTR = d.ctr >= 0.08;
+  const isHiROI = d.roi >= 0.8;
+  const play5html = d.play5s!=null
+    ? `<div class="play5-row"><span class="play5-lbl">5s完播</span><div class="play5-bar"><div class="play5-fill" style="width:${(d.play5s*100).toFixed(0)}%"></div></div><span class="play5-lbl">${fmtPct(d.play5s)}</span></div>` : '';
+  return `<a class="note-card" href="${d.url}" target="_blank">
+    <img class="nc-img" src="${d.cover}" alt="" loading="lazy" onerror="this.style.background='#f0f0f0'">
+    <div class="nc-body">
+      <span class="nc-tag ${tc}">${tagEmoji(d.tag)} ${d.tag}</span>
+      <div class="nc-title">${d.title}</div>
+      <div class="nc-metrics">
+        <div class="nc-m ${isHiCTR?'hi':''}">
+          <div class="mv">${fmtPct(d.ctr)}</div>
+          <div class="ml">竞价CTR ${isHiCTR?'⭐':''}</div>
+        </div>
+        <div class="nc-m ${isHiROI?'hi':''}">
+          <div class="mv">${fmtROI(d.roi)}</div>
+          <div class="ml">7日ROI ${isHiROI?'⭐':''}</div>
+        </div>
+      </div>
+      ${play5html}
+      <div class="nc-spend">消耗 ¥${fmtSpend(d.spend)}</div>
+    </div>
+  </a>`;
+}
+
+function renderCards(prefix, state){
+  let arr = [...state.data];
+  if(state.filter !== 'all') arr = arr.filter(d=>d.tag===state.filter);
+  const scored = scoreData(arr);
+  if(state.sort==='score') scored.sort((a,b)=>b.score-a.score);
+  else if(state.sort==='ctr') scored.sort((a,b)=>b.ctr-a.ctr);
+  else if(state.sort==='roi') scored.sort((a,b)=>b.roi-a.roi);
+  else scored.sort((a,b)=>b.spend-a.spend);
+  document.getElementById(prefix+'NoteGrid').innerHTML = scored.map(getNoteHTML).join('');
+}
+
+function filterCards(prefix, tag, btn){
+  const state = prefix==='v' ? vState : iState;
+  state.filter = tag;
+  document.querySelectorAll(`#pane-${prefix==='v'?'video':'image'} .filter-bar .f-btn`).forEach(b=>b.classList.remove('active'));
+  btn.classList.add('active');
+  renderCards(prefix, state);
+}
+
+function sortCards(prefix, val){
+  const state = prefix==='v' ? vState : iState;
+  state.sort = val;
+  renderCards(prefix, state);
+}
+
+// ============ TAB SWITCH ============
+function switchTab(tab){
+  document.querySelectorAll('.tab-pane').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+  document.getElementById('pane-'+tab).classList.add('active');
+  document.getElementById('btn'+(tab==='video'?'Video':'Image')).classList.add('active');
+}
+
+// ============ MAIN INIT ============
+document.addEventListener('DOMContentLoaded', ()=>{
+  initSummary();
+
+  // Video tab
+  vState.data = VIDEO_DATA;
+  renderInsightGrid('videoInsightGrid', VIDEO_TAG_STATS);
+  makeBarChart('vCTRChart', VIDEO_TAG_STATS, 'avg_ctr', '平均CTR(%)', tagColor);
+  makeROIBarChart('vROIChart', VIDEO_TAG_STATS);
+  makeScatterChart('vScatterChart', VIDEO_DATA);
+  renderRankTable('vRankTable', VIDEO_DATA, 20);
+  renderCards('v', vState);
+
+  // Image tab
+  iState.data = IMAGE_DATA;
+  renderInsightGrid('imageInsightGrid', IMAGE_TAG_STATS);
+  makeBarChart('iCTRChart', IMAGE_TAG_STATS, 'avg_ctr', '平均CTR(%)', tagColor);
+  makeROIBarChart('iROIChart', IMAGE_TAG_STATS);
+  makeScatterChart('iScatterChart', IMAGE_DATA);
+  renderRankTable('iRankTable', IMAGE_DATA, 15);
+  renderCards('i', iState);
+});
+</script>
+</body>
+</html>
