@@ -18,6 +18,48 @@
   #navAnnLink { color:#b8860b; }
   #navAnnLink:hover { background:#fef9ec; color:#92660a; }
   #navAnnLink.active { background:#fef3c7; color:#92660a; font-weight:600; }
+  #navGcLink { color:#7c3aed; }
+  #navGcLink:hover { background:#f5f3ff; color:#5b21b6; }
+  #navGcLink.active { background:#ede9fe; color:#5b21b6; font-weight:600; }
+
+  /* ── 友商GoodCase 样式 ── */
+  .gc-header { background:white; border:1px solid #c4b5fd; border-radius:14px; padding:16px 20px; margin-bottom:16px; display:flex; align-items:center; gap:12px; }
+  .gc-header-icon { font-size:24px; }
+  .gc-header-text h3 { font-size:14px; font-weight:700; color:#5b21b6; }
+  .gc-header-text p { font-size:12px; color:#888; margin-top:2px; }
+  .gc-stats { margin-left:auto; display:flex; gap:16px; text-align:center; }
+  .gc-stat-val { font-size:18px; font-weight:700; color:#7c3aed; }
+  .gc-stat-label { font-size:10px; color:#aaa; }
+
+  .gc-filter-bar { display:flex; gap:8px; margin-bottom:14px; flex-wrap:wrap; }
+  .gc-filter-btn { padding:5px 14px; border-radius:16px; border:1px solid var(--gray-border); background:white; font-size:12px; color:#666; cursor:pointer; transition:all 0.15s; }
+  .gc-filter-btn:hover { border-color:#7c3aed; color:#7c3aed; }
+  .gc-filter-btn.active { background:#7c3aed; color:white; border-color:#7c3aed; }
+
+  .gc-grid { display:grid; grid-template-columns:1fr; gap:12px; }
+  .gc-card { background:white; border:1px solid var(--gray-border); border-radius:14px; overflow:hidden; transition:box-shadow 0.15s,transform 0.15s; border-left:3px solid #7c3aed; }
+  .gc-card:hover { box-shadow:0 6px 24px rgba(124,58,237,0.1); transform:translateY(-1px); }
+  .gc-card-top { padding:14px 16px 10px; display:flex; align-items:flex-start; gap:12px; }
+  .gc-platform-badge { display:flex; align-items:center; gap:6px; padding:4px 10px; border-radius:20px; font-size:11px; font-weight:700; flex-shrink:0; }
+  .gc-card-meta { flex:1; min-width:0; }
+  .gc-card-title { font-size:15px; font-weight:700; color:var(--text); line-height:1.4; margin-bottom:6px; }
+  .gc-card-tags { display:flex; flex-wrap:wrap; gap:4px; margin-bottom:4px; }
+  .gc-tag { font-size:10px; padding:2px 8px; border-radius:10px; background:#f5f3ff; color:#7c3aed; border:1px solid #ddd6fe; }
+  .gc-tag.client-tag { background:#fff0f2; color:var(--red); border-color:#ffccd3; font-weight:600; }
+  .gc-card-body { padding:0 16px 14px; border-top:1px solid var(--gray-border); }
+  .gc-summary { font-size:13px; line-height:1.75; color:#333; padding:10px 0 8px; }
+  .gc-result { background:#f0fdf4; border-left:3px solid #22c55e; border-radius:0 8px 8px 0; padding:8px 12px; margin-bottom:8px; }
+  .gc-result-title { font-size:11px; font-weight:700; color:#15803d; margin-bottom:5px; }
+  .gc-result ul { margin:0 0 0 14px; }
+  .gc-result li { font-size:12.5px; line-height:1.65; color:#444; margin-bottom:3px; }
+  .gc-learn { background:#f5f3ff; border-left:3px solid #7c3aed; border-radius:0 8px 8px 0; padding:8px 12px; }
+  .gc-learn-title { font-size:11px; font-weight:700; color:#5b21b6; margin-bottom:5px; }
+  .gc-learn p { font-size:12.5px; line-height:1.65; color:#444; }
+  .gc-card-footer { padding:8px 16px; border-top:1px solid var(--gray-border); background:var(--gray-bg); display:flex; align-items:center; gap:8px; }
+  .gc-industry-tag { font-size:11px; color:#888; background:#f0f0f0; padding:2px 8px; border-radius:8px; }
+  .gc-date { font-size:11px; color:#aaa; margin-left:4px; }
+  .gc-link { margin-left:auto; color:#7c3aed; text-decoration:none; font-size:12px; font-weight:600; padding:4px 14px; border:1px solid #c4b5fd; border-radius:16px; background:#f5f3ff; }
+  .gc-link:hover { background:#7c3aed; color:white; }
   .search-wrap { flex:1; max-width:360px; margin-left:auto; }
   .search-wrap input { width:100%; padding:7px 14px; border:1px solid var(--gray-border); border-radius:20px; font-size:13px; outline:none; background:var(--gray-bg); }
   .search-wrap input:focus { border-color:var(--red); background:white; }
@@ -131,6 +173,7 @@
   <nav class="nav-links">
     <a class="nav-link active" href="index.html">行业报告</a>
     <a class="nav-link" href="#" id="navAnnLink" onclick="switchToAnn(event)">📋 客户年报</a>
+    <a class="nav-link" href="#" id="navGcLink" onclick="switchToGc(event)">🏆 友商GoodCase</a>
   </nav>
   <div class="search-wrap">
     <input type="text" id="searchInput" placeholder="搜索报告标题、机构、关键词…" oninput="applyFilters()">
@@ -791,15 +834,235 @@ function setInd(el, val) {
 
 function applyFilters() {
   const isAnn = activeInd === '客户年报';
-  document.getElementById('overviewBox').style.display = isAnn ? 'none' : '';
+  const isGc  = activeInd === '友商GoodCase';
+  document.getElementById('overviewBox').style.display = (isAnn || isGc) ? 'none' : '';
+  document.querySelector('.tab-bar').style.display = (isAnn || isGc) ? 'none' : '';
   if (isAnn) {
-    document.querySelector('.tab-bar').style.display = 'none';
     renderClientReports();
+  } else if (isGc) {
+    renderGoodCase();
   } else {
-    document.querySelector('.tab-bar').style.display = '';
     renderCards();
     renderOverview();
   }
+}
+
+// ══════════════════════════════════════════════
+// 友商 GoodCase 数据
+// ══════════════════════════════════════════════
+
+// 平台色系配置
+const PLATFORMS = {
+  '巨量引擎':  { color:'#FE2C55', bg:'#fff0f2', label:'字节·巨量引擎' },
+  '阿里妈妈':  { color:'#FF6A00', bg:'#fff4ec', label:'阿里·阿里妈妈' },
+  '腾讯广告':  { color:'#07C160', bg:'#f0fdf4', label:'腾讯·腾讯广告' },
+  '百度营销':  { color:'#2932E1', bg:'#eef0ff', label:'百度·百度营销' },
+  '磁力引擎':  { color:'#FF4906', bg:'#fff2ee', label:'快手·磁力引擎' },
+  'B站商业化': { color:'#00AEEC', bg:'#f0faff', label:'哔哩哔哩商业化' },
+  '美团推广':  { color:'#FFD100', bg:'#fffbeb', label:'美团·美团推广' },
+};
+
+const GOOD_CASES = [
+  {
+    id: 1,
+    platform: '巨量引擎',
+    client: '伊利',
+    industry: '乳制品',
+    title: '伊利×巨量引擎「金典有机奶」抖音全域种草案例',
+    date: '2025-Q3',
+    tags: ['品牌种草', '全域营销', '短视频', '达人矩阵'],
+    summary: '伊利金典有机奶与巨量引擎合作，通过「星图达人+TopView开屏+搜索直投」三端联动，覆盖从内容种草到搜索收割全链路。达人矩阵选取头腰尾三层（健身博主+营养师+宝妈），内容侧重健康成分可视化呈现。',
+    results: [
+      '品牌搜索量提升 +187%，超出基准3倍',
+      '种草人群购买转化率 8.3%，行业均值1.9倍',
+      '新客占比 62%，有效拉新成效显著',
+    ],
+    learn: '「搜索词收割」是关键差异——种草期同步购买品牌词搜索广告，让被内容激活的用户能即刻完成转化，避免流失到竞品。',
+    link: 'https://www.oceanengine.com/solution/case',
+  },
+  {
+    id: 2,
+    platform: '阿里妈妈',
+    client: '海天',
+    industry: '食品调味',
+    title: '海天酱油×阿里妈妈「天猫超级品牌日」爆发案例',
+    date: '2025-Q2',
+    tags: ['超级品牌日', '人群资产', '电商闭环', '全站推广'],
+    summary: '海天联合阿里妈妈策划天猫超级品牌日活动，借助万相台无界版全站推广，将品牌人群资产（5A人群）进行精细化运营，针对不同圈层投放差异化创意，并在大促节点前2周启动「蓄水→爆发→收割」节奏。',
+    results: [
+      '超级品牌日当日 GMV 同比 +215%',
+      'A3意向人群规模扩充 +340万',
+      'ROI 4.8，居调味品类TOP1',
+    ],
+    learn: '提前蓄水是爆发的前提——品牌日前14天就开始用内容广告积累A2/A3人群，大促节点才能真正「炸」出来，而不是临时起量。',
+    link: 'https://www.alimama.com/case',
+  },
+  {
+    id: 3,
+    platform: '腾讯广告',
+    client: '汤臣倍健',
+    industry: '大健康·保健品',
+    title: '汤臣倍健×腾讯广告「朋友圈+公众号」品效联动案例',
+    date: '2025-Q1',
+    tags: ['朋友圈广告', '公众号', 'LBS定向', '中老年人群'],
+    summary: '汤臣倍健针对核心消费人群（35-55岁健康意识人群），通过腾讯广告「朋友圈视频流+公众号文章植入」双端配合，结合LBS地理定向（药店/健身房周边）实现精准触达，创意主打专业背书与明星代言人。',
+    results: [
+      '目标人群触达覆盖率 73%',
+      '公众号文章读完率 41%，高出均值19个百分点',
+      '线下门店导流转化成本降低 32%',
+    ],
+    learn: '中老年人群在微信生态内停留时间远超其他平台——朋友圈+公众号「内容先教育，广告后收割」的节奏，比单纯投流效率高得多。',
+    link: 'https://e.qq.com/atlas/case',
+  },
+  {
+    id: 4,
+    platform: '磁力引擎',
+    client: '盐津铺子',
+    industry: '食品·零食',
+    title: '盐津铺子×磁力引擎快手直播带货爆发案例',
+    date: '2025-Q2',
+    tags: ['直播带货', '快手电商', '达人合播', '爆品打造'],
+    summary: '盐津铺子在快手与磁力引擎合作，打造「品牌自播+头部达人合播」双轨模式，选取快手腰部美食达人进行蛋黄酥、鱼豆腐等爆品专场，同步投放磁力金牛加热直播间流量，形成「内容曝光→直播间承接→即时下单」完整闭环。',
+    results: [
+      '单场直播GMV 破 820万，刷新品牌记录',
+      '直播间平均停留时长 4分12秒，行业均值2倍',
+      '鱼豆腐单品快手月销 +430%',
+    ],
+    learn: '快手用户对「真实感」极度敏感——达人选品要贴近快手用户日常（高性价比、零食小吃），主播风格要接地气，过度精致反而降转化。',
+    link: 'https://e.kuaishou.com/welcome',
+  },
+  {
+    id: 5,
+    platform: '百度营销',
+    client: '片仔癀',
+    industry: '大健康·中药',
+    title: '片仔癀×百度「搜索+信息流」品牌认知提升案例',
+    date: '2025-Q1',
+    tags: ['搜索广告', '信息流', '品牌词防御', '健康人群'],
+    summary: '片仔癀化妆品线借助百度营销，构建「搜索品牌词防御+信息流泛人群种草」双层策略。搜索端购买「片仔癀」「中药护肤」等核心词；信息流端针对25-45岁女性健康美容人群推送产品功效内容，配合爱奇艺贴片广告扩大曝光。',
+    results: [
+      '品牌词搜索量 +156%，有效拦截竞品流量',
+      '信息流点击率 3.2%，护肤类均值1.8倍',
+      '官网询单量提升 +89%',
+    ],
+    learn: '百度搜索广告在「成分党」中药护肤赛道尤其有效——主动搜索的用户购买意向极高，品牌词+功效词的组合防御能显著减少流量流失到竞品。',
+    link: 'https://e.baidu.com/',
+  },
+  {
+    id: 6,
+    platform: 'B站商业化',
+    client: '雀巢',
+    industry: '食品饮料',
+    title: '雀巢×哔哩哔哩「咖啡品类」年轻人群破圈案例',
+    date: '2025-Q3',
+    tags: ['UP主合作', '硬核种草', '年轻人群', '品类教育'],
+    summary: '雀巢速溶咖啡联合B站商业化，与10位垂类UP主（咖啡测评、生活vlog、学习系列）合作定制内容，围绕「居家咖啡自由」场景做深度内容种草。同步在B站开屏+开机屏做品牌曝光，触达「考研党+职场新人」核心圈层。',
+    results: [
+      '合作视频累计播放量 4800万+',
+      '视频内容完播率 67%，评论区口碑正向率 91%',
+      '天猫旗舰店18-25岁新客占比提升至 38%',
+    ],
+    learn: 'B站用户极度反感硬广——UP主内容要给足创作自由度，让他们用自己的风格讲品牌故事，而不是给一个脚本让他们念。品牌信息自然融入效果远好于强插植入。',
+    link: 'https://e.bilibili.com/',
+  },
+];
+
+let gcFilter = 'all';
+
+function renderGoodCase() {
+  const container = document.getElementById('cardGrid');
+  container.innerHTML = '';
+  document.getElementById('noResults').style.display = 'none';
+
+  const platforms = [...new Set(GOOD_CASES.map(c => c.platform))];
+  const filtered  = gcFilter === 'all' ? GOOD_CASES : GOOD_CASES.filter(c => c.platform === gcFilter);
+
+  // Header
+  const hdr = document.createElement('div');
+  hdr.className = 'gc-header';
+  hdr.innerHTML = `
+    <div class="gc-header-icon">🏆</div>
+    <div class="gc-header-text">
+      <h3>友商 GoodCase 学习库</h3>
+      <p>精选我们客户与各大竞媒合作的优质案例 · 供销售参考学习</p>
+    </div>
+    <div class="gc-stats">
+      <div><div class="gc-stat-val">${GOOD_CASES.length}</div><div class="gc-stat-label">精选案例</div></div>
+      <div><div class="gc-stat-val">${Object.keys(PLATFORMS).length}</div><div class="gc-stat-label">覆盖平台</div></div>
+    </div>`;
+  container.appendChild(hdr);
+
+  // Filter bar
+  const fb = document.createElement('div');
+  fb.className = 'gc-filter-bar';
+  fb.innerHTML = `<button class="gc-filter-btn ${gcFilter==='all'?'active':''}" onclick="setGcFilter(this,'all')">全部平台 ${GOOD_CASES.length}</button>`
+    + platforms.map(p => {
+        const pl = PLATFORMS[p];
+        const cnt = GOOD_CASES.filter(c => c.platform === p).length;
+        const isActive = gcFilter === p;
+        return `<button class="gc-filter-btn ${isActive?'active':''}" onclick="setGcFilter(this,'${p}')"
+          style="${isActive ? `background:${pl.color};border-color:${pl.color};color:white` : `color:${pl.color};border-color:${pl.color};background:${pl.bg}`}"
+        >${pl.label} ${cnt}</button>`;
+      }).join('');
+  container.appendChild(fb);
+
+  // Cards
+  const grid = document.createElement('div');
+  grid.className = 'gc-grid';
+  filtered.forEach(c => grid.appendChild(buildGcCard(c)));
+  container.appendChild(grid);
+  document.getElementById('visibleCount').textContent = filtered.length;
+}
+
+function buildGcCard(c) {
+  const pl = PLATFORMS[c.platform];
+  const card = document.createElement('div');
+  card.className = 'gc-card';
+  card.style.borderLeftColor = pl.color;
+  card.innerHTML = `
+    <div class="gc-card-top">
+      <div class="gc-platform-badge" style="background:${pl.bg};color:${pl.color}">
+        🏢 ${pl.label}
+      </div>
+      <div class="gc-card-meta">
+        <div class="gc-card-title">${c.title}</div>
+        <div class="gc-card-tags">
+          <span class="gc-tag client-tag">📌 ${c.client}</span>
+          ${c.tags.map(t => `<span class="gc-tag">${t}</span>`).join('')}
+        </div>
+      </div>
+    </div>
+    <div class="gc-card-body">
+      <div class="gc-summary">${c.summary}</div>
+      <div class="gc-result">
+        <div class="gc-result-title">📈 核心数据结果</div>
+        <ul>${c.results.map(r => `<li>${r}</li>`).join('')}</ul>
+      </div>
+      <div class="gc-learn">
+        <div class="gc-learn-title">💡 销售学习要点</div>
+        <p>${c.learn}</p>
+      </div>
+    </div>
+    <div class="gc-card-footer">
+      <span class="gc-industry-tag">${c.industry}</span>
+      <span class="gc-date">${c.date}</span>
+      <a class="gc-link" href="${c.link}" target="_blank">查看平台案例库 →</a>
+    </div>`;
+  return card;
+}
+
+function setGcFilter(el, val) {
+  gcFilter = val;
+  renderGoodCase();
+}
+
+function switchToGc(e) {
+  e.preventDefault();
+  activeInd = '友商GoodCase';
+  document.querySelectorAll('.nav-link').forEach(a => a.classList.remove('active'));
+  document.getElementById('navGcLink').classList.add('active');
+  document.querySelectorAll('[data-ind]').forEach(el => el.classList.remove('active'));
+  applyFilters();
 }
 
 renderCards();
